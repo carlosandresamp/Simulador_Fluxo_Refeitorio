@@ -11,13 +11,28 @@ export class SimulationRepositoryMock implements SimulationRepositoryI {
   async save(simulation: Simulation): Promise<void> {
     // Simula sucesso sem armazenar
     if (!simulation.id) {
-      simulation.id = "mock-id";
+      simulation.id = "mock-id" + Date.now();
     }
 
-    let savingDataSimulations = this.getAllFromLocaleStorage();
-    savingDataSimulations.push(simulation);
-    this.savingLocaleStorage(savingDataSimulations);
-    
+    let gettinSimulations:Simulation[] = this.getAllFromLocaleStorage();
+    let listSimulationsFounded:boolean = false;
+
+    if(simulation){
+      for(let i=0; i<gettinSimulations.length; i++){
+        if(gettinSimulations[i].id == simulation.id){
+          gettinSimulations[i] = simulation;
+          listSimulationsFounded = true;
+          throw new Error("Não é possível salvar uma simulação já existente");
+        }
+      }
+    }
+
+    if(!listSimulationsFounded){
+      gettinSimulations.push(simulation);
+      console.log("Simulação salva com sucesso");
+    }
+
+    this.savingLocaleStorage(gettinSimulations);
     return Promise.resolve()
   }
 
@@ -27,8 +42,10 @@ export class SimulationRepositoryMock implements SimulationRepositoryI {
   }
 
   async getAll(): Promise<Simulation[]> {
+    let gettinSimulations:Simulation[] = this.getAllFromLocaleStorage();
+    
     // Retorna array vazio
-    return Promise.resolve([]);
+    return Promise.resolve(gettinSimulations);
   }
 
   async delete(id: string): Promise<void> {
@@ -41,16 +58,21 @@ export class SimulationRepositoryMock implements SimulationRepositoryI {
     return [];
   }
 
-  //Funções auxiliares do localestorage
+  //Métodos auxiliares do localestorage
   private savingLocaleStorage(simulation:Simulation[]){
-    localStorage.setItem(this.localeStorageKey, JSON.stringify(simulation));
+    let savingData:string = JSON.stringify(simulation);
+    localStorage.setItem(this.localeStorageKey, savingData);
   }
   
   private getAllFromLocaleStorage():Simulation[]{
     const listSimulations = localStorage.getItem(this.localeStorageKey);
-    return listSimulations ? JSON.parse(listSimulations) :[];
+    if(listSimulations != null){
+      return JSON.parse(listSimulations);
+    }else{
+      return [];
+    }
   }
-
 }
 
+//Teste
 
