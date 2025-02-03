@@ -20,7 +20,7 @@ export class SimulationRepositoryMock implements SimulationRepositoryI {
     for (let i = 0; i < gettinSimulations.length; i++) {
       if (gettinSimulations[i].id === simulation.id) {
         gettinSimulations[i] = simulation;
-        listSimulationsFounded = false;
+        listSimulationsFounded = true;
         break; // Sai do loop após encontrar a simulação
       }
     }
