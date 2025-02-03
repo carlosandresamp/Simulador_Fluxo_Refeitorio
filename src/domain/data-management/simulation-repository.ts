@@ -14,24 +14,14 @@ export class SimulationRepositoryMock implements SimulationRepositoryI {
       simulation.id = "mock-id" + Date.now();
     }
 
+    //Criando uma alocação de memória através da função auxilia localstorage
     let gettinSimulations:Simulation[] = this.getAllFromLocaleStorage();
-    let listSimulationsFounded:boolean = false;
 
-    if(simulation){
-      for(let i=0; i<gettinSimulations.length; i++){
-        if(gettinSimulations[i].id == simulation.id){
-          gettinSimulations[i] = simulation;
-          listSimulationsFounded = true;
-          throw new Error("Não é possível salvar uma simulação já existente");
-        }
-      }
-    }
-
-    if(!listSimulationsFounded){
-      gettinSimulations.push(simulation);
-      console.log("Simulação salva com sucesso");
-    }
-
+    //Inserindo uma simulação dentro de uma alocação de memória
+    gettinSimulations.push(simulation);
+    console.log("Simulação salva com sucesso");
+    
+    //Salvando o espaço com dados alocados
     this.savingLocaleStorage(gettinSimulations);
     return Promise.resolve()
   }
@@ -73,6 +63,3 @@ export class SimulationRepositoryMock implements SimulationRepositoryI {
     }
   }
 }
-
-//Teste
-
