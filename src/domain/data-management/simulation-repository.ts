@@ -6,7 +6,7 @@ import { resolve } from "path";
 
 export class SimulationRepositoryMock implements SimulationRepositoryI {
   //Chave primária para acesso ao localeStorage
-  private localeStorageKey:string = "simulation";
+  private localStorageKey:string = "simulation";
 
   async save(simulation: Simulation): Promise<void> {
     // Simula sucesso sem armazenar
@@ -14,10 +14,12 @@ export class SimulationRepositoryMock implements SimulationRepositoryI {
       simulation.id = "mock-id" + Date.now();
     }
 
-    let gettinSimulations:Simulation[] = this.getAllFromLocaleStorage();
+    //Chamando a função auxiliar que aloca os dados ao localstorage
+    let gettinSimulations:Simulation[] = this.getAllFromLocalStorage();
     let listSimulationsFounded:boolean = false;
 
-    if(simulation){
+    //Verificando existência de simulações já armazenadas
+    /*if(simulation){
       for(let i=0; i<gettinSimulations.length; i++){
         if(gettinSimulations[i].id == simulation.id){
           gettinSimulations[i] = simulation;
@@ -25,14 +27,15 @@ export class SimulationRepositoryMock implements SimulationRepositoryI {
           throw new Error("Não é possível salvar uma simulação já existente");
         }
       }
-    }
+    }*/
 
-    if(!listSimulationsFounded){
-      gettinSimulations.push(simulation);
-      console.log("Simulação salva com sucesso");
-    }
+    //Salvando uma simulação caso haja inexistência da mesma 
+    /*if(!listSimulationsFounded){*/
+    gettinSimulations.push(simulation);
+    console.log("Simulação salva com sucesso");
+    /*}*/
 
-    this.savingLocaleStorage(gettinSimulations);
+    this.savingLocalStorage(gettinSimulations);
     return Promise.resolve()
   }
 
@@ -42,9 +45,9 @@ export class SimulationRepositoryMock implements SimulationRepositoryI {
   }
 
   async getAll(): Promise<Simulation[]> {
-    let gettinSimulations:Simulation[] = this.getAllFromLocaleStorage();
+    let gettinSimulations:Simulation[] = this.getAllFromLocalStorage();
     
-    // Retorna array vazio
+    // Retorna todas as simulações já armazenadas
     return Promise.resolve(gettinSimulations);
   }
 
@@ -59,13 +62,13 @@ export class SimulationRepositoryMock implements SimulationRepositoryI {
   }
 
   //Métodos auxiliares do localestorage
-  private savingLocaleStorage(simulation:Simulation[]){
+  private savingLocalStorage(simulation:Simulation[]){
     let savingData:string = JSON.stringify(simulation);
-    localStorage.setItem(this.localeStorageKey, savingData);
+    localStorage.setItem(this.localStorageKey, savingData);
   }
   
-  private getAllFromLocaleStorage():Simulation[]{
-    const listSimulations = localStorage.getItem(this.localeStorageKey);
+  private getAllFromLocalStorage():Simulation[]{
+    const listSimulations = localStorage.getItem(this.localStorageKey);
     if(listSimulations != null){
       return JSON.parse(listSimulations);
     }else{
