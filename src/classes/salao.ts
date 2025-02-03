@@ -1,4 +1,4 @@
-import {Aluno} from "./Aluno";
+import {Aluno} from "./aluno";
 
 export class Salao{
     public capacidadeAluno: Aluno[] = [];

@@ -1,4 +1,4 @@
-import { Aluno } from "./Aluno"; // Importa a classe Aluno
+import { Aluno } from "./aluno"; // Importa a classe Aluno
 
 // Classe que representa uma catraca eletrônica
 export class Catraca {
