@@ -26,5 +26,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "src/domain/simulation-engine/system/hall.ts", "src/domain/simulation-engine/system/cafeteria.ts"]
 }
