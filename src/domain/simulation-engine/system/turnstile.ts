@@ -1,7 +1,7 @@
 import { Student } from "./student";// Importa a classe Aluno
 
 // Classe que representa uma catraca eletrônica
-export class Catraca {
+export class Turnstile {
     accessable: boolean; // Indica se a passagem está liberada
     student: Student | null; // Armazena o aluno que está passando pela catraca
 
