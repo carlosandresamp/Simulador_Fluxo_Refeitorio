@@ -23,7 +23,7 @@ export class ExternalLine{
     toRemoveAluno(student:Student){
 
     }
-
+    
     //Método auxiliar de armazenamento
     savingLocalStorage(student:Array<Student>){
         let listStudentsWaiting:string = JSON.stringify(student);
