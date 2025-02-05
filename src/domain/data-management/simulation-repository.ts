@@ -36,8 +36,16 @@ export class SimulationRepositoryMock implements SimulationRepositoryI {
   }
 
   async getById(id: string): Promise<Simulation | null> {
-    // Retorna um objeto vazio para manter a interface
-    return Promise.resolve(new Simulation("mockid","mockname",new SimulationParameters(0,0,0,0,0,0,0,0,"normal")));
+    
+    let gettingSimulations:Simulation[] = this.getAllFromLocaleStorage();
+    let searchingSimulationById:number = gettingSimulations.findIndex(Simulation => Simulation.id == id)
+    let indexFound:number = searchingSimulationById;
+
+    if(indexFound != -1){
+      return gettingSimulations[indexFound];
+    }else{
+      return null;
+    }
   }
 
   async getAll(): Promise<Simulation[]> {
@@ -48,6 +56,21 @@ export class SimulationRepositoryMock implements SimulationRepositoryI {
   }
 
   async delete(id: string): Promise<void> {
+    let dataBaseSimulations:Simulation[] = this.getAllFromLocaleStorage();
+    let thereIsSimulation:boolean = false;
+
+    for(let i=0; i<dataBaseSimulations.length; i++){
+      if(dataBaseSimulations[i].id == id){
+        dataBaseSimulations[i].id = id;
+        thereIsSimulation = true;
+        dataBaseSimulations.splice(i, 1);
+
+        this.savingLocaleStorage(dataBaseSimulations);
+        console.log("Simulação excluída com sucesso");
+        break;
+      }
+    }
+
     // Simula sucesso sem ação real
     return Promise.resolve();
   }
