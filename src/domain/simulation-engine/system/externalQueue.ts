@@ -6,7 +6,7 @@ import { Student } from "./student";
 
 //Classe de fila externa que recebe uma lista de alunos 
 export class ExternalQueue{
-    public studentQuantity:Student[]; 
+    protected studentQuantity:Student[]; 
 
     constructor(){
         this.studentQuantity = [];
