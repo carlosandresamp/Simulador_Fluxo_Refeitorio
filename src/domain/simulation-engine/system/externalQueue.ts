@@ -6,18 +6,23 @@ import { Student } from "./student";
 
 //Classe de fila externa que recebe uma lista de alunos 
 export class ExternalQueue{
-    public studentQuantity:Student[]; 
+    protected studentQuantity:Student[]; 
 
-    constructor(){
-        this.studentQuantity = [];
+    constructor(studentQuantity?:Student[]){
+        this.studentQuantity = studentQuantity ?? []; //Assegura que o arrey sempre será um valor válido 
     }
 
-    toAddStudent(student:Student){
+    protected toAddStudent(student:Student){
         this.studentQuantity.push(student)
         console.log("Novo aluno chegou a fila!");
     }
 
-    toRemoveStudent():Student{
+    protected toRemoveStudent():Student{
+        let gettinStudents:Student[] = this.studentQuantity;
+        if(gettinStudents || gettinStudents.length == 0){
+            throw new Error("Não há alunos na fila");
+        }
+
         //Remove aluno pelo conceito de FIFO através de atriubuição do índice 
         let studentIndex:Student = this.studentQuantity[0];
         this.studentQuantity.splice(0, 1);
