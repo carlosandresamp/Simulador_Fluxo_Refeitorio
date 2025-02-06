@@ -8,8 +8,8 @@ import { Student } from "./student";
 export class ExternalQueue{
     protected studentQuantity:Student[]; 
 
-    constructor(){
-        this.studentQuantity = [];
+    constructor(studentQuantity?:Student[]){
+        this.studentQuantity = studentQuantity;
     }
 
     toAddStudent(student:Student){
