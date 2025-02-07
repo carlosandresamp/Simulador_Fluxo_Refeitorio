@@ -192,7 +192,7 @@ export class ExternalQueue{
 protected studentQuantity: Student[];
 ```
 - Armazena a lista de estudantes na fila.
-- Inicializada como um array vazio se nenhum valor fornecido no construtor.
+- Inicializada como um array vazio se nenhum valor for fornecido no construtor.
 
 ## Construtor
 
