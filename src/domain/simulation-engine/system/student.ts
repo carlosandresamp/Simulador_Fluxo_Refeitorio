@@ -8,7 +8,7 @@ export class Student{
     constructor(register:string, comingTime:Date, serviceTime:Date, servedTime:Date, status:string){
         this.register=register;
         this.comingTime=comingTime;
-        this.serviceTime=servedTime;
+        this.serviceTime=serviceTime;
         this.servedTime=servedTime;
         this.status=status;
     }
