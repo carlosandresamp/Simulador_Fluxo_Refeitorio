@@ -11,20 +11,20 @@ export class Turnstile {
     }
 
     // Simula o tempo de digitação da matrícula de um aluno
-    toCalculateRegisterTime(): number {
+    calculateRegisterTime(): number {
         return Math.random() * 5; // Retorna um tempo aleatório entre 0 e 5 segundos
     }
 
     // Registra a matrícula do aluno na catraca e libera a passagem
-    toTypeRegister(student:Student): void {
+    typeRegister(student:Student): void {
         this.student=student; // Associa o aluno à catraca
-        console.log(`Matrícula ${student.getregister()} registrada.`); // Exibe a matrícula registrada
+        console.log(`Matrícula ${student.getRegister()} registrada.`); // Exibe a matrícula registrada
         this.accessable = true; // Libera a passagem
     }
 
     // Remove o aluno da catraca após a passagem
-    toRemoveStudent(): void {
-        console.log(`Aluno ${this.student?.getregister()} removido da catraca.`); // Exibe mensagem de remoção
+    removeStudent(): void {
+        console.log(`Aluno ${this.student?.getRegister()} removido da catraca.`); // Exibe mensagem de remoção
         this.student = null; // Remove a referência ao aluno
         this.accessable = false; // Bloqueia novamente a passagem
     }

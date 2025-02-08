@@ -19,7 +19,7 @@ export class Service {
     /**
      * Simula o ato de servir comida por um funcionário
      */
-    toServeFood(): void {
+    serveFood(): void {
         console.log(`Funcionário ${this.coWorkerName} está servindo a comida.`); // Exibe mensagem informando que o funcionário está servindo
     }
 }

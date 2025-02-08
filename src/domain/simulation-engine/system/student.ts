@@ -1,7 +1,7 @@
 export type StudentStatus = "aguardando" | "atendido" | "saindo";
 
 export class Student{
-    private readonly register: string;
+    private register: string;
     public readonly comingTime : Date;
     public readonly serviceTime: Date;
     public readonly servedTime: Date;
@@ -15,8 +15,12 @@ export class Student{
         this.status=status;
     }
 
-    getregister(){
+    getRegister(){
         return this.register;
+    }
+
+    setRegister(newRegister:string){
+        return this.register=newRegister;
     }
 
     getStatus(){
