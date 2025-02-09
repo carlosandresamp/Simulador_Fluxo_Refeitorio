@@ -31,16 +31,16 @@ export class Hall{
         this.occupationTime = timing;
     }
 
-    adicionarAluno(student:Student): boolean{
+    addStudent(student:Student): boolean{
         if(this.occupiedCapacity < this.maxHallCapacity){
             this.occupiedCapacity++;
             this.capacityByStudent.push(student);
-            setTimeout(() => this.toRemoveStudent(student), this.occupationTime);
+            setTimeout(() => this.removeStudent(student), this.occupationTime);
             return true;
         }
         return false;
     }
-    toRemoveStudent(student:Student): void{
+    removeStudent(student:Student): void{
         const index = this.capacityByStudent.indexOf(student);
         if(index !== -1){
             this.capacityByStudent.splice(index, 1);

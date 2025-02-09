@@ -25,37 +25,37 @@ export class Cafeteria {
     // Chegada do aluno ao refeitório 
     studentArrival(): void {
         console.log("Um aluno chegou ao refeitório.");
-        this.externalQueue.toAddStudent(this.student);
+        this.externalQueue.addStudent(this.student);
     }
 
     // Entrada do aluno na catraca 
     enterTurnstile(): void {
         console.log("O aluno está tentando passar pela catraca...");
-        this.turnstile.toTypeRegister(this.student); 
+        this.turnstile.typeRegister(this.student); 
     }
     
     // Entrada do aluno na fila interna 
     enterInternalQueue(student: Student): void {
         console.log("O aluno entrou na fila interna.");
-        this.internalQueue.toAddStudent(student);
+        this.internalQueue.addStudent(student);
     }
 
     // Atendimento do aluno 
     serveStudent(): void {
         console.log("Servindo comida para o aluno...");
-        this.service.toServeFood();
+        this.service.serveFood();
         
     }
 
     // Ocupar uma mesa 
     occupyTable(student: Student): void {
         console.log("O aluno ocupou uma mesa.");
-        this.hall.adicionarAluno(student);
+        this.hall.addStudent(student);
     }
 
     // Finalizar refeição e liberar mesa 
     finishMeal(student: Student): void {
         console.log("O aluno terminou a refeição. Liberando a mesa.");
-        this.hall.toRemoveStudent(student);
+        this.hall.removeStudent(student);
     }
 }
