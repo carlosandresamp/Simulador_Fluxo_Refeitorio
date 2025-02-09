@@ -4,42 +4,27 @@ import { throwDeprecation } from "process";
 import { add } from "date-fns";
 import { Student } from "./student";
 
-//Classe de fila externa que recebe uma lista de alunos 
-export class ExternalLine{
-    public studentQuantity:Student[];
-    private listStudentsKey = "externalQueue"; 
+//Classe de fila externa que recebe uma lista de alunos;
+export class ExternalQueue {
+  protected studentQuantity: Student[];
 
-    constructor(){
-        this.studentQuantity = this.gettingAllFromLocalStorage();
+  constructor(studentQuantity?: Student[]) {
+    this.studentQuantity = studentQuantity ?? []; //Assegura que o array sempre será um valor válido;
+  }
+
+  protected addStudent(student: Student):void {
+    this.studentQuantity.push(student);
+    console.log("Novo aluno chegou a fila!");
+  }
+
+  protected removeStudent(): Student {
+    if (this.studentQuantity.length === 0) {
+      throw new Error("Não há alunos na fila");
     }
 
-
-    toAddStudent(student:Student){
-        let addingStudentToTheLine = this.gettingAllFromLocalStorage();
-        addingStudentToTheLine.push(student);
-        this.savingLocalStorage(addingStudentToTheLine);
-    }
-
-    toRemoveAluno(student:Student){
-
-    }
-    
-    //Método auxiliar de armazenamento
-    savingLocalStorage(student:Array<Student>){
-        let listStudentsWaiting:string = JSON.stringify(student);
-        localStorage.setItem(this.listStudentsKey, listStudentsWaiting);
-    }
-
-    //Método auxiliar de busca por todos os dados armazenados.
-    gettingAllFromLocalStorage():Student[]{
-        let studentRegistered:string = localStorage.getItem(this.listStudentsKey);
-
-        if(studentRegistered != null){
-            return JSON.parse(studentRegistered);
-        }else{
-            return [];
-        }
-    }
+    //Remove aluno pelo conceito de FIFO através do método shift;
+    const studentIndex = this.studentQuantity.shift();
+    console.log("Aluno saiu da fila externa.");
+    return studentIndex;
+  }
 }
-
-
