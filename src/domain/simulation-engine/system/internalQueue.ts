@@ -18,7 +18,7 @@ export class InternalQueue extends ExternalQueue {
     console.log("Aluno entrou na Fila Interna");
   }
 
-  protected removeStudent(): Student {
+  removeStudent(): Student {
     const toRemoveStudent = super.removeStudent();
     console.log("Fila interna");
     return toRemoveStudent;

@@ -25,7 +25,7 @@ export class Cafeteria {
     // Chegada do aluno ao refeitório 
     studentArrival(): void {
         console.log("Um aluno chegou ao refeitório.");
-        this.externalQueue.addStudent(this.student);
+        //this.externalQueue.addStudent(this.student);
     }
 
     // Entrada do aluno na catraca 
