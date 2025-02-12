@@ -12,12 +12,12 @@ export class ExternalQueue {
     this.studentQuantity = studentQuantity ?? []; //Assegura que o array sempre será um valor válido;
   }
 
-  protected addStudent(student: Student):void {
+  addStudent(student: Student):void {
     this.studentQuantity.push(student);
     console.log("Novo aluno chegou a fila!");
   }
 
-  protected removeStudent(): Student {
+  removeStudent(): Student {
     if (this.studentQuantity.length === 0) {
       throw new Error("Não há alunos na fila");
     }
