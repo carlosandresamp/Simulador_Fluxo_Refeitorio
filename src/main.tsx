@@ -1,7 +1,9 @@
 import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
-
+import App from './App.tsx';
+import './index.css';
 import { ServerIcon } from 'lucide-react';
 
+import internal from 'stream';
+
 createRoot(document.getElementById("root")!).render(<App />);
+

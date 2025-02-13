@@ -4,33 +4,27 @@ import { throwDeprecation } from "process";
 import { add } from "date-fns";
 import { Student } from "./student";
 
-//Classe de fila externa que recebe uma lista de alunos 
-export class ExternalQueue{
-    protected studentQuantity:Student[]; 
+//Classe de fila externa que recebe uma lista de alunos;
+export class ExternalQueue {
+  protected studentQuantity: Student[];
 
-    constructor(studentQuantity?:Student[]){
-        this.studentQuantity = studentQuantity ?? []; //Assegura que o arrey sempre será um valor válido 
+  constructor(studentQuantity?: Student[]) {
+    this.studentQuantity = studentQuantity ?? []; //Assegura que o array sempre será um valor válido;
+  }
+
+  addStudent(student: Student):void {
+    this.studentQuantity.push(student);
+    console.log("Novo aluno chegou a fila!");
+  }
+
+  removeStudent(): Student {
+    if (this.studentQuantity.length === 0) {
+      throw new Error("Não há alunos na fila");
     }
 
-    protected toAddStudent(student:Student){
-        this.studentQuantity.push(student)
-        console.log("Novo aluno chegou a fila!");
-    }
-
-    protected toRemoveStudent():Student{
-        let gettinStudents:Student[] = this.studentQuantity;
-        if(gettinStudents || gettinStudents.length == 0){
-            throw new Error("Não há alunos na fila");
-        }
-
-        //Remove aluno pelo conceito de FIFO através de atriubuição do índice 
-        let studentIndex:Student = this.studentQuantity[0];
-        this.studentQuantity.splice(0, 1);
-        console.log("Aluno saiu da fila externa.");
-        return studentIndex;
-    }
+    //Remove aluno pelo conceito de FIFO através do método shift;
+    const studentIndex = this.studentQuantity.shift();
+    console.log("Aluno saiu da fila externa.");
+    return studentIndex;
+  }
 }
-
-
-
-

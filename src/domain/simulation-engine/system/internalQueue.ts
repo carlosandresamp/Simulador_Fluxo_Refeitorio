@@ -1,32 +1,26 @@
 import { ExternalQueue } from "./externalQueue";
 import { Student } from "./student";
 
-export class InternalQueue extends ExternalQueue{
-    maxCapacity:number;
+export class InternalQueue extends ExternalQueue {
+  readonly maxCapacity: number;
 
-    constructor(maxCapacity:number, studentQuantity?:Student[]){
-        super(studentQuantity);
-        this.maxCapacity = maxCapacity;
+  constructor(maxCapacity: number, studentQuantity?: Student[]) {
+    super(studentQuantity);
+    this.maxCapacity = maxCapacity;
+  }
+
+  addStudent(student: Student): void {
+    if(this.studentQuantity.length >= this.maxCapacity){
+        throw new Error ("Fila interna cheia: espere esvaziar");
     }
 
-    toAddStudent(student: Student): void {
-        let countingStudents:number = 0;
-        let gettinStudents:Student[] = this.studentQuantity;
+    this.studentQuantity.push(student);
+    console.log("Aluno entrou na Fila Interna");
+  }
 
-        for(let i=0; i<gettinStudents.length; i++){
-            countingStudents++;
-            if(countingStudents > this.maxCapacity){
-                throw new Error("Fila interna cheia: espere esvaziar");
-            }
-        }
-
-        gettinStudents.push(student);
-        console.log("Aluno entrou na Fila Interna");
-    }
-
-    toRemoveStudent(): Student {
-        super.toRemoveStudent();
-        console.log("Fila interna")
-        return;
-    }
+  removeStudent(): Student {
+    const toRemoveStudent = super.removeStudent();
+    console.log("Fila interna");
+    return toRemoveStudent;
+  }
 }
