@@ -1,5 +1,5 @@
 import { Cafeteria } from "../system/cafeteria";
-import { EventMachine } from "./maquinaEvento";
+import { EventMachine } from "./eventMachine";
 
  abstract class Event {
    protected timestamp :number;
