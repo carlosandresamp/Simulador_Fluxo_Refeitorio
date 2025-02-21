@@ -1,3 +1,4 @@
+//C.Andr
 // Classe que representa o atendimento de um funcionário
 export class Service{
     private coWorkerRegister: string; // Identificador único do funcionário

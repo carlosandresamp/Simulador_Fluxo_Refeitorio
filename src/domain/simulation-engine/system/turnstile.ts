@@ -1,3 +1,4 @@
+//C.Andr
 import { Student } from "./student";// Importa a classe Aluno
 
 // Classe que representa uma catraca eletrônica
