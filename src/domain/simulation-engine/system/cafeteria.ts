@@ -6,15 +6,19 @@ import { Service } from "./service";
 import { InternalQueue } from "./internalQueue";
 
 export class Cafeteria {
-    private student: Student;
     private hall: Hall;
     private service: Service;
     private turnstile: Turnstile;
     private externalQueue: ExternalQueue;
     private internalQueue: InternalQueue;
 
-    constructor(student: Student, hall: Hall, service: Service, turnstile: Turnstile, externalQueue: ExternalQueue, internalQueue: InternalQueue) {
-        this.student = student;
+    constructor(
+        hall: Hall,
+        service: Service,
+        turnstile: Turnstile,
+        externalQueue: ExternalQueue,
+        internalQueue: InternalQueue
+    ) {
         this.hall = hall;
         this.service = service;
         this.turnstile = turnstile;
@@ -22,39 +26,44 @@ export class Cafeteria {
         this.internalQueue = internalQueue;
     }
 
-    // Chegada do aluno ao refeitório 
-    studentArrival(): void {
+    // Chegada do aluno ao refeitório
+    public studentArrival(student: Student): void {
         console.log("Um aluno chegou ao refeitório.");
-        
+        this.externalQueue.addStudent(student);
     }
 
-    // Entrada do aluno na catraca 
-    enterTurnstile(): void {
+    // Entrada do aluno na catraca
+    public enterTurnstile(): void {
         console.log("O aluno está tentando passar pela catraca...");
-        this.turnstile.typeRegister(this.student); 
+        const student = this.externalQueue.removeStudent();
+        this.turnstile.typeRegister(student);
     }
-    
-    // Entrada do aluno na fila interna 
-    enterInternalQueue(student: Student): void {
+   
+    // Entrada do aluno na fila interna
+    public enterInternalQueue(): void {
         console.log("O aluno entrou na fila interna.");
+        const student = this.turnstile.student;
+        this.turnstile.removeStudent();
         this.internalQueue.addStudent(student);
+     
     }
 
-    // Atendimento do aluno 
-    serveStudent(): void {
-        console.log("Servindo comida para o aluno...");
+    // Atendimento do aluno com o aluno como parâmetro
+    public serveStudent(student: Student): void {
+        console.log(`Servindo comida para o aluno ${student.getRegister()}...`);
+        // Removendo o aluno da fila interna se necessário.
+        this.internalQueue.removeStudent();
         this.service.serveFood();
-        
     }
 
-    // Ocupar uma mesa 
-    occupyTable(student: Student): void {
+    // Ocupar uma mesa
+    public occupyTable(student: Student): void {
         console.log("O aluno ocupou uma mesa.");
         this.hall.addStudent(student);
     }
 
-    // Finalizar refeição e liberar mesa 
-    finishMeal(student: Student): void {
+    // Finalizar refeição e liberar mesa
+    public finishMeal(student: Student): void {
         console.log("O aluno terminou a refeição. Liberando a mesa.");
         this.hall.removeStudent(student);
     }
