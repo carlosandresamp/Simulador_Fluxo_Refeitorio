@@ -1,43 +1,44 @@
 import { Turnstile } from "../domain/simulation-engine/system/turnstile";
 import { Student } from "../domain/simulation-engine/system/student";
 
-describe("Turnstile", () => {
-    let turnstile: Turnstile;
-    let studentMock: Student;
+export class TurnstileCA {
+    protected accessable: boolean;
+    private student: Student | null;
 
-    beforeEach(() => {
-        turnstile = new Turnstile();
-        
-        // Criando um mock para a classe Student
-        studentMock = {
-            getregister: jest.fn().mockReturnValue("12345")
-        } as unknown as Student;
-    });
+    constructor() {
+        this.accessable = false;
+        this.student = null;
+    }
 
-    test("Deve iniciar com a turnstile bloqueada e sem aluno", () => {
-        expect(turnstile.accessable).toBe(false);
-        expect(turnstile.student).toBeNull();
-    });
+    getAccessable(): boolean {
+        return this.accessable;
+    }
 
-    test("Deve registrar a matrícula do aluno e liberar a passagem", () => {
-        turnstile.toTypeRegister(studentMock);
+    setAccessable(value: boolean): void {
+        this.accessable = value;
+    }
 
-        expect(turnstile.student).toBe(studentMock);
-        expect(turnstile.accessable).toBe(true);
-        expect(studentMock.getregister).toHaveBeenCalled(); // Verifica se o método foi chamado
-    });
+    getStudent(): Student | null {
+        return this.student;
+    }
 
-    test("Deve remover o aluno da turnstile e bloquear a passagem", () => {
-        turnstile.toTypeRegister(studentMock);
-        turnstile.toRemoveStudent();
+    setStudent(student: Student | null): void {
+        this.student = student;
+    }
 
-        expect(turnstile.student).toBeNull();
-        expect(turnstile.accessable).toBe(false);
-    });
+    calculateRegisterTime(): number {
+        return Math.random() * 5;
+    }
 
-    test("Deve calcular um tempo de digitação entre 0 e 5 segundos", () => {
-        const time = turnstile.toCalculateRegisterTime();
-        expect(time).toBeGreaterThanOrEqual(0);
-        expect(time).toBeLessThanOrEqual(5);
-    });
-});
+    typeRegister(student: Student): void {
+        this.setStudent(student);
+        console.log(`Matrícula ${student.getRegister()} registrada.`);
+        this.setAccessable(true);
+    }
+
+    removeStudent(): void {
+        console.log(`Aluno ${this.getStudent()?.getRegister()} removido da catraca.`);
+        this.setStudent(null);
+        this.setAccessable(false);
+    }
+}

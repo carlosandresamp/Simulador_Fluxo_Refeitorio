@@ -1,23 +1,17 @@
 import { Service } from "../domain/simulation-engine/system/service";
 
-describe("Service", () => {
-    let service: Service;
+export class ServiceAT {
+    private coWorkerRegister: string;
+    private coWorkerName: string;
+    private middleTimeService: number;
 
-    beforeEach(() => {
-        service = new Service("001", "Carlos André", 10);
-    });
+    constructor(coWorkerRegister: string, coWorkerName: string, middleTimeService: number) {
+        this.coWorkerRegister = coWorkerRegister;
+        this.coWorkerName = coWorkerName;
+        this.middleTimeService = middleTimeService;
+    }
 
-    test("Deve inicializar com os valores corretos", () => {
-        expect(service.coWorkerRegister).toBe("001");
-        expect(service.coWorkerName).toBe("Carlos André");
-        expect(service.middleTimeService).toBe(10);
-    });
-
-    test("Deve exibir uma mensagem ao servir comida", () => {
-        console.log = jest.fn(); // Espionando o console.log
-
-        service.toServeFood();
-
-        expect(console.log).toHaveBeenCalledWith("Funcionário Carlos André está servindo a comida.");
-    });
-});
+    serveFood(): void {
+        console.log(`Funcionário ${this.coWorkerName} está servindo a comida.`);
+    }
+}

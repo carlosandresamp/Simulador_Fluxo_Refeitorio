@@ -1,32 +1,43 @@
-//C.Andr
-import { Student } from "./student";// Importa a classe Aluno
+import { Student } from "./student";
 
-// Classe que representa uma catraca eletrônica
 export class Turnstile {
-    accessable: boolean; // Indica se a passagem está liberada
-    student: Student | null; // Armazena o aluno que está passando pela catraca
+    protected accessable: boolean;
+    private student: Student | null;
 
     constructor() {
-        this.accessable = false; // Inicialmente a catraca está bloqueada
-        this.student = null; // Nenhum aluno está passando
+        this.accessable = false;
+        this.student = null;
     }
 
-    // Simula o tempo de digitação da matrícula de um aluno
+    getAccessable(): boolean {
+        return this.accessable;
+    }
+
+    setAccessable(value: boolean): void {
+        this.accessable = value;
+    }
+
+    getStudent(): Student | null {
+        return this.student;
+    }
+
+    setStudent(student: Student | null): void {
+        this.student = student;
+    }
+
     calculateRegisterTime(): number {
-        return Math.random() * 5; // Retorna um tempo aleatório entre 0 e 5 segundos
+        return Math.random() * 5;
     }
 
-    // Registra a matrícula do aluno na catraca e libera a passagem
-    typeRegister(student:Student): void {
-        this.student=student; // Associa o aluno à catraca
-        console.log(`Matrícula ${student.getRegister()} registrada.`); // Exibe a matrícula registrada
-        this.accessable = true; // Libera a passagem
+    typeRegister(student: Student): void {
+        this.setStudent(student);
+        console.log(`Matrícula ${student.getRegister()} registrada.`);
+        this.setAccessable(true);
     }
 
-    // Remove o aluno da catraca após a passagem
     removeStudent(): void {
-        console.log(`Aluno ${this.student?.getRegister()} removido da catraca.`); // Exibe mensagem de remoção
-        this.student = null; // Remove a referência ao aluno
-        this.accessable = false; // Bloqueia novamente a passagem
+        console.log(`Aluno ${this.getStudent()?.getRegister()} removido da catraca.`);
+        this.setStudent(null);
+        this.setAccessable(false);
     }
 }
