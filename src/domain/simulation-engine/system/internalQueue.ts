@@ -2,11 +2,19 @@ import { ExternalQueue } from "./externalQueue";
 import { Student } from "./student";
 
 export class InternalQueue extends ExternalQueue {
-  readonly maxCapacity: number;
+  private maxCapacity: number;
 
   constructor(maxCapacity: number, studentQuantity?: Student[]) {
     super(studentQuantity);
     this.maxCapacity = maxCapacity;
+  }
+
+  getMaxCapacity(){
+    return this.maxCapacity;
+  }
+
+  setMaxCapacity(maxCapacity:number){
+    return this.maxCapacity = maxCapacity;
   }
 
   addStudent(student: Student): void {
