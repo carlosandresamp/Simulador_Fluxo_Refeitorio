@@ -1,26 +1,35 @@
 import { Student } from "./student";
 
 export class Hall{
-    private readonly capacityByStudent: Student[] = [];
+    private capacityByStudent: Student[] = [];
     private occupiedCapacity: number = 0;
     private occupationTime: number;
-    private readonly maxHallCapacity: number;
+    private maxHallCapacity: number;
 
-    constructor(maxHallCapacity: number, occupationTime: number){
-        this.maxHallCapacity = maxHallCapacity;
-        this.occupationTime=occupationTime;
-    }
+    constructor(){}
 
     getMaxHallCapacity(): number {
         return this.maxHallCapacity;
+    }
+
+    setMaxHallCapacity(maxHallCapacity:number){
+        return this.maxHallCapacity = maxHallCapacity;
     }
 
     getOccupiedCapacity(): number {
         return this.occupiedCapacity;
     }
 
-    getCapacityByStudents(): ReadonlyArray<Student> {
+    setOccupiedCapacity(occupiedCapacity:number){
+        return this.occupiedCapacity = occupiedCapacity;
+    }
+
+    getCapacityByStudents():Array<Student> {
         return this.capacityByStudent;
+    }
+
+    setCapacityByStudent(capacityByStudent:Array<Student>){
+        return this.capacityByStudent = capacityByStudent;
     }
 
     getOccupationTime():number{

@@ -42,7 +42,7 @@ export class Cafeteria {
     // Entrada do aluno na fila interna
     public enterInternalQueue(): void {
         console.log("O aluno entrou na fila interna.");
-        const student = this.turnstile.student;
+        const student = this.turnstile.getStudent(); //Modifiquei chamando o método getStudent, pois o atributo estudante da classe catraca é privado (Estava dando erro)
         this.turnstile.removeStudent();
         this.internalQueue.addStudent(student);
      

@@ -1,3 +1,4 @@
+import { error } from "console";
 import { ExternalQueue } from "./externalQueue";
 import { Student } from "./student";
 
@@ -27,6 +28,10 @@ export class InternalQueue extends ExternalQueue {
   }
 
   removeStudent(): Student {
+    if(this.studentQuantity.length == 0){
+      throw new Error("Fila Vazia: Não é possível remover estudantes.");
+    }
+
     const toRemoveStudent = super.removeStudent();
     console.log("Fila interna");
     return toRemoveStudent;

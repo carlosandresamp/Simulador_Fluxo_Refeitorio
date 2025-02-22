@@ -2,10 +2,10 @@ export type StudentStatus = "aguardando" | "atendido" | "saindo";
 
 export class Student{
     private register: string;
-    public readonly comingTime : Date;
-    public readonly serviceTime: Date;
-    public readonly servedTime: Date;
-    public status : StudentStatus;
+    public comingTime : Date;
+    public serviceTime: Date;
+    public servedTime: Date;
+    private status : StudentStatus;
 
     constructor(register:string, comingTime:Date, serviceTime:Date, servedTime:Date, status:StudentStatus){
         this.register=register;

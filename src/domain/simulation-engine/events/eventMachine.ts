@@ -1,5 +1,5 @@
 import { Event} from "./event"        ; 
-class EventMachine{
+export class EventMachine{
     events : Event[] = [];
     simulationInstant: number = 0;
 
