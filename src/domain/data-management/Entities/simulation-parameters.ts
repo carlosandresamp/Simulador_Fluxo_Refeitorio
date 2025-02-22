@@ -16,7 +16,7 @@ export class SimulationParameters {
       servingTime: number,
       tableTime: number,
       turnstileLimit: number,
-      studentCount: number,
+      studentCount: number,   
       serviceInterval: number,
       arrivalDistribution: "normal" | "exp" | "uniform"
   ) {

@@ -1,7 +1,7 @@
 import { Cafeteria } from "../system/cafeteria";
 import { EventMachine } from "./eventMachine";
 
- abstract class Event {
+export abstract class Event {
    protected timestamp :number;
    protected cafeteria:Cafeteria;
    protected machine:EventMachine;

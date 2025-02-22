@@ -1,15 +1,12 @@
 import { Student } from "./student";
 
 export class Hall{
-    private readonly capacityByStudent: Student[] = [];
+    capacityByStudent: Student[] = [];
     private occupiedCapacity: number = 0;
     private occupationTime: number;
-    private readonly maxHallCapacity: number;
+    private maxHallCapacity: number;
 
-    constructor(maxHallCapacity: number, occupationTime: number){
-        this.maxHallCapacity = maxHallCapacity;
-        this.occupationTime=occupationTime;
-    }
+    constructor(){}
 
     getMaxHallCapacity(): number {
         return this.maxHallCapacity;
