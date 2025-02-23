@@ -73,7 +73,7 @@ export class Cafeteria {
     }
 
     // Entrada do aluno na catraca
-    public enterTurnstile(): void {
+    public enterTurnstile(): number {
         console.log("O aluno está tentando passar pela catraca...");
         const student = this._externalQueue.removeStudent();
     
@@ -82,6 +82,7 @@ export class Cafeteria {
     
         // Agora, após calcular o tempo, efetua o registro do aluno
         this._turnstile.typeRegister(student);
+        return registerTime;
     }
 
     // Entrada do aluno na fila interna
