@@ -16,10 +16,10 @@ export class FromInternalQueueToTheService {
 
     execute(): void {
         if (this.internalQueue.length > 0) {
-            const student = this.internalQueue.shift(); // Retira o primeiro aluno da fila
+            const student = this.internalQueue.shift();
             if (student) {
                 student.setStatus("atendido");
-                this.service.serveFood(); // Funcionário atende o aluno
+                this.service.serveFood();
                 console.log(`Aluno ${student.getRegister()} está sendo atendido.`);
             }
         } else {
