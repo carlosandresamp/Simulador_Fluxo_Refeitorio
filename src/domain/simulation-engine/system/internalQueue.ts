@@ -36,4 +36,20 @@ export class InternalQueue extends ExternalQueue {
     console.log("Fila interna");
     return toRemoveStudent;
   }
+
+  emptyInternalQueue():boolean{
+    if(this.studentQuantity.length == 0){
+      console.log("Fila externa Vazia.");
+      return true;
+    }
+    return false;
+  }
+
+  isInternalQueueFull():Boolean{
+    if(this.studentQuantity.length >= this.maxCapacity){
+      console.log("A fila interna excedeu sua capacidade máxima.");
+      return true;
+    }
+    return false;
+  }
 }

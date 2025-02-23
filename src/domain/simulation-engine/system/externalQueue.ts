@@ -28,13 +28,11 @@ export class ExternalQueue {
     return studentIndex;
   }
 
-  emptyQueue():boolean{
+  emptyExternalQueue():boolean{
     if(this.studentQuantity.length == 0){
       console.log("Fila externa Vazia.");
       return true;
-    }else{
-      console.log("Há pessoas na fila")
-      return false;
     }
+    return false;
   }
 }
