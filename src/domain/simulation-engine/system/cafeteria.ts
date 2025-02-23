@@ -67,15 +67,20 @@ export class Cafeteria {
     }
 
     // Chegada do aluno ao refeitório
-    public studentArrival(student: Student): void {
+    public studentArrival(student: Student): boolean {
         console.log("Um aluno chegou ao refeitório.");
         this._externalQueue.addStudent(student);
+        return true;
     }
 
     // Entrada do aluno na catraca
     public enterTurnstile(): number {
         console.log("O aluno está tentando passar pela catraca...");
         const student = this._externalQueue.removeStudent();
+
+        if (!student) {
+            throw new Error("Erro: A fila externa está vazia.");
+        }
     
         const registerTime = this._turnstile.calculateRegisterTime();
         console.log("Tempo estimado de digitação no Refeitório: " + registerTime.toFixed(2) + " segundos.");
@@ -89,6 +94,11 @@ export class Cafeteria {
     public enterInternalQueue(): void {
         console.log("O aluno entrou na fila interna.");
         const student = this._turnstile.getStudent(); // Modifiquei chamando o método getStudent, pois o atributo estudante da classe catraca é privado
+      
+        if (!student) {
+            throw new Error("Erro: Não há aluno na catraca para mover para a fila interna.");
+        }
+      
         this._turnstile.removeStudent();
         this._internalQueue.addStudent(student);
     }
