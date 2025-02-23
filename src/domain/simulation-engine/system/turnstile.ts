@@ -30,12 +30,20 @@ export class Turnstile {
     }
 
     typeRegister(student: Student): void {
+        if (this.getStudent() !== null) {
+            throw new Error("Não é possível registrar um novo aluno. Um aluno já está registrado.");
+        }
+        
         this.setStudent(student);
         console.log(`Matrícula ${student.getRegister()} registrada.`);
         this.setAccessable(true);
     }
 
     removeStudent(): void {
+        if (this.getStudent() === null) {
+            throw new Error("Não é possível remover um aluno. Nenhum aluno está registrado.");
+        }
+        
         console.log(`Aluno ${this.getStudent()?.getRegister()} removido da catraca.`);
         this.setStudent(null);
         this.setAccessable(false);
