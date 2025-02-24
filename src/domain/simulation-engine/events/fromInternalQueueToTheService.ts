@@ -13,30 +13,28 @@ export class FromInternalQueueToTheService extends Event {
     processEvent() {
         console.log(`Evento - Fila Interna Para Atendimento - ${this.timestamp}`);
 
-        // Verificar se a fila interna está vazia
+        // Acessa a fila interna
         const internalQueue = this.cafeteria.getInternalQueue();
-        const studentInInternalQueue = internalQueue.getNextStudent(); // Método que retorna o próximo aluno da fila interna
-        if (!studentInInternalQueue) {
-            throw new Error("Nenhum estudante na fila interna para atendimento.");
+
+        // Verifica se há estudantes na fila interna
+        if (internalQueue.emptyInternalQueue()) {
+            console.log("Nenhum estudante na fila interna para atendimento.");
+            return; // Se a fila estiver vazia, não há nada para processar
         }
 
-        // Verifica se o serviço está disponível
-        const serviceAvailable = this.cafeteria.getService().isServiceAvailable();
-        if (!serviceAvailable) {
-            throw new Error("Serviço indisponível.");
-        }
-
-        // Simula o tempo de digitação do estudante antes de ele ser atendido
-        const typingTime = studentInInternalQueue.simulateTypingTime();
-        const totalServiceTime = studentInInternalQueue.servedTime + typingTime;
-
-        // Atualiza o status do estudante para "aguardando" enquanto ele está sendo atendido
-        studentInInternalQueue.setStatus("aguardando");
-
-        console.log(`${studentInInternalQueue.getRegister()} está sendo atendido após ${totalServiceTime.toFixed(2)} segundos de espera.`);
+        // Calcula o tempo de espera do estudante
+        const totalServiceTime = internalQueue.calculateWaitingTime();
 
         // Remove o estudante da fila interna
-        internalQueue.removeStudent();
+        const studentInInternalQueue = internalQueue.removeStudent();
+        if (!studentInInternalQueue) {
+            console.log("Erro ao remover aluno da fila interna.");
+            return;
+        }
+
+        // Atualiza o status do estudante
+        studentInInternalQueue.setStatus("aguardando");
+        console.log(`${studentInInternalQueue.getRegister()} está sendo atendido após ${totalServiceTime.toFixed(2)} segundos de espera.`);
 
         // Agenda o evento para o estudante ir para a mesa após o atendimento
         const instantCompletion = this.timestamp + totalServiceTime;

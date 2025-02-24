@@ -13,19 +13,22 @@ export class FromServiceToTheTable extends Event {
     processEvent() {
         console.log(`Evento - Atendimento para Mesa - ${this.timestamp}`);
 
-        // Verifica se há algum estudante sendo atendido na fila do serviço
-        const studentAtService = this.cafeteria.getService().getNextStudent(); // Usando o método getService() correto
+        // Acessa o aluno sendo atendido
+        const serviceQueue = this.cafeteria.getService().getServiceQueue();
+        const studentAtService = serviceQueue[0]; // Assume-se que o primeiro aluno é o atendido
         if (!studentAtService) {
-            throw new Error("Nenhum estudante para atendimento.");
+            console.log("Nenhum estudante sendo atendido no momento.");
+            return; // Se não houver estudante sendo atendido, o evento não será processado
         }
 
         // Verifica se a mesa está disponível
-        const tableAvailable = this.cafeteria.getTable().isTableAvailable();
+        const tableAvailable = this.cafeteria.isTableAvailable(); // Método para verificar disponibilidade
         if (!tableAvailable) {
-            throw new Error("Mesa indisponível.");
+            console.log("Mesa indisponível.");
+            return; // Se a mesa não estiver disponível, o evento não será processado
         }
 
-        // Simula o tempo de digitação do estudante antes de ele ser atendido
+        // Simula o tempo de digitação do estudante antes de ir para a mesa
         const typingTime = studentAtService.simulateTypingTime();
         const totalServiceTime = studentAtService.servedTime + typingTime;
 
@@ -35,7 +38,7 @@ export class FromServiceToTheTable extends Event {
 
         // Agenda o evento para o estudante sair para a mesa após o atendimento
         const instantCompletion = this.timestamp + totalServiceTime;
-        const newEvent = new FromInternalQueueToTheService(instantCompletion, this.cafeteria, this.machine); // Chamando o evento correto
+        const newEvent = new FromInternalQueueToTheService(instantCompletion, this.cafeteria, this.machine);
         this.machine.addEvent(newEvent);
     }
 }
