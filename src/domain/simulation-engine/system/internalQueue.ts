@@ -4,25 +4,25 @@ import { Student } from "./student";
 
 export class InternalQueue extends ExternalQueue {
   private maxCapacity: number;
-  private sizeQueue:number;
+  private sizeQueue: number;
 
   constructor(sizeQueue: number, studentQuantity?: Student[]) {
     super(studentQuantity);
-    this.maxCapacity
-    this.sizeQueue = sizeQueue
+    this.sizeQueue = sizeQueue;
+    this.maxCapacity = sizeQueue; 
   }
 
-  getMaxCapacity(){
+  getMaxCapacity(): number {
     return this.maxCapacity;
   }
 
-  setMaxCapacity(maxCapacity:number){
-    return this.maxCapacity = maxCapacity;
+  setMaxCapacity(maxCapacity: number): void { 
+    this.maxCapacity = maxCapacity;
   }
 
   addStudent(student: Student): void {
-    if(this.studentQuantity.length >= this.maxCapacity){
-        throw new Error ("Fila interna cheia: espere esvaziar");
+    if (this.studentQuantity.length >= this.maxCapacity) {
+      throw new Error("Fila interna cheia: espere esvaziar");
     }
 
     this.studentQuantity.push(student);
@@ -30,28 +30,24 @@ export class InternalQueue extends ExternalQueue {
   }
 
   removeStudent(): Student {
-    if(this.studentQuantity.length == 0){
+    if (this.studentQuantity.length === 0) {
       throw new Error("Fila Vazia: Não é possível remover estudantes.");
     }
 
     const toRemoveStudent = super.removeStudent();
-    console.log("Fila interna");
+    console.log("Aluno removido da Fila Interna");
     return toRemoveStudent;
   }
 
-  emptyInternalQueue():boolean{
-    if(this.studentQuantity.length == 0){
-      console.log("Fila interna Vazia.");
-      return true;
-    }
-    return false;
+  emptyInternalQueue(): boolean {
+    return this.studentQuantity.length === 0;
   }
 
-  isInternalQueueFull():Boolean{
-    if(this.studentQuantity.length >= this.maxCapacity){
-      console.log("A fila interna excedeu sua capacidade máxima.");
-      return true;
-    }
-    return false;
+  isInternalQueueFull(): boolean {
+    return this.studentQuantity.length >= this.maxCapacity; 
+  }
+
+  isEmpty(): boolean {
+    return this.studentQuantity.length === 0;
   }
 }

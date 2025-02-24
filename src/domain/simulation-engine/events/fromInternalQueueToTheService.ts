@@ -9,8 +9,15 @@ export class FromInternalQueueToTheService extends Event {
     private internalQueue: InternalQueue;
     private service: Service;
 
-    constructor(timestamp: number, cafeteria: Cafeteria, machine: EventMachine, internalQueue: InternalQueue, service: Service) {
+    constructor(
+        timestamp: number,
+        cafeteria: Cafeteria,
+        machine: EventMachine,
+        internalQueue: InternalQueue,
+        service: Service
+    ) {
         super(timestamp, cafeteria, machine);
+
         this.internalQueue = internalQueue;
         this.service = service;
     }
@@ -28,6 +35,6 @@ export class FromInternalQueueToTheService extends Event {
         student.setStatus("atendido");
         student.serviceTime = new Date();
         this.service.serveFood(student);
-        console.log(`Aluno ${student.getRegister()} foi movido da fila interna para o serviço.`);
+        console.log(`Aluno ${student.getRegister()} foi movido da fila interna para o atendimento.`);
     }
 }

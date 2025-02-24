@@ -56,4 +56,15 @@ export class Hall{
             this.occupiedCapacity--;
         }
     }
+
+    hasAvailableTables(): boolean {
+        return this.occupiedCapacity < this.maxHallCapacity;
+    }
+
+    seatStudent(student: Student): boolean {
+        if (this.hasAvailableTables()) {
+            return this.addStudent(student);
+        }
+        return false;
+    }
 }

@@ -9,14 +9,20 @@ export class FromServiceToTheTable extends Event {
     private service: Service;
     private hall: Hall;
 
-    constructor(timestamp: number, cafeteria: Cafeteria, machine: EventMachine, service: Service, hall: Hall) {
+    constructor(
+        timestamp: number,
+        cafeteria: Cafeteria,
+        machine: EventMachine,
+        service: Service,
+        hall: Hall
+    ) {
         super(timestamp, cafeteria, machine);
         this.service = service;
         this.hall = hall;
     }
 
     processEvent(): void {
-        const student = this.service.getCurrentStudent(); // Obtém o estudante atual
+        const student = this.service.getCurrentStudent();
         if (!student) {
             throw new Error("Nenhum aluno está atualmente sendo servido.");
         }
@@ -26,7 +32,7 @@ export class FromServiceToTheTable extends Event {
         }
 
         student.setStatus("saindo");
-        student.servedTime = new Date();
+        student.servedTime = Date.now();
         console.log(`Aluno ${student.getRegister()} foi movido de serviço para mesa.`);
     }
 }

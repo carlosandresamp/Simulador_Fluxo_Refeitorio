@@ -6,7 +6,7 @@ export class Service {
     private middleTimeService: number;
     private currentStudent: Student | null = null;
 
-    constructor(coWorkerRegister?: string, coWorkerName?: string, middleTimeService?: number) {
+    constructor(coWorkerRegister: string, coWorkerName: string, middleTimeService: number) {
         if (!coWorkerRegister) {
             throw new Error("O registro do funcionário não pode ser vazio.");
         }
@@ -26,7 +26,7 @@ export class Service {
         if (!this.coWorkerName) {
             throw new Error("Não é possível servir comida. O nome do funcionário não está definido.");
         }
-        this.currentStudent = student; // Define o estudante atual
+        this.currentStudent = student;
         console.log(`Funcionário ${this.coWorkerName} está servindo a comida para ${student.getRegister()}.`);
     }
 
