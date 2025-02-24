@@ -26,7 +26,8 @@ export class Turnstile {
     }
 
     calculateRegisterTime(): number {
-        return Math.random() * 5;
+        const drawerRegisteringTimeStudent = this.student.simulateTypingTime();
+        return Math.random() * drawerRegisteringTimeStudent;
     }
 
     typeRegister(student: Student):boolean {
