@@ -3,7 +3,7 @@ import { Event } from "./event";
 import { EventMachine } from "./eventMachine";
 import { Student } from "../system/student";
 import { InternalQueue } from "../system/internalQueue";
-import { FromInternalQueueToTheService } from "./fromInternalQueueToTheService"; // Importando a classe corretamente
+import { FromInternalQueueToTheService } from "./fromInternalQueueToTheService";
 
 export class FromServiceToTheTable extends Event {
     constructor(timestamp: number, cafeteria: Cafeteria, machine: EventMachine) {
