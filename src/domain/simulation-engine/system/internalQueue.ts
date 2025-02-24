@@ -39,7 +39,7 @@ export class InternalQueue extends ExternalQueue {
 
   emptyInternalQueue():boolean{
     if(this.studentQuantity.length == 0){
-      console.log("Fila externa Vazia.");
+      console.log("Fila interna Vazia.");
       return true;
     }
     return false;
