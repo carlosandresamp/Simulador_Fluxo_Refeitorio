@@ -60,6 +60,11 @@ export class Cafeteria {
         this._internalQueue = internalQueue;
     }
 
+    // Método para obter a instância de Hall (mesas)
+    public getTable(): Hall {
+        return this.getHall(); // Retorna a instância de Hall que gerencia as mesas
+    }
+
     // Chegada do aluno ao refeitório
     public studentArrival(student: Student): boolean {
         console.log("Um aluno chegou ao refeitório.");
@@ -88,7 +93,6 @@ export class Cafeteria {
     public enterInternalQueue(): void {
         console.log("O aluno entrou na fila interna.");
         const gettingstudent = this._turnstile.getStudent(); // Modifiquei chamando o método getStudent, pois o atributo estudante da classe catraca é privado
-      
         if (!gettingstudent) {
             throw new Error("Erro: Não há aluno na catraca para mover para a fila interna.");
         }
