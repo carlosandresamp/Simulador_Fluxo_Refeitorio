@@ -27,4 +27,12 @@ export class ExternalQueue {
     console.log("Aluno saiu da fila externa.");
     return studentIndex;
   }
+
+  emptyExternalQueue():boolean{
+    if(this.studentQuantity.length == 0){
+      console.log("Fila externa Vazia.");
+      return true;
+    }
+    return false;
+  }
 }

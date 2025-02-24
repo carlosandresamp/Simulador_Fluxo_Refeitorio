@@ -6,65 +6,114 @@ import { Service } from "./service";
 import { InternalQueue } from "./internalQueue";
 
 export class Cafeteria {
-    private hall: Hall;
-    private service: Service;
-    private turnstile: Turnstile;
-    private externalQueue: ExternalQueue;
-    private internalQueue: InternalQueue;
+    private _hall: Hall;
+    private _service: Service;
+    private _turnstile: Turnstile;
+    private _externalQueue: ExternalQueue;
+    private _internalQueue: InternalQueue;
 
-    constructor(
-        hall: Hall,
-        service: Service,
-        turnstile: Turnstile,
-        externalQueue: ExternalQueue,
-        internalQueue: InternalQueue
-    ) {
-        this.hall = hall;
-        this.service = service;
-        this.turnstile = turnstile;
-        this.externalQueue = externalQueue;
-        this.internalQueue = internalQueue;
+    constructor(queueSize:number) {
+        this._hall = new Hall();
+        this._service = new Service();
+        this._turnstile = new Turnstile();
+        this._externalQueue = new ExternalQueue();
+        this._internalQueue = new InternalQueue(queueSize);
+    }
+
+    // Getter e Setter para hall
+    public getHall(): Hall {
+        return this._hall;
+    }
+    public setHall(hall: Hall) {
+        this._hall = hall;
+    }
+
+    // Getter e Setter para service
+    public getService(): Service {
+        return this._service;
+    }
+    public setService(service: Service) {
+        this._service = service;
+    }
+
+    // Getter e Setter para turnstile
+    public getTurnstile(): Turnstile {
+        return this._turnstile;
+    }
+    public setTurnstile(turnstile: Turnstile) {
+        this._turnstile = turnstile;
+    }
+
+    // Getter e Setter para externalQueue
+    public getExternalQueue(): ExternalQueue {
+        return this._externalQueue;
+    }
+    public setExternalQueue(externalQueue: ExternalQueue) {
+        this._externalQueue = externalQueue;
+    }
+
+    // Getter e Setter para internalQueue
+    public getInternalQueue(): InternalQueue {
+        return this._internalQueue;
+    }
+    public setInternalQueue(internalQueue: InternalQueue) {
+        this._internalQueue = internalQueue;
     }
 
     // Chegada do aluno ao refeitório
-    public studentArrival(student: Student): void {
+    public studentArrival(student: Student): boolean {
         console.log("Um aluno chegou ao refeitório.");
-        this.externalQueue.addStudent(student);
+        this._externalQueue.addStudent(student);
+        return true;
     }
 
     // Entrada do aluno na catraca
-    public enterTurnstile(): void {
+    public enterTurnstile(): number {
         console.log("O aluno está tentando passar pela catraca...");
-        const student = this.externalQueue.removeStudent();
-        this.turnstile.typeRegister(student);
+        const student = this._externalQueue.removeStudent();
+
+        if (!student) {
+            throw new Error("Erro: A fila externa está vazia.");
+        }
+    
+        const registerTime = this._turnstile.calculateRegisterTime();
+        console.log("Tempo estimado de digitação no Refeitório: " + registerTime.toFixed(2) + " segundos.");
+    
+        // Agora, após calcular o tempo, efetua o registro do aluno
+        this._turnstile.typeRegister(student);
+        return registerTime;
     }
-   
+
     // Entrada do aluno na fila interna
     public enterInternalQueue(): void {
         console.log("O aluno entrou na fila interna.");
-        const student = this.turnstile.getStudent(); //Modifiquei chamando o método getStudent, pois o atributo estudante da classe catraca é privado (Estava dando erro)
-        this.turnstile.removeStudent();
-        this.internalQueue.addStudent(student);
-     
+        const student = this._turnstile.getStudent(); // Modifiquei chamando o método getStudent, pois o atributo estudante da classe catraca é privado
+      
+        if (!student) {
+            throw new Error("Erro: Não há aluno na catraca para mover para a fila interna.");
+        }
+      
+        this._turnstile.removeStudent();
+        this._internalQueue.addStudent(student);
     }
 
     // Atendimento do aluno com o aluno como parâmetro
     public serveStudent(student: Student): void {
         console.log(`Servindo comida para o aluno ${student.getRegister()}...`);
         // Removendo o aluno da fila interna se necessário.
-        this.internalQueue.removeStudent();
-        this.service.serveFood();
+        this._internalQueue.removeStudent();
+        this._service.serveFood(student);
     }
 
     // Ocupar uma mesa
     public occupyTable(student: Student): void {
         console.log("O aluno ocupou uma mesa.");
-        this.hall.addStudent(student);
+        this._hall.addStudent(student);
     }
 
     // Finalizar refeição e liberar mesa
     public finishMeal(student: Student): void {
         console.log("O aluno terminou a refeição. Liberando a mesa.");
-        this.hall.removeStudent(student);
+        this._hall.removeStudent(student);
     }
 }

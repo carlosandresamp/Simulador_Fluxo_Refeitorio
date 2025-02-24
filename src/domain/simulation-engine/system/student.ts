@@ -1,18 +1,14 @@
 export type StudentStatus = "aguardando" | "atendido" | "saindo";
 
 export class Student{
-    private register: string;
-    public comingTime : Date;
-    public serviceTime: Date;
-    public servedTime: Date;
-    private status : StudentStatus;
+    private register?: string;
+    public comingTime? : Date;
+    public serviceTime?: Date;
+    public servedTime: number;
+    private status?: StudentStatus;
 
-    constructor(register:string, comingTime:Date, serviceTime:Date, servedTime:Date, status:StudentStatus){
-        this.register=register;
-        this.comingTime=comingTime;
-        this.serviceTime=serviceTime;
-        this.servedTime=servedTime;
-        this.status=status;
+    constructor(servedTime: number){
+        this.servedTime = servedTime;
     }
 
     getRegister(){

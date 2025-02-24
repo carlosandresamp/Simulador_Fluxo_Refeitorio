@@ -4,10 +4,12 @@ import { Student } from "./student";
 
 export class InternalQueue extends ExternalQueue {
   private maxCapacity: number;
+  private sizeQueue:number;
 
-  constructor(maxCapacity: number, studentQuantity?: Student[]) {
+  constructor(sizeQueue: number, studentQuantity?: Student[]) {
     super(studentQuantity);
-    this.maxCapacity = maxCapacity;
+    this.maxCapacity
+    this.sizeQueue = sizeQueue
   }
 
   getMaxCapacity(){
@@ -35,5 +37,21 @@ export class InternalQueue extends ExternalQueue {
     const toRemoveStudent = super.removeStudent();
     console.log("Fila interna");
     return toRemoveStudent;
+  }
+
+  emptyInternalQueue():boolean{
+    if(this.studentQuantity.length == 0){
+      console.log("Fila interna Vazia.");
+      return true;
+    }
+    return false;
+  }
+
+  isInternalQueueFull():Boolean{
+    if(this.studentQuantity.length >= this.maxCapacity){
+      console.log("A fila interna excedeu sua capacidade máxima.");
+      return true;
+    }
+    return false;
   }
 }
