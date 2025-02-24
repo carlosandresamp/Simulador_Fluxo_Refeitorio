@@ -1,4 +1,3 @@
-import { GaussianRandom } from "../util/random-generators";
 import { Student } from "./student";
 
 export class Hall{
@@ -6,15 +5,15 @@ export class Hall{
     private occupiedCapacity: number = 0;
     private occupationTime: number;
     private maxHallCapacity: number;
-    private middleOccupationTime:number;
-    private randomGenerator: GaussianRandom;
 
-    constructor(){
-        this.randomGenerator = new GaussianRandom();
-    }
+    constructor(){}
 
     getMaxHallCapacity(): number {
         return this.maxHallCapacity;
+    }
+
+    setMaxHallCapacity(maxHallCapacity:number){
+        return this.maxHallCapacity = maxHallCapacity;
     }
 
     getOccupiedCapacity(): number {
@@ -41,17 +40,6 @@ export class Hall{
         this.occupationTime = timing;
     }
 
-    setMaxHallCapacity(maxHallCapacity: number): void {
-        if (maxHallCapacity <= 0) throw new Error("A capacidade máxima do salão deve ser maior que zero.");
-        this.maxHallCapacity = maxHallCapacity;
-    }
-
-    setMiddleOccupationTime(middleOccupationTime: number): void {
-        if (middleOccupationTime <= 0) throw new Error("O tempo médio de permanência deve ser maior que zero.");
-        this.middleOccupationTime = middleOccupationTime;
-    }
-
-
     addStudent(student:Student): boolean{
         if(this.occupiedCapacity < this.maxHallCapacity){
             this.occupiedCapacity++;
@@ -69,14 +57,14 @@ export class Hall{
         }
     }
 
-    calculateOccupationTime(): number {
-        const variationFactor = this.randomGenerator.next(); // Valor entre 0 e 1
-        const minFactor = 0.8; // Redução máxima de 20%
-        const maxFactor = 1.2; // Aumento máximo de 20%
-        const scaledFactor = minFactor + variationFactor * (maxFactor - minFactor);
+    hasAvailableTables(): boolean {
+        return this.occupiedCapacity < this.maxHallCapacity;
+    }
 
-        const occupationTime = this.middleOccupationTime * scaledFactor;
-        console.log(`Tempo estimado de permanência: ${occupationTime.toFixed(2)} segundos.`);
-        return occupationTime;
+    seatStudent(student: Student): boolean {
+        if (this.hasAvailableTables()) {
+            return this.addStudent(student);
+        }
+        return false;
     }
 }
