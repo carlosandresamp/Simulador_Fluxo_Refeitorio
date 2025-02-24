@@ -1,7 +1,10 @@
+import { Student } from './student';
+
 export class Service {
     private coWorkerRegister: string;
     private coWorkerName: string;
     private middleTimeService: number;
+    private currentStudent: Student | null = null;
 
     constructor(coWorkerRegister: string, coWorkerName: string, middleTimeService: number) {
         if (!coWorkerRegister) {
@@ -19,10 +22,15 @@ export class Service {
         this.middleTimeService = middleTimeService;
     }
 
-    serveFood(): void {
+    serveFood(student: Student): void {
         if (!this.coWorkerName) {
             throw new Error("Não é possível servir comida. O nome do funcionário não está definido.");
         }
-        console.log(`Funcionário ${this.coWorkerName} está servindo a comida.`);
+        this.currentStudent = student; // Define o estudante atual
+        console.log(`Funcionário ${this.coWorkerName} está servindo a comida para ${student.getRegister()}.`);
+    }
+
+    getCurrentStudent(): Student | null {
+        return this.currentStudent;
     }
 }

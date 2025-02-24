@@ -1,33 +1,33 @@
-import { Service } from "../system/service";
-import { Student } from "../system/student";
+import { Event } from './event';
+import { Cafeteria } from '../system/cafeteria';
+import { EventMachine } from './eventMachine';
+import { Student } from '../system/student';
+import { InternalQueue } from '../system/internalQueue';
+import { Service } from '../system/service';
 
-export class FromInternalQueueToTheService {
-    private internalQueue: Student[];
+export class FromInternalQueueToTheService extends Event {
+    private internalQueue: InternalQueue;
+    private service: Service;
 
-    constructor(private service: Service) {
-        this.internalQueue = [];
+    constructor(timestamp: number, cafeteria: Cafeteria, machine: EventMachine, internalQueue: InternalQueue, service: Service) {
+        super(timestamp, cafeteria, machine);
+        this.internalQueue = internalQueue;
+        this.service = service;
     }
 
-    addStudentToQueue(student: Student): void {
+    processEvent(): void {
+        if (this.internalQueue.isEmpty()) {
+            throw new Error("A fila interna está vazia. Nenhum aluno para servir.");
+        }
+
+        const student = this.internalQueue.removeStudent();
         if (!student) {
-            throw new Error("Não é possível adicionar um aluno nulo à fila interna.");
-        }
-        
-        student.setStatus("aguardando");
-        this.internalQueue.push(student);
-        console.log(`Aluno ${student.getRegister()} entrou na fila interna.`);
-    }
-
-    execute(): void {
-        if (this.internalQueue.length === 0) {
-            throw new Error("Nenhum aluno na fila interna para ser atendido.");
+            throw new Error("Falha ao remover o aluno da fila interna.");
         }
 
-        const student = this.internalQueue.shift();
-        if (student) {
-            student.setStatus("atendido");
-            this.service.serveFood();
-            console.log(`Aluno ${student.getRegister()} está sendo atendido.`);
-        }
+        student.setStatus("atendido");
+        student.serviceTime = new Date();
+        this.service.serveFood(student);
+        console.log(`Aluno ${student.getRegister()} foi movido da fila interna para o serviço.`);
     }
 }
