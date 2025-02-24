@@ -13,8 +13,8 @@ export class Turnstile {
         return this.accessable;
     }
 
-    setAccessable(value: boolean): void {
-        this.accessable = value;
+    setAccessable(value: boolean) {
+        return this.accessable = value;
     }
 
     getStudent(): Student | null {
@@ -39,5 +39,13 @@ export class Turnstile {
         console.log(`Aluno ${this.getStudent()?.getRegister()} removido da catraca.`);
         this.setStudent(null);
         this.setAccessable(false);
+    }
+
+    isTurnstileAccessable():boolean{
+        if(this.getAccessable()){
+            console.log("Catraca Disponível para uso.");
+            return true;
+        }
+        return false;
     }
 }
