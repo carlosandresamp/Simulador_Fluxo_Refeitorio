@@ -38,7 +38,7 @@ export class StudentArrivingToTheExternalQueue extends Event {
         const nextArrivalTime = this.timestamp + this.randomGenerator.next();
 
         // // Cria um novo evento para a chegada do próximo aluno
-        const newStudent = new Student( this.student.getRegister(),new Date(),new Date(),new Date(),this.student.getStatus() ); 
+        const newStudent = new Student(this.student.servedTime); 
         const newEvent = new StudentArrivingToTheExternalQueue(nextArrivalTime, this.cafeteria, this.machine, newStudent, this.randomGenerator);
         this.machine.addEvent(newEvent);
     }

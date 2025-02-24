@@ -12,18 +12,12 @@ export class Cafeteria {
     private _externalQueue: ExternalQueue;
     private _internalQueue: InternalQueue;
 
-    constructor(
-        hall: Hall,
-        service: Service,
-        turnstile: Turnstile,
-        externalQueue: ExternalQueue,
-        internalQueue: InternalQueue
-    ) {
-        this._hall = hall;
-        this._service = service;
-        this._turnstile = turnstile;
-        this._externalQueue = externalQueue;
-        this._internalQueue = internalQueue;
+    constructor(queueSize:number) {
+        this._hall = new Hall();
+        this._service = new Service();
+        this._turnstile = new Turnstile();
+        this._externalQueue = new ExternalQueue();
+        this._internalQueue = new InternalQueue(queueSize);
     }
 
     // Getter e Setter para hall
@@ -93,14 +87,14 @@ export class Cafeteria {
     // Entrada do aluno na fila interna
     public enterInternalQueue(): void {
         console.log("O aluno entrou na fila interna.");
-        const student = this._turnstile.getStudent(); // Modifiquei chamando o método getStudent, pois o atributo estudante da classe catraca é privado
+        const gettingstudent = this._turnstile.getStudent(); // Modifiquei chamando o método getStudent, pois o atributo estudante da classe catraca é privado
       
-        if (!student) {
+        if (!gettingstudent) {
             throw new Error("Erro: Não há aluno na catraca para mover para a fila interna.");
         }
       
-        this._turnstile.removeStudent();
-        this._internalQueue.addStudent(student);
+        const studentRemoved = this._turnstile.removeStudent();
+        this._internalQueue.addStudent(studentRemoved);
     }
 
     // Atendimento do aluno com o aluno como parâmetro
@@ -108,7 +102,7 @@ export class Cafeteria {
         console.log(`Servindo comida para o aluno ${student.getRegister()}...`);
         // Removendo o aluno da fila interna se necessário.
         this._internalQueue.removeStudent();
-        this._service.serveFood();
+        this._service.serveFood(student);
     }
 
     // Ocupar uma mesa

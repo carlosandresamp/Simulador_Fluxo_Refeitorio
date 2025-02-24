@@ -29,24 +29,28 @@ export class Turnstile {
         return Math.random() * 5;
     }
 
-    typeRegister(student: Student): void {
+    typeRegister(student: Student):boolean {
         if (this.getStudent() !== null) {
-            throw new Error("Não é possível registrar um novo aluno. Um aluno já está registrado.");
+            console.log("Sem alunos registrados na catraca.");
+            return false;
         }
         
-        this.setStudent(student);
+        this.student = student;
+        this.accessable = true;
         console.log(`Matrícula ${student.getRegister()} registrada.`);
-        this.setAccessable(true);
+        return true;
     }
 
-    removeStudent(): void {
-        if (this.getStudent() === null) {
+    removeStudent():Student{
+        const student = this.getStudent();
+        if (!student) {
             throw new Error("Não é possível remover um aluno. Nenhum aluno está registrado.");
         }
         
         console.log(`Aluno ${this.getStudent()?.getRegister()} removido da catraca.`);
         this.setStudent(null);
         this.setAccessable(false);
+        return student
     }
 
     isTurnstileAccessable():boolean{
