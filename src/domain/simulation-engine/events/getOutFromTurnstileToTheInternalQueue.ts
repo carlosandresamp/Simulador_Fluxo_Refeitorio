@@ -2,6 +2,8 @@ import { Event } from "./event";
 import { EventMachine } from "./eventMachine";
 import { Cafeteria } from "../system/cafeteria";
 import { FromServiceToTheTable } from "./fromServiceToTheTable";
+import { InternalQueue } from "../system/internalQueue";
+import { FromInternalQueueToTheService } from "./fromInternalQueueToTheService";
 export class getOutFromTurnstileToTheInternalQueue extends Event{
 
     constructor(timestamp: number,cafeteria: Cafeteria,machine: EventMachine) {
@@ -41,8 +43,7 @@ export class getOutFromTurnstileToTheInternalQueue extends Event{
             throw new Error("[ERRO] Tempo do próximo evento inválido.");
         }
         
-        this.machine.addEvent(new FromServiceToTheTable(nextEventTime, this.cafeteria, this.machine));
-        const newEvent = new
-
+        let newEvent = new FromInternalQueueToTheService(nextEventTime, this.cafeteria, this.machine);
+        this.machine.addEvent(newEvent);
     }
 }
