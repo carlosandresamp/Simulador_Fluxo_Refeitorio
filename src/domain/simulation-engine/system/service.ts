@@ -6,7 +6,7 @@ export class Service {
     private middleTimeService: number;
     private currentStudent: Student | null = null;
 
-    constructor(coWorkerRegister: string, coWorkerName: string, middleTimeService: number) {
+    constructor(coWorkerRegister?: string, coWorkerName?: string, middleTimeService?: number) {
         if (!coWorkerRegister) {
             throw new Error("O registro do funcionário não pode ser vazio.");
         }

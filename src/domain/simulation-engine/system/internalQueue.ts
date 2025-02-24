@@ -4,10 +4,12 @@ import { Student } from "./student";
 
 export class InternalQueue extends ExternalQueue {
   private maxCapacity: number;
+  private sizeQueue:number;
 
-  constructor(maxCapacity: number, studentQuantity?: Student[]) {
+  constructor(sizeQueue: number, studentQuantity?: Student[]) {
     super(studentQuantity);
-    this.maxCapacity = maxCapacity;
+    this.maxCapacity
+    this.sizeQueue = sizeQueue
   }
 
   getMaxCapacity(){
