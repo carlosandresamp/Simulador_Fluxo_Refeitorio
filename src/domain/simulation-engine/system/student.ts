@@ -45,4 +45,7 @@ export class Student{
         console.log(`O estudante levará aproximadamente ${typingTime.toFixed(2)} segundos para digitar a matrícula.`);
         return typingTime;
     }
+    public getMiddleTypingTime(): number {
+        return this.middleTypingTime;
+    }
 } 
