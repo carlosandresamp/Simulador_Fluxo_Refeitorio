@@ -6,6 +6,9 @@ import { Service } from "./service";
 import { InternalQueue } from "./internalQueue";
 
 export class Cafeteria {
+    hasAvailableTables() {
+        throw new Error("Method not implemented.");
+    }
     private _hall: Hall;
     private _service: Service;
     private _turnstile: Turnstile;
@@ -85,16 +88,31 @@ export class Cafeteria {
     }
 
     // Entrada do aluno na fila interna
-    public enterInternalQueue(): void {
+    public enterInternalQueue():boolean{
         console.log("O aluno entrou na fila interna.");
         const gettingstudent = this._turnstile.getStudent(); // Modifiquei chamando o método getStudent, pois o atributo estudante da classe catraca é privado
-      
+        const checkInternalQueueVacancy = this._internalQueue.isInternalQueueFull();
+
         if (!gettingstudent) {
-            throw new Error("Erro: Não há aluno na catraca para mover para a fila interna.");
+            console.log("Erro: Não há aluno na catraca para mover para a fila interna.");
+            return false;
+        }
+
+        if(checkInternalQueueVacancy){
+            console.log("Fila inteerna está cheia. Não é possível adicionar mais alunos.");
+            return false;
         }
       
         const studentRemoved = this._turnstile.removeStudent();
+
+        if(!studentRemoved){
+            console.log("Erro ao remover aluno da catraca");
+            return false;
+        }
         this._internalQueue.addStudent(studentRemoved);
+        console.log(`Aluno ${studentRemoved.getRegister()} entrou na fila interna.`);
+
+        return true;
     }
 
     // Atendimento do aluno com o aluno como parâmetro

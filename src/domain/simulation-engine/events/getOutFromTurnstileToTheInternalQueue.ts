@@ -1,8 +1,6 @@
 import { Event } from "./event";
 import { EventMachine } from "./eventMachine";
 import { Cafeteria } from "../system/cafeteria";
-import { FromServiceToTheTable } from "./fromServiceToTheTable";
-import { InternalQueue } from "../system/internalQueue";
 import { FromInternalQueueToTheService } from "./fromInternalQueueToTheService";
 export class getOutFromTurnstileToTheInternalQueue extends Event{
 
@@ -15,9 +13,7 @@ export class getOutFromTurnstileToTheInternalQueue extends Event{
         const student = this.cafeteria.getTurnstile().getStudent();
         const _isExternalQueueEmpty = this.cafeteria.getExternalQueue().emptyExternalQueue();
         const _isInternalQueueFull = this.cafeteria.getInternalQueue().isInternalQueueFull();
-        const enteringInternalQueue = this.cafeteria.enterInternalQueue();
         const turnstileAccessable = this.cafeteria.getTurnstile();
-        const turnstile = this.cafeteria.getTurnstile();
         
         if(!student){
             throw new Error("Erro: catraca não possui aluno.");
@@ -25,21 +21,25 @@ export class getOutFromTurnstileToTheInternalQueue extends Event{
     
         if (_isInternalQueueFull) {
             turnstileAccessable.setAccessable(false);
-            throw new Error("[ERRO] Fila interna cheia: espere esvaziar.");
+            console.log("[INFO] Fila interna cheia: evento aguardando espaço disponível.");
+            return;
         }
 
-        turnstile.removeStudent();
+        const _enterInternalQueue = this.cafeteria.enterInternalQueue();
+        if(!_enterInternalQueue){
+            console.log("[INFO] Aluno não pode entrar na fila interna");
+            return;
+        }
         
         if(!_isExternalQueueEmpty){
             turnstileAccessable.setAccessable(true);
         }
 
-        this.cafeteria.enterTurnstile();
-
         console.log(`Aluno ${student.getRegister()} entrou na fila interna`);
 
-        const nextEventTime = this.timestamp + 5;
-        if (nextEventTime <= this.timestamp) {
+        const registerTiming = this.cafeteria.getTurnstile().calculateRegisterTime();
+        const nextEventTime = this.timestamp + registerTiming;
+        if (nextEventTime < this.timestamp) {
             throw new Error("[ERRO] Tempo do próximo evento inválido.");
         }
         
