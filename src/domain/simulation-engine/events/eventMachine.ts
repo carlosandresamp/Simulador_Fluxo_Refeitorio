@@ -1,31 +1,53 @@
-import { Event} from "./event";
+import { Event } from "./event";
 import { Observer } from "../simulator/observer";
 
-export class EventMachine{
-    private events : Event[] = [];
+export class EventMachine {
+    private events: Event[] = [];
     private simulationInstant: number = 0;
-    private observer:Observer = new Observer();
+    private observer: Observer = new Observer();
+    private processedEvents: number = 0;
 
-    public processEvents():void {
-        while(this.events.length>0){
-        this.events = this.events.sort((event1,event2)=>event1.getTimestamp()-event2.getTimestamp());
-        const event = this.events.shift()!; 
-        event.processEvent(); 
-        this.updateSimulationIntant(event.getTimestamp());  
-    }
-    }
-    public addEvent(event:Event){
-        this.events.push(event);
+    public addEvent(event: Event): void {
+        // Inserir evento mantendo a ordem cronológica
+        const timestamp = event.getTimestamp();
+        const index = this.events.findIndex(e => e.getTimestamp() > timestamp);
+        if (index === -1) {
+            this.events.push(event);
+        } else {
+            this.events.splice(index, 0, event);
+        }
     }
 
-    public getObserver():Observer{
+    public processEvents(): void {
+        while (this.hasEvents()) {
+            const event = this.events.shift();
+            if (event) {
+                try {
+                    const timestamp = event.getTimestamp();
+                    if (timestamp < this.simulationInstant) {
+                        console.warn(`Evento ignorado: timestamp ${timestamp} menor que instante atual ${this.simulationInstant}`);
+                        continue;
+                    }
+                    this.simulationInstant = timestamp;
+                    event.processEvent();
+                    this.processedEvents++;
+                } catch (error) {
+                    console.error(`Erro ao processar evento: ${error}`);
+                    break;
+                }
+            }
+        }
+    }
+
+    public hasEvents(): boolean {
+        return this.events.length > 0;
+    }
+
+    public getProcessedEventsCount(): number {
+        return this.processedEvents;
+    }
+
+    public getObserver(): Observer {
         return this.observer;
-    }
-
-    private updateSimulationIntant(newInstant:number){
-       if(newInstant<this.simulationInstant) {
-            throw new Error('Você não pode voltar no tempo.');
-       }
-       this.simulationInstant = newInstant;
     }
 }

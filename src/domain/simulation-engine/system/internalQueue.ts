@@ -11,8 +11,8 @@ export class InternalQueue extends ExternalQueue {
 
   constructor(sizeQueue: number, studentQuantity?: Student[]) {
     super(studentQuantity);
-    this.maxCapacity
-    this.sizeQueue = sizeQueue
+    this.maxCapacity = sizeQueue;
+    this.sizeQueue = sizeQueue;
   }
 
   getMaxCapacity(){
@@ -50,7 +50,7 @@ export class InternalQueue extends ExternalQueue {
     setTimeout(() => {
       const toRemoveStudent = super.removeStudent();
       if (toRemoveStudent) {
-        console.log(`Aluno ${toRemoveStudent.getRegister()} saiu da Fila Interna para o atendimento.`);
+        console.log(`Aluno ${toRemoveStudent.getMatricula()} saiu da Fila Interna para o atendimento.`);
       }
     }, waitingTime * 1000);
 
@@ -65,7 +65,7 @@ export class InternalQueue extends ExternalQueue {
     return false;
   }
 
-  isInternalQueueFull():Boolean{
+  isInternalQueueFull(): boolean {
     if(this.studentQuantity.length >= this.maxCapacity){
       console.log("A fila interna excedeu sua capacidade máxima.");
       return true;
@@ -80,4 +80,41 @@ export class InternalQueue extends ExternalQueue {
     const scaledFactor = minFactor + variantionFactor * (maxFactor - minFactor);
     return this.middleWaitingTime * scaledFactor;
   }
+}
+
+export class FilaInterna {
+    private capacidadeMaxima: number;
+    private estudantes: Student[];
+
+    constructor(capacidadeMaxima: number) {
+        this.capacidadeMaxima = capacidadeMaxima;
+        this.estudantes = [];
+    }
+
+    adicionarEstudante(estudante: Student): void {
+        if (this.estudantes.length >= this.capacidadeMaxima) {
+            throw new Error("Capacidade máxima da fila interna atingida");
+        }
+        this.estudantes.push(estudante);
+        estudante.setStatus("IN_QUEUE");
+    }
+
+    removerAluno(): Student | null {
+        if (this.estudantes.length === 0) {
+            return null;
+        }
+        return this.estudantes.shift()!;
+    }
+
+    getCapacidadeMaxima(): number {
+        return this.capacidadeMaxima;
+    }
+
+    estaVazia(): boolean {
+        return this.estudantes.length === 0;
+    }
+
+    estaCheia(): boolean {
+        return this.estudantes.length >= this.capacidadeMaxima;
+    }
 }

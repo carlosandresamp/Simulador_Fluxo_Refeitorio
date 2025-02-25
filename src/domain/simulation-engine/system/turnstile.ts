@@ -45,7 +45,7 @@ export class Turnstile {
 
         this.student = student;
         this.accessable = true;
-        console.log(`Matrícula ${student.getRegister()} registrada.`);
+        console.log(`Matrícula ${student.getMatricula()} registrada.`);
         return true;
     }
 
@@ -55,7 +55,7 @@ export class Turnstile {
             throw new Error("Não é possível remover um aluno. Nenhum aluno está registrado.");
         }
 
-        console.log(`Aluno ${student.getRegister()} removido da catraca.`);
+        console.log(`Aluno ${student.getMatricula()} removido da catraca.`);
         this.setStudent(null);
         this.setAccessable(false);
         return student;
@@ -86,5 +86,35 @@ export class Turnstile {
     // Método para verificar se a catraca está bloqueada
     isTurnstileBlocked(): boolean {
         return this.isBlocked;
+    }
+}
+
+export class Catraca {
+    private liberado: boolean;
+    private estudante: Student | null;
+
+    constructor() {
+        this.liberado = false;
+        this.estudante = null;
+    }
+
+    digitarMatricula(estudante: Student): boolean {
+        if (this.estudante !== null) {
+            return false;
+        }
+        this.estudante = estudante;
+        this.liberado = true;
+        return true;
+    }
+
+    removerAluno(): Student | null {
+        const estudante = this.estudante;
+        this.estudante = null;
+        this.liberado = false;
+        return estudante;
+    }
+
+    estaLiberada(): boolean {
+        return this.liberado;
     }
 }

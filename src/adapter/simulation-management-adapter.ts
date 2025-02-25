@@ -3,10 +3,10 @@ import { SimulationRepositoryI } from "./interfaces/simulation-repository-interf
 import { SimulationManagementAdapterI } from "@/view/interfaces/simulation-management-adapter-interface";
 
 export class SimulationManagementAdapter implements SimulationManagementAdapterI {
-  private simulationRepository: SimulationRepositoryI;
+  private repository: SimulationRepositoryI;
 
-  constructor(simulationRepository: SimulationRepositoryI) {
-    this.simulationRepository = simulationRepository;
+  constructor(repository: SimulationRepositoryI) {
+    this.repository = repository;
   }
 
   /**
@@ -16,7 +16,7 @@ export class SimulationManagementAdapter implements SimulationManagementAdapterI
    */
   async createSimulation(simulation: Simulation): Promise<Simulation | undefined> {
 
-    await this.simulationRepository.save(simulation);
+    await this.repository.save(simulation);
     return simulation;
   }
 
@@ -25,15 +25,13 @@ export class SimulationManagementAdapter implements SimulationManagementAdapterI
    * @param simulation - A simulação a ser atualizada.
    * @returns Uma promessa que resolve para a simulação atualizada ou undefined em caso de falha.
    */
-  async updateSimulation(simulation: Simulation): Promise<Simulation | undefined> {
-    const existing = this.simulationRepository.getById(simulation.id);
-    if (!existing) {
-      throw new Error("Simulation not found");
+  async updateSimulation(simulation: Simulation): Promise<void> {
+    try {
+      await this.repository.updateSimulation(simulation);
+    } catch (error) {
+      console.error("Erro ao atualizar simulação:", error);
+      throw error;
     }
-
-    const updated = { ...existing, ...simulation };
-    await this.simulationRepository.save(updated);
-    return simulation;
   }
 
   /**
@@ -43,7 +41,7 @@ export class SimulationManagementAdapter implements SimulationManagementAdapterI
    */
   async deleteSimulation(id: string): Promise<boolean> {
     try {
-      this.simulationRepository.delete(id);
+      this.repository.delete(id);
       return true;
     } catch (e) {
       return false;
@@ -56,20 +54,30 @@ export class SimulationManagementAdapter implements SimulationManagementAdapterI
    * @returns Uma promessa que resolve para uma lista de todas as simulações.
    */
   getAllSimulations(): Promise<Simulation[]> {
-    return this.simulationRepository.getAll();
+    return this.repository.getAll();
   }
 
   /**
   * Obtém uma simulação pelo ID.
   * @param id - O ID da simulação a ser obtida.
-  * @returns Uma promessa que resolve para a simulação obtida ou undefined se não for encontrada.
+  * @returns Uma promessa que resolve para a simulação obtida ou null se não for encontrada.
   */
-  async getSimulation(id: string): Promise<Simulation | undefined> {
-    const sim = await this.simulationRepository.getById(id);
-    if (sim) {
-      return sim;
-    } else {
-      return undefined;
+  async getSimulation(id: string): Promise<Simulation | null> {
+    try {
+      const simulation = await this.repository.getById(id);
+      return simulation || null;
+    } catch (error) {
+      console.error("Erro ao obter simulação:", error);
+      return null;
+    }
+  }
+
+  getSimulationSync(id: string): Simulation | null {
+    try {
+      return this.repository.getByIdSync(id);
+    } catch (error) {
+      console.error("Erro ao obter simulação:", error);
+      return null;
     }
   }
 }

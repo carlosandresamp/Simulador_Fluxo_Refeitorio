@@ -8,7 +8,7 @@ export class FromServiceToTheTable extends Event {
         super(timestamp, cafeteria, machine);
     }
 
-    processEvent() {
+    processEvent(): void {
         console.log(`Evento - Do Atendimento Para a Mesa - ${this.timestamp}`);
 
         const service = this.cafeteria.getService();
@@ -16,22 +16,24 @@ export class FromServiceToTheTable extends Event {
         const currentStudent = service.getCurrentStudent();
 
         if (!currentStudent) {
-            console.log("Nenhum estudante está sendo atendido.");
-            return; 
+            console.log("Nenhum estudante em atendimento.");
+            return;
         }
 
         if (hall.hasAvailableTables()) {
-            
-            const mealTime = 10; 
+            const mealTime = 10; // Tempo padrão de refeição
             const instantFinishMeal = this.timestamp + mealTime;
-            setTimeout(() => {
-                this.cafeteria.finishMeal(currentStudent);
-                console.log(`${currentStudent.getRegister()} saiu da mesa para casa.`);
+            
+            if (hall.addStudent(currentStudent)) {
+                setTimeout(() => {
+                    this.cafeteria.finishMeal(currentStudent);
+                    console.log(`${currentStudent.getMatricula()} saiu da mesa para casa.`);
 
-                if (hall.hasAvailableTables()) {
-                    console.log("Atendimento desbloqueado.");
-                }
-            }, mealTime * 1000);
+                    if (hall.hasAvailableTables()) {
+                        console.log("Atendimento desbloqueado.");
+                    }
+                }, mealTime * 1000);
+            }
         } else {
             console.log("Não há mesas disponíveis para o aluno.");
         }

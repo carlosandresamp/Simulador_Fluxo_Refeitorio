@@ -9,7 +9,7 @@ export class FromInternalQueueToTheService extends Event {
         super(timestamp, cafeteria, machine);
     }
 
-    processEvent() {
+    processEvent(): void {
         console.log(`Evento - Fila Interna Para Atendimento - ${this.timestamp}`);
 
         const internalQueue = this.cafeteria.getInternalQueue();
@@ -28,8 +28,8 @@ export class FromInternalQueueToTheService extends Event {
                 return;
             }
 
-            studentInInternalQueue.setStatus("atendido");
-            console.log(`${studentInInternalQueue.getRegister()} está sendo atendido.`);
+            studentInInternalQueue.setStatus("IN_SERVICE");
+            console.log(`${studentInInternalQueue.getMatricula()} está sendo atendido.`);
 
             service.serveFood(studentInInternalQueue);
             

@@ -1,32 +1,58 @@
-import { Results } from "./results";
+import { SimulationResults } from "../../../domain/data-management/Entities/simulation-results";
+import { MetricOverTime, MetricOverTimeImpl } from "../../../domain/data-management/Entities/metric-over-time";
 
-
-export class Observer{
-    studentServedQuantity:number;
-    sumWaitingTime:number;
-    QueueSizes:number[];
-
-    constructor(){
-        this.studentServedQuantity=0;
-        this.sumWaitingTime=0;
-        this.QueueSizes=[];
+export class Observer {
+    private intertalQueueSizeOverTime: number[] = [];
+    private externalQueueSizeOverTime: number[] = [];
+    private tableOccupancyOverTime: number[] = [];
+    private waitTimes: number[] = [];
+    private simulationDuration: number = 0;
+    
+    noticeInternalQueueSize(size: number) {
+        this.intertalQueueSizeOverTime.push(Math.max(0, size));
+    }
+    
+    noticeExternalQueueSize(size: number) {
+        this.externalQueueSizeOverTime.push(Math.max(0, size));
+    }
+    
+    noticeTableOccupancy(occupancy: number) {
+        this.tableOccupancyOverTime.push(Math.max(0, occupancy));
+    }
+    
+    noticeWaitTime(time: number) {
+        this.waitTimes.push(time);
+    }
+    
+    setSimulationDuration(duration: number) {
+        this.simulationDuration = duration;
     }
 
-    noticeStudentServed(){
-        this.studentServedQuantity++;
+    private createMetrics(values: number[]): MetricOverTime[] {
+        return values.map((value, index) => new MetricOverTimeImpl(index, value));
     }
+    
+    private calculateAverage(numbers: number[]): number {
+        return numbers.length > 0 
+            ? numbers.reduce((a, b) => a + b) / numbers.length 
+            : 0;
+    }
+    
+    computeResults(): SimulationResults {
+        const maxTableOccupancy = this.tableOccupancyOverTime.length > 0 
+            ? Math.max(...this.tableOccupancyOverTime)
+            : 0;
 
-    noticeWaitingTime(waitinTime:number){
-        this.sumWaitingTime = this.sumWaitingTime + waitinTime;
+        return new SimulationResults(
+            this.createMetrics(this.intertalQueueSizeOverTime),
+            this.createMetrics(this.externalQueueSizeOverTime),
+            this.createMetrics(this.tableOccupancyOverTime),
+            this.calculateAverage(this.waitTimes),
+            this.calculateAverage(this.externalQueueSizeOverTime),
+            this.calculateAverage(this.intertalQueueSizeOverTime),
+            maxTableOccupancy,
+            this.simulationDuration,
+            this.simulationDuration
+        );
     }
-
-    noticeQueueSize(size:number){
-        this.QueueSizes.push(size);
-    }
-
-    public computeResults():Results{
-        const _middleTimeWaiting = this.sumWaitingTime / this.studentServedQuantity;
-        const _queueSize = this.QueueSizes.reduce((a, b)=>a+b) / this.QueueSizes.length;
-        return new Results(this.studentServedQuantity, _middleTimeWaiting, _queueSize);
-    }
-}
+} 

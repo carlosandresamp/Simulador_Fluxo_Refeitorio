@@ -1,6 +1,7 @@
 import { SimulatorI } from "@/adapter/interfaces/simulator-interface";
 import { Simulation } from "../data-management/Entities/simulation";
-import { MetricOverTime, SimulationResults } from "../data-management/Entities/simulation-results";
+import { SimulationResults } from "../data-management/Entities/simulation-results";
+import { MetricOverTimeImpl } from "../data-management/Entities/metric-over-time";
 
 /**
  * Classe de simulação fictícia para testes. Este simulador gera resultados aleatórios.
@@ -89,12 +90,12 @@ export class MockSimulator implements SimulatorI {
     duration: number,
     min: number,
     max: number
-  ): MetricOverTime[] {
-    const data: MetricOverTime[] = [];
+  ): MetricOverTimeImpl[] {
+    const data: MetricOverTimeImpl[] = [];
     const steps = 10;
     
     for (let i = 0; i <= steps; i++) {
-      data.push(new MetricOverTime((duration / steps) * i, this.randomBetween(min, max)));
+      data.push(new MetricOverTimeImpl((duration / steps) * i, this.randomBetween(min, max)));
     }
     return data;
   }
@@ -125,5 +126,11 @@ export class MockSimulator implements SimulatorI {
       window.clearInterval(this.intervalId);
       this.intervalId = undefined;
     }
+  }
+
+  private generateRandomMetrics(count: number): MetricOverTimeImpl[] {
+    return Array.from({ length: count }, (_, i) => 
+      new MetricOverTimeImpl(i, Math.floor(Math.random() * 100))
+    );
   }
 }

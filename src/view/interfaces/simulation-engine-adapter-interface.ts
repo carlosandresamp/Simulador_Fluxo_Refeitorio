@@ -17,4 +17,8 @@ export interface SimulationEngineAdapterI {
     onProgressUpdate: (progress: number) => void,
     onError: (error: Error) => void
   ): () => void;
+
+  getSimulationResults(simulationId: string): SimulationResults | null;
+
+  canViewResults(simulationId: string): boolean;
 }

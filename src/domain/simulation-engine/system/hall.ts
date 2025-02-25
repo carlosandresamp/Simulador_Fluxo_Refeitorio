@@ -1,94 +1,70 @@
 import { Student } from "./student";
 import { GaussianRandom } from "../util/random-generators";
+import { Observer } from "../simulator/observer";
 
-
-export class Hall{
-    private capacityByStudent: Student[] = [];
-    private occupiedCapacity: number = 0;
+export class Hall {
+    private capacity: number;
+    private occupiedSeats: number = 0;
     private occupationTime: number;
     private maxHallCapacity: number;
-    private middleOccupationTime:number;
-    private randomGenerator: GaussianRandom
+    private randomGenerator: GaussianRandom;
+    private observer: Observer;
 
-    constructor(){
-        if (this.maxHallCapacity <= 0) {
-            throw new Error("A capacidade máxima do salão deve ser maior que zero.");
-        }
-        if (this.middleOccupationTime <= 0) {
-            throw new Error("O tempo médio de permanência deve ser maior que zero.");
-        }
-
-        this.randomGenerator = new GaussianRandom()
+    constructor(capacity: number, observer: Observer) {
+        this.capacity = capacity;
+        this.maxHallCapacity = capacity;
+        this.occupationTime = 0;
+        this.randomGenerator = new GaussianRandom();
+        this.observer = observer;
     }
 
     getMaxHallCapacity(): number {
         return this.maxHallCapacity;
     }
 
-    setMaxHallCapacity(maxHallCapacity:number){
-        return this.maxHallCapacity = maxHallCapacity;
+    setMaxHallCapacity(maxHallCapacity: number): void {
+        if (maxHallCapacity <= 0) {
+            throw new Error("A capacidade máxima do salão deve ser maior que zero");
+        }
+        this.maxHallCapacity = maxHallCapacity;
     }
 
     getOccupiedCapacity(): number {
-        return this.occupiedCapacity;
+        return this.occupiedSeats;
     }
 
-    setOccupiedCapacity(occupiedCapacity:number){
-        return this.occupiedCapacity = occupiedCapacity;
+    setOccupationTime(time: number): void {
+        if (time <= 0) {
+            throw new Error("O tempo de ocupação deve ser maior que zero");
+        }
+        this.occupationTime = time;
     }
 
-    getCapacityByStudents():Array<Student> {
-        return this.capacityByStudent;
-    }
-
-    setCapacityByStudent(capacityByStudent:Array<Student>){
-        return this.capacityByStudent = capacityByStudent;
-    }
-
-    getOccupationTime():number{
-        return this.occupationTime;
-    }
-    setOccupationTime(timing:number):void{
-        if(timing <= 0) throw new Error("O tempo de ocupação deve ser maior que zero");
-        this.occupationTime = timing;
-    }
-
-    addStudent(student:Student): boolean{
-        if(this.occupiedCapacity < this.maxHallCapacity){
-            this.occupiedCapacity++;
-            this.capacityByStudent.push(student);
-            setTimeout(() => this.removeStudent(student), this.occupationTime);
+    addStudent(student: Student): boolean {
+        if (this.occupiedSeats < this.capacity) {
+            this.occupiedSeats++;
+            this.observer.noticeTableOccupancy(this.occupiedSeats);
             return true;
         }
         return false;
     }
-    removeStudent(student:Student): void{
-        const index = this.capacityByStudent.indexOf(student);
-        if(index !== -1){
-            this.capacityByStudent.splice(index, 1);
-            this.occupiedCapacity--;
+
+    removeStudent(student: Student): void {
+        if (this.occupiedSeats > 0) {
+            this.occupiedSeats--;
+            this.observer.noticeTableOccupancy(this.occupiedSeats);
         }
     }
 
     hasAvailableTables(): boolean {
-        return this.occupiedCapacity < this.maxHallCapacity;
-    }
-
-    seatStudent(student: Student): boolean {
-        if (this.hasAvailableTables()) {
-            return this.addStudent(student);
-        }
-        return false;
+        return this.occupiedSeats < this.maxHallCapacity;
     }
 
     calculateOccupationTime(): number {
-        const variationFactor = this.randomGenerator.next(); // Valor entre 0 e 1
-        const minFactor = 0.8; // Redução máxima de 20%
-        const maxFactor = 1.2; // Aumento máximo de 20%
+        const variationFactor = this.randomGenerator.next();
+        const minFactor = 0.8;
+        const maxFactor = 1.2;
         const scaledFactor = minFactor + variationFactor * (maxFactor - minFactor);
-
-        const occupationTime = this.middleOccupationTime * scaledFactor;
-        console.log(`Tempo estimado de permanência: ${occupationTime.toFixed(2)} segundos.`);
-        return occupationTime;      
+        return this.occupationTime * scaledFactor;
     }
 }

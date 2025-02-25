@@ -5,47 +5,48 @@ import { SmileIcon } from "lucide-react";
 import { resolve } from "path";
 
 export class SimulationRepositoryMock implements SimulationRepositoryI {
+  private simulations: Map<string, Simulation> = new Map();
+
   //Chave primária para acesso ao localeStorage
   private localeStorageKey:string = "simulation";
 
   async save(simulation: Simulation): Promise<void> {
-    // Simula sucesso sem armazenar
+    // Garantir que a simulação tenha um ID
     if (!simulation.id) {
-      simulation.id = "mock-id" + Date.now();
+      simulation.id = "mock-id-" + Date.now();
     }
-
-    let gettinSimulations: Simulation[] = this.getAllFromLocaleStorage();
-    let listSimulationsFounded: boolean = false;
-
-    for (let i = 0; i < gettinSimulations.length; i++) {
-      if (gettinSimulations[i].id === simulation.id) {
-        gettinSimulations[i] = simulation;
-        listSimulationsFounded = true;
-        break; // Sai do loop após encontrar a simulação
-      }
+    
+    // Salvar tanto no Map quanto no localStorage
+    this.simulations.set(simulation.id, {...simulation});
+    
+    let simulations = this.getAllFromLocaleStorage();
+    const index = simulations.findIndex(s => s.id === simulation.id);
+    if (index >= 0) {
+      simulations[index] = simulation;
+    } else {
+      simulations.push(simulation);
     }
-
-    if (!listSimulationsFounded) {
-      gettinSimulations.push(simulation);
-      console.log("Simulação salva com sucesso");
-    }
-
-    this.savingLocaleStorage(gettinSimulations);
+    
+    this.savingLocaleStorage(simulations);
     return Promise.resolve();
-
   }
 
   async getById(id: string): Promise<Simulation | null> {
-    
-    let gettingSimulations:Simulation[] = this.getAllFromLocaleStorage();
-    let searchingSimulationById:number = gettingSimulations.findIndex(Simulation => Simulation.id == id)
-    let indexFound:number = searchingSimulationById;
-
-    if(indexFound != -1){
-      return gettingSimulations[indexFound];
-    }else{
-      return null;
+    // Tentar obter do Map primeiro
+    const simulation = this.simulations.get(id);
+    if (simulation) {
+      return simulation;
     }
+    
+    // Se não encontrar no Map, procurar no localStorage
+    const simulations = this.getAllFromLocaleStorage();
+    const found = simulations.find(s => s.id === id);
+    if (found) {
+      this.simulations.set(id, found); // Atualizar o Map
+      return found;
+    }
+    
+    return null;
   }
 
   async getAll(): Promise<Simulation[]> {
@@ -75,6 +76,26 @@ export class SimulationRepositoryMock implements SimulationRepositoryI {
     return Promise.resolve();
   }
 
+  async updateSimulation(simulation: Simulation): Promise<void> {
+    // Verificar se existe no Map ou no localStorage
+    const exists = await this.getById(simulation.id);
+    if (!exists) {
+      throw new Error("Simulation not found");
+    }
+
+    // Atualizar em ambos os lugares
+    this.simulations.set(simulation.id, {...simulation});
+    
+    let simulations = this.getAllFromLocaleStorage();
+    const index = simulations.findIndex(s => s.id === simulation.id);
+    if (index >= 0) {
+      simulations[index] = simulation;
+      this.savingLocaleStorage(simulations);
+    }
+    
+    return Promise.resolve();
+  }
+
   // Opcional: método para verificar se as funções foram chamadas
   _getCallLog(): string[] {
     return [];
@@ -93,6 +114,24 @@ export class SimulationRepositoryMock implements SimulationRepositoryI {
     }else{
       return [];
     }
+  }
+
+  getByIdSync(id: string): Simulation | null {
+    // Tentar obter do Map primeiro
+    const simulation = this.simulations.get(id);
+    if (simulation) {
+      return simulation;
+    }
+    
+    // Se não encontrar no Map, procurar no localStorage
+    const simulations = this.getAllFromLocaleStorage();
+    const found = simulations.find(s => s.id === id);
+    if (found) {
+      this.simulations.set(id, found); // Atualizar o Map
+      return found;
+    }
+    
+    return null;
   }
 }
 

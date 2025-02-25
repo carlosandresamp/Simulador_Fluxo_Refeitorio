@@ -1,29 +1,23 @@
 import { Simulation } from "../data-management/Entities/simulation";
-import { SimulatorI } from "./simulator-interface";
+import { SimulatorI } from "../../adapter/interfaces/simulator-interface";
 import { Cafeteria } from "./system/cafeteria";
 import { Student } from "./system/student";
 import { EventMachine } from "./events/eventMachine";
-import { FromExternalQueueToTurnstile } from "./events/fromExternalQueueToTurnstile";
-import { SimulationResults, MetricOverTime } from "../data-management/Entities/simulation-results";
+import { StudentArrivingToTheExternalQueue } from "./events/studentArrivingToTheExternalQueue";
+import { SimulationResults } from "../data-management/Entities/simulation-results";
+import { GaussianRandom } from "../utils/random-generators";
+import { Observer } from "./simulator/observer";
+import { MetricOverTimeImpl } from "../data-management/Entities/metric-over-time";
 
 export class RealSimulator implements SimulatorI {
     private cafeteria: Cafeteria;
     private eventMachine: EventMachine;
+    private observer: Observer;
     private isRunning: boolean = false;
-    private results: SimulationResults = new SimulationResults(
-        [], // intertalQueueSizeOverTime
-        [], // externalQueueSizeOverTime
-        [], // tableOccupancyOverTime
-        0,  // averageWaitTime
-        0,  // avgExternalQueue
-        0,  // avgInternalQueue
-        0,  // maxTableOccupancy
-        0,  // simulationDuration
-        0   // simulationDurationReal
-    );
 
     constructor() {
-        this.cafeteria = new Cafeteria(20); // Tamanho padrão da fila interna
+        this.observer = new Observer();
+        this.cafeteria = new Cafeteria(20, this.observer);
         this.eventMachine = new EventMachine();
     }
 
@@ -36,54 +30,49 @@ export class RealSimulator implements SimulatorI {
             const startTime = Date.now();
             this.isRunning = true;
             const params = simulation.parameters;
-            
-            // Validar parâmetros
-            if (params.studentCount <= 0 || 
-                params.serviceInterval <= 0 || 
-                params.registrationTime <= 0 || 
-                params.servingTime <= 0 || 
-                params.tableTime <= 0 || 
-                params.internalQueueLimit <= 0 || 
-                params.tableLimit <= 0) {
-                throw new Error("Parâmetros inválidos");
-            }
-            
-            const totalDuration = 5000; // 5 segundos
-            const updateInterval = 200; // Atualiza a cada 200ms
-            let currentTime = 0;
-            let lastProcessedCount = 0;
 
-            // Resetar estado
-            this.eventMachine = new EventMachine();
-            this.cafeteria = new Cafeteria(params.internalQueueLimit);
-            
-            console.clear();
-            console.log("=== Iniciando Simulação ===\n");
-            
             // Configurar cafeteria
+            this.cafeteria = new Cafeteria(params.internalQueueLimit, this.observer);
             this.cafeteria.getHall().setMaxHallCapacity(params.tableLimit);
             this.cafeteria.getService().middleTimeService = params.servingTime;
-            this.cafeteria.getHall().setOccupationTime(params.tableTime);
 
-            // ... resto do código igual ...
-
-            // Atualizar métricas
-            const collectMetrics = () => {
-                this.results.externalQueueSizeOverTime.push(
-                    new MetricOverTime(currentTime, this.cafeteria.getExternalQueue().studentQuantity.length)
+            // Gerar eventos de chegada dos estudantes em ordem cronológica
+            let currentTime = 0;
+            for (let i = 0; i < params.studentCount; i++) {
+                const student = new Student(`${i + 1}`, params.registrationTime);
+                
+                // Usar currentTime para garantir ordem cronológica
+                const event = new StudentArrivingToTheExternalQueue(
+                    currentTime,
+                    this.cafeteria,
+                    this.eventMachine,
+                    student,
+                    new GaussianRandom()
                 );
                 
-                this.results.intertalQueueSizeOverTime.push(
-                    new MetricOverTime(currentTime, this.cafeteria.getInternalQueue().studentQuantity.length)
-                );
-                
-                this.results.tableOccupancyOverTime.push(
-                    new MetricOverTime(currentTime, this.cafeteria.getHall().getOccupiedCapacity())
-                );
+                this.eventMachine.addEvent(event);
+                // Incrementar o tempo para o próximo evento
+                currentTime += params.serviceInterval;
+            }
+
+            // Processar eventos
+            while (this.eventMachine.hasEvents() && this.isRunning) {
+                this.eventMachine.processEvents();
+                const progress = (this.eventMachine.getProcessedEventsCount() / params.studentCount) * 100;
+                onProgressUpdate(Math.min(progress, 100));
+            }
+
+            if (this.isRunning) {
+                const endTime = Date.now();
+                this.observer.setSimulationDuration(endTime - startTime);
+                simulation.results = this.observer.computeResults();
+                simulation.status = "completed";
+                onProgressUpdate(100);
+            }
+
+            return () => {
+                this.isRunning = false;
             };
-
-            // ... resto do código igual ...
-
         } catch (error) {
             console.error("Erro na simulação:", error);
             onError(error as Error);
