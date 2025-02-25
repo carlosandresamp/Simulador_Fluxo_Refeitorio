@@ -40,4 +40,4 @@ export class StudentArrivingToTheExternalQueue extends Event {
            const newEvent = new StudentArrivingToTheExternalQueue(this.timestamp, this.cafeteria, this.machine, newStudent, this.randomGenerator);
            this.machine.addEvent(newEvent);
     }
-
+}

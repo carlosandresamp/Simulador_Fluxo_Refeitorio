@@ -10,20 +10,7 @@ export class Service {
     public middleTimeService: number;
     private isServiceBlocked: boolean = false; 
 
-    constructor(coWorkerRegister?: string, coWorkerName?: string, middleTimeService?: number) {
-        if (!coWorkerRegister) {
-            throw new Error("O registro do funcionário não pode ser vazio.");
-        }
-        if (!coWorkerName) {
-            throw new Error("O nome do funcionário não pode ser vazio.");
-        }
-        if (middleTimeService <= 0) {
-            throw new Error("O tempo médio de serviço deve ser um número positivo.");
-        }
-
-        this.coWorkerRegister = coWorkerRegister;
-        this.coWorkerName = coWorkerName;
-        this.middleTimeService = middleTimeService;
+    constructor() {
         this.randomGenerator = new GaussianRandom();
     }
 
