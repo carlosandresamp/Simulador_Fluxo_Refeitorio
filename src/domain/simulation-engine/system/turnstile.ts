@@ -15,7 +15,7 @@ export class Turnstile {
         return this.accessable;
     }
 
-    setAccessable(value: boolean) {
+    setAccessable(value: boolean): void {
         this.accessable = value;
     }
 
@@ -39,7 +39,7 @@ export class Turnstile {
         }
 
         if (this.getStudent() !== null) {
-            console.log("Sem alunos registrados na catraca.");
+            console.log("Já existe um aluno registrado na catraca.");
             return false;
         }
 
@@ -55,18 +55,20 @@ export class Turnstile {
             throw new Error("Não é possível remover um aluno. Nenhum aluno está registrado.");
         }
 
-        console.log(`Aluno ${this.getStudent()?.getRegister()} removido da catraca.`);
+        console.log(`Aluno ${student.getRegister()} removido da catraca.`);
         this.setStudent(null);
         this.setAccessable(false);
         return student;
     }
 
     isTurnstileAccessable(): boolean {
-        if (this.getAccessable()) {
+        const isAccessible = this.getAccessable() && !this.isBlocked;
+        if (isAccessible) {
             console.log("Catraca Disponível para uso.");
-            return true;
+        } else {
+            console.log("Catraca Indisponível.");
         }
-        return false;
+        return isAccessible;
     }
 
     // Método para bloquear a catraca
