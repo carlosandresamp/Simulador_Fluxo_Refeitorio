@@ -11,9 +11,7 @@ import { SimulationManagementAdapterI } from "./view/interfaces/simulation-manag
 //injeção de dependências
 console.log("Injeção de dependências");
 const repository : SimulationRepositoryI = new SimulationRepositoryMock();
-const simulator : SimulatorI = new MockSimulator(
-  
-);
+const simulator : SimulatorI = new SystemSimulator();
 const management : SimulationManagementAdapterI = new SimulationManagementAdapter(repository);
 const engine : SimulationEngineAdapterI = new SimulationEngineAdapter(simulator,management);
 

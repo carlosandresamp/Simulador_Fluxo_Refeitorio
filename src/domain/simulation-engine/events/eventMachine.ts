@@ -18,9 +18,9 @@ export class EventMachine{
         this.events.push(event);
     }
 
-    public getObserver():Observer{
-        return this.observer;
-    }
+    // public getObserver():Observer{
+    //     return this.observer;
+    // }
 
     private updateSimulationIntant(newInstant:number){
        if(newInstant<this.simulationInstant) {

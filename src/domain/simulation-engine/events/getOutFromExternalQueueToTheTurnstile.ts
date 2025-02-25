@@ -17,6 +17,7 @@ export class GetOutFromExternalQueueToTheTurnstile extends Event{
         let somebodyOnExternalQueue= this.cafeteria.getExternalQueue().emptyExternalQueue();
         let internalQueue = this.cafeteria.getInternalQueue().isInternalQueueFull();
         let TurnstileAccessible = this.cafeteria.getTurnstile().isTurnstileAccessable();
+        let enteringToTheTurnstile = this.cafeteria.enterTurnstile();
 
         if(!somebodyOnExternalQueue){
             console.log("Nenhum aluno na fila externa. Evento encerrado.");
@@ -48,4 +49,8 @@ export class GetOutFromExternalQueueToTheTurnstile extends Event{
         const newEvent = new getOutFromTurnstileToTheInternalQueue(instantCompletion, this.cafeteria, this.machine);
         this.machine.addEvent(newEvent);
     }
+
+    //if(enteringToTheTurnstile){
+    //    this.machine.getObserver()
+    //}
 }
