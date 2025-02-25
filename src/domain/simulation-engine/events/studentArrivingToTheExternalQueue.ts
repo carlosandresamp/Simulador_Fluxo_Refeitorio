@@ -1,19 +1,29 @@
-import { Student } from "../system/student";
+import { Cafeteria } from "../system/cafeteria";
 import { Event } from "./event";
 import { EventMachine } from "./eventMachine";
-import { Cafeteria } from "../system/cafeteria";
-import { GetOutFromExternalQueueToTheTurnstile } from "./getOutFromExternalQueueToTheTurnstile";
-import { RandomGeneratorI } from "../util/random-generators"; // Importa a interface das distribuições
+import { Student } from "../system/student";
+import { RandomGeneratorI } from "../util/random-generators";
 import { FromExternalQueueToTurnstile } from "./fromExternalQueueToTurnstile";
 
-export class StudentArrivingToTheExternalQueue extends Event {
+export class StudentArrivingToTheExternalQueue implements Event {
+    private timestamp: number;
+    private cafeteria: Cafeteria;
+    private machine: EventMachine;
     private student: Student;
-    private randomGenerator: RandomGeneratorI; // Adiciona o gerador aleatório
+    private randomGenerator: RandomGeneratorI;
 
-    constructor(timestamp: number, cafeteria: Cafeteria, machine: EventMachine, student: Student, randomGenerator: RandomGeneratorI) {
-        super(timestamp, cafeteria, machine);
+    constructor(
+        timestamp: number,
+        cafeteria: Cafeteria,
+        machine: EventMachine,
+        student: Student,
+        randomGenerator: RandomGeneratorI
+    ) {
+        this.timestamp = timestamp;
+        this.cafeteria = cafeteria;
+        this.machine = machine;
         this.student = student;
-        this.randomGenerator = randomGenerator; // Inicializa com o gerador selecionado
+        this.randomGenerator = randomGenerator;
     }
 
     processEvent(): void {
@@ -21,13 +31,21 @@ export class StudentArrivingToTheExternalQueue extends Event {
         
         this.cafeteria.addStudentToExternalQueue(this.student);
         
-        // Agenda o próximo evento para mover o estudante para a catraca
-        const nextEventTime = this.timestamp + 1; // 1 segundo de espera
+        // Criar próximo evento para este estudante
+        const registrationTime = this.student.getRegistrationTime();
+        const nextEventTime = this.timestamp + registrationTime;
+        
         const nextEvent = new FromExternalQueueToTurnstile(
             nextEventTime,
             this.cafeteria,
-            this.machine
+            this.machine,
+            this.randomGenerator
         );
+        
         this.machine.addEvent(nextEvent);
+    }
+
+    getTimestamp(): number {
+        return this.timestamp;
     }
 }

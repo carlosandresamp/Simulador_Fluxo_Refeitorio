@@ -4,7 +4,7 @@ import { Cafeteria } from "../system/cafeteria";
 import { EventMachine } from "../events/eventMachine";
 import { Student } from "../system/student";
 import { StudentArrivingToTheExternalQueue } from "../events/studentArrivingToTheExternalQueue";
-import { ExponentialRandom, RandomGeneratorI } from "../util/random-generators";
+import { GaussianRandom, RandomGeneratorI } from "../util/random-generators";
 import { Observer } from "./observer";
 
 export class Simulator {
@@ -13,27 +13,44 @@ export class Simulator {
     private simulation: Simulation;
     private randomGenerator: RandomGeneratorI;
     private observer: Observer;
+    private onProgressUpdate: (progress: number) => void;
+    private onError: (error: Error) => void;
 
-    constructor(simulation: Simulation) {
+    constructor(
+        simulation: Simulation,
+        onProgressUpdate: (progress: number) => void,
+        onError: (error: Error) => void
+    ) {
         this.simulation = simulation;
         this.observer = new Observer();
         this.cafeteria = new Cafeteria(
             simulation.parameters.internalQueueLimit,
-            this.observer
+            this.observer,
+            simulation.parameters.registrationTime
         );
-        this.machine = new EventMachine();
-        this.randomGenerator = new ExponentialRandom(simulation.parameters.serviceInterval);
+        this.machine = new EventMachine(this.observer);
+        this.randomGenerator = new GaussianRandom();
+        this.onProgressUpdate = onProgressUpdate;
+        this.onError = onError;
+        
+        // Configurar cafeteria com os parâmetros da simulação
+        this.cafeteria.getHall().setMaxHallCapacity(simulation.parameters.tableLimit);
+        this.cafeteria.getService().middleTimeService = simulation.parameters.servingTime;
+        
         this.configureStudentArriving();
     }
 
     private configureStudentArriving() {
+        let currentTime = 0;
         for(let i = 0; i < this.simulation.parameters.studentCount; i++) {
-            const servingTime = Math.random() * 2 * this.simulation.parameters.servingTime;
-            const student = new Student(`${i + 1}`, servingTime);
-            const arrivingInstant = Math.random() * this.simulation.parameters.serviceInterval;
+            const student = new Student(
+                `${i + 1}`, 
+                this.simulation.parameters.registrationTime,
+                this.simulation.parameters.registrationTime // middleTypingTime
+            );
             
             const arrivingEvent = new StudentArrivingToTheExternalQueue(
-                arrivingInstant, 
+                currentTime, 
                 this.cafeteria, 
                 this.machine, 
                 student,
@@ -41,14 +58,25 @@ export class Simulator {
             );
             
             this.machine.addEvent(arrivingEvent);
+            currentTime += this.simulation.parameters.serviceInterval;
         }
     }
 
     public executeSimulation() {
-        const startTime = Date.now();
-        this.machine.processEvents();
-        const endTime = Date.now();
-        this.observer.setSimulationDuration(endTime - startTime);
+        try {
+            const startTime = Date.now();
+            
+            while (this.machine.hasEvents()) {
+                this.machine.processEvents();
+                const progress = (this.machine.getProcessedEventsCount() / this.simulation.parameters.studentCount) * 100;
+                this.onProgressUpdate(Math.min(progress, 100));
+            }
+            
+            const endTime = Date.now();
+            this.observer.setSimulationDuration(endTime - startTime);
+        } catch (error) {
+            this.onError(error as Error);
+        }
     }
 
     public getResults(): SimulationResults {

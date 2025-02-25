@@ -18,7 +18,7 @@ export class RealSimulator implements SimulatorI {
     constructor() {
         this.observer = new Observer();
         this.cafeteria = new Cafeteria(20, this.observer);
-        this.eventMachine = new EventMachine();
+        this.eventMachine = new EventMachine(this.observer);
     }
 
     startSimulation(
@@ -31,7 +31,7 @@ export class RealSimulator implements SimulatorI {
             this.isRunning = true;
             const params = simulation.parameters;
 
-            // Configurar cafeteria
+            // Configurar cafeteria com os parâmetros da simulação
             this.cafeteria = new Cafeteria(params.internalQueueLimit, this.observer);
             this.cafeteria.getHall().setMaxHallCapacity(params.tableLimit);
             this.cafeteria.getService().middleTimeService = params.servingTime;
@@ -39,9 +39,12 @@ export class RealSimulator implements SimulatorI {
             // Gerar eventos de chegada dos estudantes em ordem cronológica
             let currentTime = 0;
             for (let i = 0; i < params.studentCount; i++) {
-                const student = new Student(`${i + 1}`, params.registrationTime);
+                const student = new Student(
+                    `${i + 1}`, 
+                    params.registrationTime,
+                    params.registrationTime  // middleTypingTime é o mesmo que registrationTime
+                );
                 
-                // Usar currentTime para garantir ordem cronológica
                 const event = new StudentArrivingToTheExternalQueue(
                     currentTime,
                     this.cafeteria,
@@ -51,7 +54,6 @@ export class RealSimulator implements SimulatorI {
                 );
                 
                 this.eventMachine.addEvent(event);
-                // Incrementar o tempo para o próximo evento
                 currentTime += params.serviceInterval;
             }
 

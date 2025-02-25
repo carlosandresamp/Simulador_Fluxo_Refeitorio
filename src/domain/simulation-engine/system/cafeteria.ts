@@ -7,74 +7,95 @@ import { Hall } from "./hall";
 import { Observer } from "../simulator/observer";
 
 export class Cafeteria {
-    private _externalQueue: ExternalQueue;
-    private _internalQueue: InternalQueue;
-    private _service: Service;
-    private _turnstile: Turnstile;
-    private _hall: Hall;
+    private filaExterna: ExternalQueue;
+    private filaInterna: InternalQueue;
+    private atendimento: Service;
+    private catraca: Turnstile;
+    private salao: Hall;
 
-    constructor(
-        private internalQueueLimit: number,
-        private observer: Observer
-    ) {
-        this._externalQueue = new ExternalQueue();
-        this._internalQueue = new InternalQueue(internalQueueLimit);
-        this._service = new Service();
-        this._turnstile = new Turnstile();
-        this._hall = new Hall(20, observer);
+    constructor(capacidadeFilaInterna: number, observer: Observer) {
+        this.filaExterna = new ExternalQueue();
+        this.filaInterna = new InternalQueue(capacidadeFilaInterna);
+        this.atendimento = new Service();
+        this.catraca = new Turnstile();
+        this.salao = new Hall(20, observer);
+    }
+
+    chegadaDeAluno(): void {
+        // Implementar lógica de chegada
+    }
+
+    entradaAlunoCatraca(): void {
+        // Implementar lógica da catraca
+    }
+
+    entradaAlunoFilaInterna(): void {
+        // Implementar lógica da fila interna
+    }
+
+    atendimentoAluno(): void {
+        // Implementar lógica de atendimento
+    }
+
+    ocupacaoMesa(estudante: Student): void {
+        // Implementar lógica de ocupação
+    }
+
+    saidaRefeitorio(): void {
+        // Implementar lógica de saída
     }
 
     // Getters
     getExternalQueue(): ExternalQueue {
-        return this._externalQueue;
+        return this.filaExterna;
     }
 
     getInternalQueue(): InternalQueue {
-        return this._internalQueue;
+        return this.filaInterna;
     }
 
     getService(): Service {
-        return this._service;
+        return this.atendimento;
     }
 
     getTurnstile(): Turnstile {
-        return this._turnstile;
+        return this.catraca;
     }
 
     getHall(): Hall {
-        return this._hall;
+        return this.salao;
     }
 
     // Métodos de negócio
     public addStudentToExternalQueue(student: Student): void {
-        this._externalQueue.addStudent(student);
+        this.filaExterna.addStudent(student);
     }
 
     public moveStudentToTurnstile(): boolean {
-        if (this._externalQueue.emptyExternalQueue()) {
+        if (this.filaExterna.emptyExternalQueue()) {
             return false;
         }
 
-        const student = this._externalQueue.removeStudent();
-        return this._turnstile.typeRegister(student);
+        const student = this.filaExterna.removeStudent();
+        return this.catraca.typeRegister(student);
     }
 
     public moveStudentToInternalQueue(): boolean {
-        if (!this._turnstile.getStudent()) {
+        if (!this.catraca.getStudent()) {
             return false;
         }
 
-        const student = this._turnstile.removeStudent();
-        this._internalQueue.addStudent(student);
+        const student = this.catraca.removeStudent();
+        this.filaInterna.addStudent(student);
         return true;
     }
 
     public serveStudent(student: Student): void {
-        this._service.serveFood(student);
+        this.atendimento.serveFood(student);
     }
 
-    public finishMeal(student: Student): void {
-        this._hall.removeStudent(student);
+    public finishMeal(student: Student, timestamp: number): void {
+        this.salao.removerAluno(student, timestamp);
         student.setStatus("LEAVING");
     }
 }

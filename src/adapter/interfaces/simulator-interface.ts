@@ -1,4 +1,4 @@
-import { Simulation } from "@/domain/data-management/Entities/simulation";
+import { Simulation } from "../../domain/data-management/Entities/simulation";
 
 /**
  * Interface para o simulador.

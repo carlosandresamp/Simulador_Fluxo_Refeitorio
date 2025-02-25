@@ -4,8 +4,12 @@ import { Observer } from "../simulator/observer";
 export class EventMachine {
     private events: Event[] = [];
     private simulationInstant: number = 0;
-    private observer: Observer = new Observer();
+    private observer: Observer;
     private processedEvents: number = 0;
+
+    constructor(observer: Observer) {
+        this.observer = observer;
+    }
 
     public addEvent(event: Event): void {
         // Inserir evento mantendo a ordem cronológica

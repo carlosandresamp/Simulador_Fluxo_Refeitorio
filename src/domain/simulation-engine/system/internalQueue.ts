@@ -29,32 +29,28 @@ export class InternalQueue extends ExternalQueue {
     this.middleWaitingTime = middleWaitingTime;
   }
 
-  addStudent(student: Student): void {
-    if(this.studentQuantity.length >= this.maxCapacity){
-        throw new Error ("Fila interna cheia: espere esvaziar");
+  addStudent(student: Student): boolean {
+    if (this.studentQuantity.length >= this.maxCapacity) {
+      console.log("Fila interna cheia: espere esvaziar");
+      return false;
     }
 
     this.studentQuantity.push(student);
-    console.log("Aluno entrou na Fila Interna");
+    console.log(`Aluno ${student.getMatricula()} entrou na Fila Interna`);
+    return true;
   }
 
   removeStudent(): Student | null {
     if (this.studentQuantity.length === 0) {
-      throw new Error("Fila Vazia: Não é possível remover estudantes.");
+      console.log("Fila Vazia: Não é possível remover estudantes.");
+      return null;
     }
 
-    const waitingTime = this.calculateWaitingTime();
-    console.log(`Aluno aguardará aproximadamente ${waitingTime.toFixed(2)} segundos antes de ser atendido.`);
-
-    // Simula a remoção do aluno após o tempo de espera
-    setTimeout(() => {
-      const toRemoveStudent = super.removeStudent();
-      if (toRemoveStudent) {
-        console.log(`Aluno ${toRemoveStudent.getMatricula()} saiu da Fila Interna para o atendimento.`);
-      }
-    }, waitingTime * 1000);
-
-    return null; 
+    const student = super.removeStudent();
+    if (student) {
+      console.log(`Aluno ${student.getMatricula()} saiu da Fila Interna para o atendimento.`);
+    }
+    return student;
   }
 
   emptyInternalQueue():boolean{
@@ -79,6 +75,13 @@ export class InternalQueue extends ExternalQueue {
     const maxFactor = 1.2;
     const scaledFactor = minFactor + variantionFactor * (maxFactor - minFactor);
     return this.middleWaitingTime * scaledFactor;
+  }
+
+  getLastStudent(): Student | null {
+    if (this.studentQuantity.length === 0) {
+      return null;
+    }
+    return this.studentQuantity[this.studentQuantity.length - 1];
   }
 }
 

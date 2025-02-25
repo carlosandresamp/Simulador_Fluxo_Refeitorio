@@ -1,20 +1,28 @@
 import { GaussianRandom } from "../util/random-generators";
 
-export type StudentStatus = "WAITING" | "IN_QUEUE" | "IN_SERVICE" | "SERVED" | "LEAVING";
+export type StudentStatus = 
+    | "WAITING" 
+    | "REGISTERING" 
+    | "IN_QUEUE" 
+    | "BEING_SERVED" 
+    | "EATING" 
+    | "LEAVING";
 
 export class Student {
     private matricula: string;
     private tempoChegada: Date;
-    private tempoServico: Date | null;
+    private tempoServico: Date;
     private status: StudentStatus;
+    private registrationTime: number;
     private randomGenerator: GaussianRandom;
     private middleTypingTime: number;
 
-    constructor(matricula: string, middleTypingTime: number) {
+    constructor(matricula: string, registrationTime: number, middleTypingTime: number) {
         this.matricula = matricula;
         this.tempoChegada = new Date();
-        this.tempoServico = null;
+        this.tempoServico = new Date();
         this.status = "WAITING";
+        this.registrationTime = registrationTime;
         this.middleTypingTime = middleTypingTime;
         this.randomGenerator = new GaussianRandom();
     }
@@ -33,16 +41,17 @@ export class Student {
 
     setStatus(novoStatus: StudentStatus): void {
         this.status = novoStatus;
-        if (novoStatus === "IN_SERVICE") {
-            this.tempoServico = new Date();
-        }
+    }
+
+    getRegistrationTime(): number {
+        return this.registrationTime;
     }
 
     getTempoChegada(): Date {
         return this.tempoChegada;
     }
 
-    getTempoServico(): Date | null {
+    getTempoServico(): Date {
         return this.tempoServico;
     }
 

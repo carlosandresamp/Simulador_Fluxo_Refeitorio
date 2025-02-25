@@ -4,9 +4,15 @@ import { EventMachine } from "./eventMachine";
 import { Student } from "../system/student";
 import { FromServiceToTheTable } from "./fromServiceToTheTable";
 
-export class FromInternalQueueToTheService extends Event {
+export class FromInternalQueueToTheService implements Event {
+    private timestamp: number;
+    private cafeteria: Cafeteria;
+    private machine: EventMachine;
+
     constructor(timestamp: number, cafeteria: Cafeteria, machine: EventMachine) {
-        super(timestamp, cafeteria, machine);
+        this.timestamp = timestamp;
+        this.cafeteria = cafeteria;
+        this.machine = machine;
     }
 
     processEvent(): void {
@@ -22,23 +28,25 @@ export class FromInternalQueueToTheService extends Event {
         }
 
         if (service.isServiceQueueEmpty() && hall.hasAvailableTables()) {
-            const studentInInternalQueue = internalQueue.removeStudent();
-            if (!studentInInternalQueue) {
-                console.log("Erro ao remover aluno da fila interna.");
-                return;
+            const student = internalQueue.removeStudent();
+            if (student) {
+                service.addStudentToQueue(student);
+                service.serveFood(student);
+                
+                const serviceTime = service.middleTimeService;
+                const nextEventTime = this.timestamp + serviceTime;
+                
+                const nextEvent = new FromServiceToTheTable(
+                    nextEventTime,
+                    this.cafeteria,
+                    this.machine
+                );
+                this.machine.addEvent(nextEvent);
             }
-
-            studentInInternalQueue.setStatus("IN_SERVICE");
-            console.log(`${studentInInternalQueue.getMatricula()} está sendo atendido.`);
-
-            service.serveFood(studentInInternalQueue);
-            
-            const serviceTime = service.middleTimeService;
-            const instantCompletion = this.timestamp + serviceTime;
-            const newEvent = new FromServiceToTheTable(instantCompletion, this.cafeteria, this.machine);
-            this.machine.addEvent(newEvent);
-        } else {
-            console.log("Atendimento não disponível ou não há mesas disponíveis.");
         }
+    }
+
+    getTimestamp(): number {
+        return this.timestamp;
     }
 }
