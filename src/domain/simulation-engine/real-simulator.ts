@@ -58,25 +58,36 @@ export class RealSimulator implements SimulatorI {
             }
 
             // Processar eventos
-            while (this.eventMachine.hasEvents() && this.isRunning) {
-                this.eventMachine.processEvents();
-                const progress = (this.eventMachine.getProcessedEventsCount() / params.studentCount) * 100;
-                onProgressUpdate(Math.min(progress, 100));
-            }
+            const processEvents = async () => {
+                while (this.eventMachine.hasEvents() && this.isRunning) {
+                    await this.eventMachine.processEvents();
+                    
+                    // Atualizar progresso baseado no total de eventos
+                    const progress = this.eventMachine.getProgress();
+                    onProgressUpdate(Math.min(progress, 99));
+                    
+                    // Pequena pausa para visualização
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                }
 
-            if (this.isRunning) {
-                const endTime = Date.now();
-                this.observer.setSimulationDuration(endTime - startTime);
-                simulation.results = this.observer.computeResults();
-                simulation.status = "completed";
-                onProgressUpdate(100);
-            }
+                if (this.isRunning) {
+                    const endTime = Date.now();
+                    this.observer.setSimulationDuration(endTime - startTime);
+                    simulation.results = this.observer.computeResults();
+                    simulation.status = "completed";
+                    console.log("\n[Simulação] Finalizada com sucesso!");
+                    onProgressUpdate(100);
+                }
+            };
+
+            processEvents();
 
             return () => {
                 this.isRunning = false;
+                console.log("\n[Simulação] Interrompida pelo usuário");
             };
         } catch (error) {
-            console.error("Erro na simulação:", error);
+            console.error("\n[Simulação] Erro:", error);
             onError(error as Error);
             return () => {
                 this.isRunning = false;
