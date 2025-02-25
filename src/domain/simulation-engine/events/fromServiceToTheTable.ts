@@ -14,7 +14,7 @@ export class FromServiceToTheTable extends Event {
         console.log(`Evento - Atendimento para Mesa - ${this.timestamp}`);
 
         // Verifica se há algum estudante sendo atendido na fila do serviço
-        const studentAtService = this.cafeteria.getService().getNextStudent(); // Usando o método getService() correto
+        const studentAtService = this.cafeteria.getService().getNextStudent();
         if (!studentAtService) {
             throw new Error("Nenhum estudante para atendimento.");
         }

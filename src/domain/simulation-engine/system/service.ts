@@ -52,7 +52,7 @@ export class Service {
         return this.currentStudent;
     }
 
-    // Retorna o próximo estudante da fila (se houver)
+    // Chama o próximo estudante da fila (se houver)
     getNextStudent(): Student | null {
         if (this.serviceQueue.length > 0) {
             return this.serviceQueue.shift() || null; // Remove o primeiro estudante da fila e o retorna
