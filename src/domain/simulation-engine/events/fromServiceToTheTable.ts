@@ -6,27 +6,35 @@ import { Service } from '../system/service';
 import { Hall } from '../system/hall';
 
 export class FromServiceToTheTable extends Event {
-    private service: Service;
-    private hall: Hall;
-
-    constructor(timestamp: number, cafeteria: Cafeteria, machine: EventMachine, service: Service, hall: Hall) {
+    constructor(timestamp: number, cafeteria: Cafeteria, machine: EventMachine) {
         super(timestamp, cafeteria, machine);
-        this.service = service;
-        this.hall = hall;
     }
 
     processEvent(): void {
-        const student = this.service.getCurrentStudent(); // Obtém o estudante atual
-        if (!student) {
-            throw new Error("Nenhum aluno está atualmente sendo servido.");
+        console.log(`Evento- Fila Interna Para Atendimento - ${this.timestamp}`);
+        
+        const internalQueue = this.cafeteria.getInternalQueue();
+        const studentInternalQueue = internalQueue.getNextStudent();
+        if(!studentInternalQueue){
+            throw new Error ("Nenhum estudante na fila para atendimento");
         }
 
-        if (!this.hall.addStudent(student)) {
-            throw new Error("Salão está cheio. Não pode adicionar aluno à mesa.");
+        const serviceAvailable = this.cafeteria.getService().isServiceAvailable();
+        if(!serviceAvailable){
+            throw new Error ("Servico indisponivel");
         }
 
-        student.setStatus("saindo");
-        student.servedTime = new Date();
-        console.log(`Aluno ${student.getRegister()} foi movido de serviço para mesa.`);
+        const typingTime = studentInternalQueue.simulateTypingTime();
+        const totalServiceTime = studentInternalQueue.servedTime + typingTime;
+
+        studentInternalQueue.setStatus("Aguardando");
+
+        console.log(`${studentInternalQueue.getRegister()} está sendo atendido após ${totalServiceTime.toFixed(2)} segundos de espera`);
+
+        internalQueue.removeStudent();
+
+        const instantCompletion = this.timestamp + totalServiceTime;
+        const newEvent = new FromServiceToTheTable(instantCompletion,this.cafeteria, this.machine);
+        this.machine.addEvent(newEvent);
     }
 }
