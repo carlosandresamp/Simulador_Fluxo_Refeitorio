@@ -2,8 +2,6 @@ import { Cafeteria } from "../system/cafeteria";
 import { Event } from "./event";
 import { EventMachine } from "./eventMachine";
 import { Student } from "../system/student";
-import { InternalQueue } from "../system/internalQueue";
-import { FromInternalQueueToTheService } from "./fromInternalQueueToTheService";
 
 export class FromServiceToTheTable extends Event {
     constructor(timestamp: number, cafeteria: Cafeteria, machine: EventMachine) {
@@ -11,31 +9,33 @@ export class FromServiceToTheTable extends Event {
     }
 
     processEvent() {
-        console.log(`Evento - Atendimento para Mesa - ${this.timestamp}`);
+        console.log(`Evento - Do Atendimento Para a Mesa - ${this.timestamp}`);
 
-        // Verifica se há algum estudante sendo atendido na fila do serviço
-        const studentAtService = this.cafeteria.getService().getNextStudent();
-        if (!studentAtService) {
-            throw new Error("Nenhum estudante para atendimento.");
+        const service = this.cafeteria.getService();
+        const hall = this.cafeteria.getHall();
+        const currentStudent = service.getCurrentStudent();
+
+        if (!currentStudent) {
+            console.log("Nenhum estudante está sendo atendido.");
+            return; // Se não há estudante sendo atendido, não faz nada
         }
 
-        // Verifica se a mesa está disponível
-        const tableAvailable = this.cafeteria.getTable()
-        if (!tableAvailable) {
-            throw new Error("Mesa indisponível.");
+        // Verifica se há mesas disponíveis
+        if (hall.hasAvailableTables()) {
+            // Define o tempo de refeição
+            const mealTime = 10; // Tempo fixo para a refeição, pode ser ajustado
+            const instantFinishMeal = this.timestamp + mealTime;
+            setTimeout(() => {
+                this.cafeteria.finishMeal(currentStudent);
+                console.log(`${currentStudent.getRegister()} saiu da mesa para casa.`);
+
+                // Desbloqueia o atendimento se houver mesas disponíveis
+                if (hall.hasAvailableTables()) {
+                    console.log("Atendimento desbloqueado.");
+                }
+            }, mealTime * 1000); // Converte para milissegundos
+        } else {
+            console.log("Não há mesas disponíveis para o aluno.");
         }
-
-        // Simula o tempo de digitação do estudante antes de ele ser atendido
-        const typingTime = studentAtService.simulateTypingTime();
-        const totalServiceTime = studentAtService.servedTime + typingTime;
-
-        // Atualiza o status do estudante
-        studentAtService.setStatus("atendido");
-        console.log(`${studentAtService.getRegister()} foi atendido e está indo para a mesa após ${totalServiceTime.toFixed(2)} segundos.`);
-
-        // Agenda o evento para o estudante sair para a mesa após o atendimento
-        const instantCompletion = this.timestamp + totalServiceTime;
-        const newEvent = new FromInternalQueueToTheService(instantCompletion, this.cafeteria, this.machine); // Chamando o evento correto
-        this.machine.addEvent(newEvent);
     }
 }
