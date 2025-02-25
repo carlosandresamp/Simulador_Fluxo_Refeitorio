@@ -8,6 +8,7 @@ import { FromServiceToTheTable } from './fromServiceToTheTable';
 
 export class FromInternalQueueToTheService extends Event {
     constructor(timestamp: number, cafeteria: Cafeteria, machine: EventMachine) {
+    constructor(timestamp: number, cafeteria: Cafeteria, machine: EventMachine) {
         super(timestamp, cafeteria, machine);
     }
 
