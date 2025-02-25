@@ -1,12 +1,25 @@
 import { Student } from "./student";
+import { GaussianRandom } from "../util/random-generators";
+
 
 export class Hall{
     private capacityByStudent: Student[] = [];
     private occupiedCapacity: number = 0;
     private occupationTime: number;
     private maxHallCapacity: number;
+    private middleOccupationTime:number;
+    private randomGenerator: GaussianRandom
 
-    constructor(){}
+    constructor(){
+        if (this.maxHallCapacity <= 0) {
+            throw new Error("A capacidade máxima do salão deve ser maior que zero.");
+        }
+        if (this.middleOccupationTime <= 0) {
+            throw new Error("O tempo médio de permanência deve ser maior que zero.");
+        }
+
+        this.randomGenerator = new GaussianRandom()
+    }
 
     getMaxHallCapacity(): number {
         return this.maxHallCapacity;
@@ -66,5 +79,16 @@ export class Hall{
             return this.addStudent(student);
         }
         return false;
+    }
+
+    calculateOccupationTime(): number {
+        const variationFactor = this.randomGenerator.next(); // Valor entre 0 e 1
+        const minFactor = 0.8; // Redução máxima de 20%
+        const maxFactor = 1.2; // Aumento máximo de 20%
+        const scaledFactor = minFactor + variationFactor * (maxFactor - minFactor);
+
+        const occupationTime = this.middleOccupationTime * scaledFactor;
+        console.log(`Tempo estimado de permanência: ${occupationTime.toFixed(2)} segundos.`);
+        return occupationTime;      
     }
 }
