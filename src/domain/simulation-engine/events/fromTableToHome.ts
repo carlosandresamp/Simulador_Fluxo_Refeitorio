@@ -14,12 +14,13 @@ export class FromTableToHome extends Event{
     }
 
     processEvent():void{
-        console.log(`Aluno ${this.student.getRegister()} terminou a refeição e liberou a mesa`);
+        console.log(`Evento - Da mesa para casa - ${this.student.getRegister()} - terminou a refeição e liberou a mesa`);
         this.cafeteria.finishMeal(this.student);
 
-        if(!this.cafeteria.getService()){
-            const scheduling = new FromServiceToTheTable(this.timestamp, this.cafeteria, this.machine);
-            this.machine.addEvent(scheduling);
+        const service = this.cafeteria.getService();
+        if(service && !service.isServiceCurrentlyBlocked() && !service.isServiceQueueEmpty()){
+                const scheduling = new FromServiceToTheTable(this.timestamp, this.cafeteria, this.machine);
+                this.machine.addEvent(scheduling);
+            }
         }
     }
-}
