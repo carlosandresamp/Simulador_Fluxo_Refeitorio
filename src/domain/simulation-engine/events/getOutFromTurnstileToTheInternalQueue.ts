@@ -11,31 +11,37 @@ export class getOutFromTurnstileToTheInternalQueue extends Event{
         console.log(`[${this.timestamp}s] Evento: Saída da Catraca para Fila Interna`);
         
         const student = this.cafeteria.getTurnstile().getStudent();
+        const _isExternalQueueEmpty = this.cafeteria.getExternalQueue().emptyExternalQueue();
+        const _isInternalQueueFull = this.cafeteria.getInternalQueue().isInternalQueueFull();
+        const enteringInternalQueue = this.cafeteria.enterInternalQueue();
+        const turnstileAccessable = this.cafeteria.getTurnstile();
+        const turnstile = this.cafeteria.getTurnstile();
+        
         if(!student){
             throw new Error("Erro: catraca não possui aluno.");
-
         }
-        const internalQueue = this.cafeteria.getInternalQueue();
-        if (internalQueue.isInternalQueueFull()) {
-            this.cafeteria.getTurnstile().setAccessable(false);
+    
+        if (_isInternalQueueFull) {
+            turnstileAccessable.setAccessable(false);
             throw new Error("[ERRO] Fila interna cheia: espere esvaziar.");
         }
 
-        this.cafeteria.enterInternalQueue();
-        this.cafeteria.getTurnstile().setAccessable(false);
-
-        if (this.cafeteria.getTurnstile().getStudent()) {
-            throw new Error("[ERRO] Aluno não foi removido da catraca.");
+        turnstile.removeStudent();
+        
+        if(!_isExternalQueueEmpty){
+            turnstileAccessable.setAccessable(true);
         }
 
-        console.log(`Aluno ${student.getRegister()} entrou na fila interna`);
+        this.cafeteria.enterTurnstile();
 
+        console.log(`Aluno ${student.getRegister()} entrou na fila interna`);
 
         const nextEventTime = this.timestamp + 5;
         if (nextEventTime <= this.timestamp) {
             throw new Error("[ERRO] Tempo do próximo evento inválido.");
         }
-        this.machine.addEvent(new FromServiceToTheTable(nextEventtTime, this.cafeteria, this.machine));
+        
+        this.machine.addEvent(new FromServiceToTheTable(nextEventTime, this.cafeteria, this.machine));
         const newEvent = new
 
     }
