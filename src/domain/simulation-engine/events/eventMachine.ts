@@ -13,14 +13,8 @@ export class EventMachine {
     }
 
     public addEvent(event: Event): void {
-        const timestamp = event.getTimestamp();
-        const index = this.events.findIndex(e => e.getTimestamp() > timestamp);
-        
-        if (index === -1) {
-            this.events.push(event);
-        } else {
-            this.events.splice(index, 0, event);
-        }
+        this.events.push(event);
+        this.events.sort((e1, e2) => e1.getTimestamp() - e2.getTimestamp());
         this.totalEvents++;
     }
 
