@@ -25,17 +25,10 @@ export class EventMachine {
     }
 
     public processEvents(): void {
-        const MAX_SIMULATION_TIME = 3600; // 1 hora em segundos
-        
         while (this.events.length > 0) {
             const currentEvent = this.events.shift();
             if (!currentEvent) break;
-            
-            if (currentEvent.getTimestamp() > MAX_SIMULATION_TIME) {
-                console.log(`[INFO] Simulação atingiu o tempo máximo de ${MAX_SIMULATION_TIME}s`);
-                break;
-            }
-
+    
             console.log(`\n[${currentEvent.getTimestamp().toFixed(2)}s] Processando evento...`);
             
             try {
@@ -45,6 +38,9 @@ export class EventMachine {
                 console.log(`[ERRO] Erro ao processar evento: ${error.message}`);
             }
         }
+    
+     
+    
         
         console.log(`\n[INFO] Simulação finalizada. Eventos processados: ${this.processedEvents}`);
     }
