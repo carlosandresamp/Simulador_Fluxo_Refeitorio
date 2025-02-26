@@ -6,33 +6,38 @@ import { Student } from "./student";
 
 //Classe de fila externa que recebe uma lista de alunos;
 export class ExternalQueue {
-  protected studentQuantity: Student[];
+  protected students: Student[];
 
-  constructor(studentQuantity?: Student[]) {
-    this.studentQuantity = studentQuantity ?? []; //Assegura que o array sempre será um valor válido;
+  constructor(students?: Student[]) {
+    this.students = students ?? [];
   }
 
-  addStudent(student: Student):void {
-    this.studentQuantity.push(student);
-    console.log("Novo aluno chegou a fila!");
+  addStudent(student: Student): boolean {
+    this.students.push(student);
+    console.log(`Estudante ${student.getRegistration()} entrou na fila externa`);
+    return true;
   }
 
-  removeStudent(): Student {
-    if (this.studentQuantity.length === 0) {
-      throw new Error("Não há alunos na fila");
+  removeStudent(): Student | null {
+    if (this.isEmpty()) {
+      console.log("Fila Externa Vazia: Não é possível remover estudantes.");
+      return null;
     }
 
-    //Remove aluno pelo conceito de FIFO através do método shift;
-    const studentIndex = this.studentQuantity.shift();
-    console.log("Aluno saiu da fila externa.");
-    return studentIndex;
+    const student = this.students.shift()!;
+    console.log(`Estudante ${student.getRegistration()} saiu da fila externa`);
+    return student;
   }
 
-  emptyExternalQueue():boolean{
-    if(this.studentQuantity.length == 0){
-      console.log("Fila externa Vazia.");
-      return true;
-    }
-    return false;
+  isEmpty(): boolean {
+    return this.students.length === 0;
+  }
+
+  getLength(): number {
+    return this.students.length;
+  }
+
+  getStudents(): Student[] {
+    return [...this.students];
   }
 }

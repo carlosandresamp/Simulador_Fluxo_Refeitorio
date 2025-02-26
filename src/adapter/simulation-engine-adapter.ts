@@ -1,4 +1,5 @@
 import { Simulation } from "@/domain/data-management/Entities/simulation";
+import { SimulationResults } from "@/domain/data-management/Entities/simulation-results";
 import { SimulatorI } from "./interfaces/simulator-interface";
 import { SimulationEngineAdapterI } from "@/view/interfaces/simulation-engine-adapter-interface";
 import { SimulationManagementAdapterI } from "@/view/interfaces/simulation-management-adapter-interface";
@@ -9,16 +10,17 @@ import { SimulationManagementAdapterI } from "@/view/interfaces/simulation-manag
  */
 export class SimulationEngineAdapter implements SimulationEngineAdapterI {
   private simulator: SimulatorI;
-  private simulationManagement: SimulationManagementAdapterI;
+  private management: SimulationManagementAdapterI;
+  private isSimulationComplete: boolean = false;
 
   /**
    * Construtor da classe SimulationEngineAdapter.
    * @param simulator - Instância do simulador.
-   * @param simulationManagement - Instância do gerenciador de simulação.
+   * @param management - Instância do gerenciador de simulação.
    */
-  constructor(simulator: SimulatorI, simulationManagement: SimulationManagementAdapterI) {
+  constructor(simulator: SimulatorI, management: SimulationManagementAdapterI) {
     this.simulator = simulator;
-    this.simulationManagement = simulationManagement;
+    this.management = management;
   }
 
   /**
@@ -33,21 +35,58 @@ export class SimulationEngineAdapter implements SimulationEngineAdapterI {
     onProgressUpdate: (progress: number) => void,
     onError: (error: Error) => void
   ): () => void {
-    simulation.results = null;
-    simulation.status = "running";
-    simulation.completedAt = null;
-    //this.simulationManagement.updateSimulation(simulation);
+    try {
+      simulation.status = "running";
+      simulation.results = null;
+      this.isSimulationComplete = false;
+      
+      return this.simulator.startSimulation(
+        simulation,
+        async (progress) => {
+          onProgressUpdate(progress);
+          
+          if (progress >= 100) {
+            try {
+              simulation.status = "completed";
+              this.isSimulationComplete = true;
+              await this.management.updateSimulation(simulation);
+              console.log("\n[Simulação] Finalizada! Você já pode visualizar os resultados.");
+            } catch (error) {
+              console.error("Erro ao finalizar simulação:", error);
+              onError(error as Error);
+            }
+          }
+        },
+        onError
+      );
+    } catch (error) {
+      console.error("Erro ao iniciar simulação:", error);
+      onError(error as Error);
+      return () => {};
+    }
+  }
 
-    return this.simulator.startSimulation(simulation, (progress) => {
-      if (progress >= 100) {
-        this.simulationManagement.updateSimulation(simulation).then((updatedSimulation) => {
-          onProgressUpdate(100);
-        }).catch((error) => {
-          onError(error);
-        });
-      } else {
-        onProgressUpdate(progress);
-      }
-    }, onError);
+  async getSimulationResults(simulationId: string): Promise<SimulationResults | null> {
+    try {
+      const simulation = await this.management.getSimulation(simulationId);
+      return simulation?.results || null;
+    } catch (error) {
+      console.error("Erro ao obter resultados:", error);
+      return null;
+    }
+  }
+
+  canViewResults(simulationId: string): boolean {
+    try {
+      const simulation = this.management.getSimulationSync(simulationId);
+      if (!simulation) return false;
+      
+      return simulation.status === "completed" && 
+             simulation.results !== null && 
+             this.isSimulationComplete;
+    } catch (error) {
+      console.error("Erro ao verificar resultados:", error);
+      return false;
+    }
   }
 }

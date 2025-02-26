@@ -1,39 +1,45 @@
 import { Cafeteria } from "../system/cafeteria";
 import { Event } from "./event";
 import { EventMachine } from "./eventMachine";
-import { Student } from "../system/student";
+import { FromTableToHome } from "./fromTableToHome";
 
-export class FromServiceToTheTable extends Event {
+export class FromServiceToTheTable implements Event {
+    private timestamp: number;
+    private cafeteria: Cafeteria;
+    private machine: EventMachine;
+
     constructor(timestamp: number, cafeteria: Cafeteria, machine: EventMachine) {
-        super(timestamp, cafeteria, machine);
+        this.timestamp = timestamp;
+        this.cafeteria = cafeteria;
+        this.machine = machine;
     }
 
-    processEvent() {
-        console.log(`Evento - Do Atendimento Para a Mesa - ${this.timestamp}`);
-
+    processEvent(): void {
+        console.log(`Evento - Do Atendimento Para Mesa - ${this.timestamp}`);
+        
         const service = this.cafeteria.getService();
         const hall = this.cafeteria.getHall();
         const currentStudent = service.getCurrentStudent();
 
-        if (!currentStudent) {
-            console.log("Nenhum estudante está sendo atendido.");
-            return; 
-        }
-
-        if (hall.hasAvailableTables()) {
-            
-            const mealTime = 10; 
-            const instantFinishMeal = this.timestamp + mealTime;
-            setTimeout(() => {
-                this.cafeteria.finishMeal(currentStudent);
-                console.log(`${currentStudent.getRegister()} saiu da mesa para casa.`);
-
-                if (hall.hasAvailableTables()) {
-                    console.log("Atendimento desbloqueado.");
-                }
-            }, mealTime * 1000);
+        if (currentStudent && hall.hasAvailableTables()) {
+            if (hall.adicionarAluno(currentStudent, this.timestamp)) {
+                const mealTime = 20; // Tempo fixo para refeição
+                const instantFinishMeal = this.timestamp + mealTime;
+                
+                const nextEvent = new FromTableToHome(
+                    instantFinishMeal,
+                    this.cafeteria,
+                    this.machine
+                );
+                this.machine.addEvent(nextEvent);
+                console.log(`${currentStudent.getMatricula()} ocupou uma mesa.`);
+            }
         } else {
-            console.log("Não há mesas disponíveis para o aluno.");
+            console.log("Não há estudante para ser servido ou mesas disponíveis.");
         }
+    }
+
+    getTimestamp(): number {
+        return this.timestamp;
     }
 }

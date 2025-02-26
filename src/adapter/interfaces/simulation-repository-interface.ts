@@ -31,4 +31,13 @@ export interface SimulationRepositoryI {
    * @returns Uma promessa que resolve quando a simulação for deletada.
    */
   delete(id: string): Promise<void>;
+
+  /**
+   * Atualiza uma simulação.
+   * @param simulation - A simulação a ser atualizada.
+   * @returns Uma promessa que resolve quando a simulação for atualizada.
+   */
+  updateSimulation(simulation: Simulation): Promise<void>;
+
+  getByIdSync(id: string): Simulation | null;
 }

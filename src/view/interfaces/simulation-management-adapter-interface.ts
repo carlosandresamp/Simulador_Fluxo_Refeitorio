@@ -38,4 +38,6 @@ export interface SimulationManagementAdapterI {
    * @returns Uma promessa que resolve para a simulação obtida ou undefined se não for encontrada.
    */
   getSimulation(id: string): Promise<Simulation | undefined>;
+
+  getSimulationSync(id: string): Simulation | null;
 }

@@ -1,31 +1,81 @@
-import { Event} from "./event";
+import { Event } from "./event";
 import { Observer } from "../simulator/observer";
 
-export class EventMachine{
-    private events : Event[] = [];
-    private simulationInstant: number = 0;
-    private observer:Observer = new Observer();
+export class EventMachine {
+    private events: Event[] = [];
+    private simulationTime: number = 0;
+    private observer: Observer;
+    private processedEvents: number = 0;
+    private totalEvents: number = 0;
 
-    public processEvents():void {
-        while(this.events.length>0){
-        this.events = this.events.sort((event1,event2)=>event1.getTimestamp()-event2.getTimestamp());
-        const event = this.events.shift()!; 
-        event.processEvent(); 
-        this.updateSimulationIntant(event.getTimestamp());  
-    }
-    }
-    public addEvent(event:Event){
-        this.events.push(event);
+    constructor(observer: Observer) {
+        this.observer = observer;
     }
 
-    // public getObserver():Observer{
-    //     return this.observer;
-    // }
+    public addEvent(event: Event): void {
+        const timestamp = event.getTimestamp();
+        const index = this.events.findIndex(e => e.getTimestamp() > timestamp);
+        
+        if (index === -1) {
+            this.events.push(event);
+        } else {
+            this.events.splice(index, 0, event);
+        }
+        this.totalEvents++;
+    }
 
-    private updateSimulationIntant(newInstant:number){
-       if(newInstant<this.simulationInstant) {
-            throw new Error('Você não pode voltar no tempo.');
-       }
-       this.simulationInstant = newInstant;
+    public async processEvents(): Promise<void> {
+        if (!this.hasEvents()) {
+            console.log("\n[Simulação] Não há mais eventos para processar");
+            return;
+        }
+
+        const currentEvent = this.events.shift();
+        if (currentEvent) {
+            try {
+                const timestamp = currentEvent.getTimestamp();
+                if (timestamp < this.simulationTime) {
+                    console.warn(`[${this.formatTime(timestamp)}] Evento ignorado: timestamp anterior ao atual`);
+                    return;
+                }
+
+                this.simulationTime = timestamp;
+                console.log(`\n[${this.formatTime(timestamp)}] Processando evento...`);
+                currentEvent.processEvent();
+                this.processedEvents++;
+
+                await new Promise(resolve => setTimeout(resolve, 100));
+
+            } catch (error) {
+                console.error(`[${this.formatTime(this.simulationTime)}] Erro ao processar evento:`, error);
+            }
+        }
+    }
+
+    private formatTime(timestamp: number): string {
+        const minutes = Math.floor(timestamp / 60);
+        const seconds = Math.floor(timestamp % 60);
+        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    public getProgress(): number {
+        if (this.totalEvents === 0) return 0;
+        return (this.processedEvents / this.totalEvents) * 100;
+    }
+
+    public hasEvents(): boolean {
+        return this.events.length > 0;
+    }
+
+    public getProcessedEventsCount(): number {
+        return this.processedEvents;
+    }
+
+    public getTotalEventsCount(): number {
+        return this.totalEvents;
+    }
+
+    public getObserver(): Observer {
+        return this.observer;
     }
 }

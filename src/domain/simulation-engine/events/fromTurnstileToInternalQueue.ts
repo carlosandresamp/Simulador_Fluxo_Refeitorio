@@ -1,8 +1,9 @@
 import { Cafeteria } from "../system/cafeteria";
 import { Event } from "./event";
 import { EventMachine } from "./eventMachine";
+import { FromInternalQueueToTheService } from "./fromInternalQueueToTheService";
 
-export class FromTableToHome implements Event {
+export class FromTurnstileToInternalQueue implements Event {
     private timestamp: number;
     private cafeteria: Cafeteria;
     private machine: EventMachine;
@@ -14,19 +15,16 @@ export class FromTableToHome implements Event {
     }
 
     processEvent(): void {
-        console.log(`Evento - Da Mesa Para Casa - ${this.timestamp}`);
+        console.log(`Evento - Da Catraca Para Fila Interna - ${this.timestamp}`);
+        const student = this.cafeteria.getTurnstile().getStudent();
         
-        const hall = this.cafeteria.getHall();
-        const students = hall.getStudents();
-
-        if (students.length > 0) {
-            const student = students[0];
-            this.cafeteria.finishMeal(student, this.timestamp);
-            console.log(`${student.getMatricula()} terminou a refeição e está saindo.`);
+        if (student) {
+            console.log(`Estudante ${student.getRegistration()} terminou de registrar matrícula.`);
+            this.cafeteria.moveStudentToInternalQueue();
         }
     }
 
     getTimestamp(): number {
         return this.timestamp;
     }
-}
+} 

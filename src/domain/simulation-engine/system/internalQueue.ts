@@ -9,10 +9,10 @@ export class InternalQueue extends ExternalQueue {
   private middleWaitingTime:number;
   private randomGenerator = new GaussianRandom(); 
 
-  constructor(sizeQueue: number, studentQuantity?: Student[]) {
-    super(studentQuantity);
-    this.maxCapacity
-    this.sizeQueue = sizeQueue
+  constructor(maxCapacity: number, students?: Student[]) {
+    super(students);
+    this.maxCapacity = maxCapacity;
+    this.sizeQueue = maxCapacity;
   }
 
   getMaxCapacity(){
@@ -29,48 +29,40 @@ export class InternalQueue extends ExternalQueue {
     this.middleWaitingTime = middleWaitingTime;
   }
 
-  addStudent(student: Student): void {
-    if(this.studentQuantity.length >= this.maxCapacity){
-        throw new Error ("Fila interna cheia: espere esvaziar");
+  addStudent(student: Student): boolean {
+    if (this.students.length >= this.maxCapacity) {
+      console.log("Fila interna cheia: espere esvaziar");
+      return false;
     }
 
-    this.studentQuantity.push(student);
-    console.log("Aluno entrou na Fila Interna");
+    this.students.push(student);
+    console.log(`Estudante ${student.getRegistration()} entrou na Fila Interna`);
+    return true;
   }
 
   removeStudent(): Student | null {
-    if (this.studentQuantity.length === 0) {
-      throw new Error("Fila Vazia: Não é possível remover estudantes.");
+    if (this.isEmpty()) {
+      console.log("Fila Interna Vazia: Não é possível remover estudantes.");
+      return null;
     }
 
-    const waitingTime = this.calculateWaitingTime();
-    console.log(`Aluno aguardará aproximadamente ${waitingTime.toFixed(2)} segundos antes de ser atendido.`);
-
-    // Simula a remoção do aluno após o tempo de espera
-    setTimeout(() => {
-      const toRemoveStudent = super.removeStudent();
-      if (toRemoveStudent) {
-        console.log(`Aluno ${toRemoveStudent.getRegister()} saiu da Fila Interna para o atendimento.`);
-      }
-    }, waitingTime * 1000);
-
-    return null; 
+    const student = super.removeStudent();
+    if (student) {
+      console.log(`Estudante ${student.getRegistration()} saiu da Fila Interna para o atendimento.`);
+    }
+    return student;
   }
 
   emptyInternalQueue():boolean{
-    if(this.studentQuantity.length == 0){
+    if(this.students.length == 0){
       console.log("Fila interna Vazia.");
       return true;
     }
     return false;
   }
 
-  isInternalQueueFull():Boolean{
-    if(this.studentQuantity.length >= this.maxCapacity){
-      console.log("A fila interna excedeu sua capacidade máxima.");
-      return true;
-    }
-    return false;
+  isFull(): boolean {
+    return this.students.length >= this.maxCapacity;
   }
 
   calculateWaitingTime():number{
@@ -80,4 +72,52 @@ export class InternalQueue extends ExternalQueue {
     const scaledFactor = minFactor + variantionFactor * (maxFactor - minFactor);
     return this.middleWaitingTime * scaledFactor;
   }
+
+  getLastStudent(): Student | null {
+    if (this.students.length === 0) {
+      return null;
+    }
+    return this.students[this.students.length - 1];
+  }
+
+  isEmpty(): boolean {
+    return this.students.length === 0;
+  }
+}
+
+export class FilaInterna {
+    private capacidadeMaxima: number;
+    private estudantes: Student[];
+
+    constructor(capacidadeMaxima: number) {
+        this.capacidadeMaxima = capacidadeMaxima;
+        this.estudantes = [];
+    }
+
+    adicionarEstudante(estudante: Student): void {
+        if (this.estudantes.length >= this.capacidadeMaxima) {
+            throw new Error("Capacidade máxima da fila interna atingida");
+        }
+        this.estudantes.push(estudante);
+        estudante.setStatus("IN_QUEUE");
+    }
+
+    removerAluno(): Student | null {
+        if (this.estudantes.length === 0) {
+            return null;
+        }
+        return this.estudantes.shift()!;
+    }
+
+    getCapacidadeMaxima(): number {
+        return this.capacidadeMaxima;
+    }
+
+    estaVazia(): boolean {
+        return this.estudantes.length === 0;
+    }
+
+    estaCheia(): boolean {
+        return this.estudantes.length >= this.capacidadeMaxima;
+    }
 }
