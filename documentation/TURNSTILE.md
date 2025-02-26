@@ -1,35 +1,81 @@
 # Classe `Turnstile`.
 
-- O código a seguir implementa uma classe chamada ``Turnstile``, que simula o funcionamento de uma catraca eletrônica. A catraca permite o registro de um aluno (``Student``) e controla o acesso com base no registro ou matrícula.
+- O código a seguir implementa uma classe chamada `Turnstile`, que simula o funcionamento de uma catraca eletrônica. A catraca permite o registro de um aluno (`Student`) e controla o acesso com base no registro ou matrícula, incluindo funcionalidades de bloqueio.
 
 ```Typescript
 import { Student } from "./student";
 
-
 export class Turnstile {
-    accessable: boolean; 
-    student: Student | null; 
+    protected accessible: boolean;
+    private student: Student | null;
+    private isBlocked: boolean;
 
     constructor() {
-        this.accessable = false; 
-        this.student = null; 
+        this.accessible = false;
+        this.student = null;
+        this.isBlocked = false;
+    }
 
     calculateRegisterTime(): number {
-        return Math.random() * 5; 
+        const registeringTime = this.student?.simulateTypingTime() || 0;
+        return Math.random() * registeringTime;
     }
 
-    typeRegister(student:Student): void {
-        this.student=student; 
-        console.log(`Matrícula ${student.getRegister()} registrada.`); 
-        this.accessable = true; 
+    registerStudent(student: Student): boolean {
+        if (this.isBlocked) {
+            console.log("Catraca está bloqueada. Não é possível registrar o aluno.");
+            return false;
+        }
+        this.student = student;
+        console.log(`Matrícula ${student.getRegister()} registrada.`);
+        this.accessible = true;
+        return true;
     }
 
-    removeStudent(): void {
-        console.log(`Aluno ${this.student?.getRegister()} removido da catraca.`); 
-        this.student = null; 
-        this.accessable = false; 
+    removeStudent(): Student {
+        const student = this.student;
+        if (!student) {
+            throw new Error("Não é possível remover um aluno. Nenhum aluno está registrado.");
+        }
+        console.log(`Aluno ${student.getRegister()} removido da catraca.`);
+        this.student = null;
+        this.accessible = false;
+        return student;
     }
-}
+
+    blockTurnstile(): void {
+        this.isBlocked = true;
+        console.log("Catraca bloqueada administrativamente.");
+    }
+
+    unblockTurnstile(): void {
+        this.isBlocked = false;
+        console.log("Catraca desbloqueada.");
+    }
+
+    isTurnstileBlocked(): boolean {
+        return this.isBlocked;
+    }
+
+    isTurnstileAccessible(): boolean {
+        return this.accessible;
+    }
+
+    getAccessible(): boolean {
+        return this.accessible;
+    }
+
+    setAccessible(value: boolean): void {
+        this.accessible = value;
+    }
+
+    getStudent(): Student | null {
+        return this.student;
+    }
+
+    setStudent(student: Student | null): void {
+        this.student = student;
+    }
 }
 ```
 ---
@@ -38,82 +84,108 @@ export class Turnstile {
 ```typescript
 import { Student } from "./student";
 ```
-- A linha acima importa a classe ``Student`` de um arquivo chamado ``student.ts``. Essa classe representa um aluno que contem métodos e propriedades relacionados ao aluno, como a matrícula.
+- A linha acima importa a classe `Student` de um arquivo chamado `student.ts`. Essa classe representa um aluno que contém métodos e propriedades relacionados ao aluno, como a matrícula.
 ---
-### Definição da Classe ``Turnstile``.
+### Definição da Classe `Turnstile`.
 ```typescript
 export class Turnstile {...}
 ```
-- A palavra-chave ``export`` torna a classe `Turnstile` disponível para ser importada em outros módulos. E em seguida é declarada a classe ``class Turnstile``.
+- A palavra-chave `export` torna a classe `Turnstile` disponível para ser importada em outros módulos.
 ---
 ### Propriedades da Classe `Turnstile`.
 ```typescript
-    accessable: boolean; 
-    student: Student | null; 
+    protected accessible: boolean;
+    private student: Student | null;
+    private isBlocked: boolean;
 ```
 - **Explicação**:
-    - `accessable: boolean`: È uma propriedade booleana que indica se a catraca está liberada (`true`) ou bloqueada (`false`).
-
-    - `sudent:Student | null`:  Propriedade que armazena uma instância da classe `Student` ou null. Ela guarda o aluno que está passando pela catraca. Quando não há aluno, o valor é `null`.
+    - `accessible: boolean`: É uma propriedade protegida que indica se a catraca está liberada (`true`) ou bloqueada (`false`).
+    - `student: Student | null`: Propriedade privada que armazena uma instância da classe `Student` ou null. Ela guarda o aluno que está passando pela catraca.
+    - `isBlocked: boolean`: Propriedade privada que indica se a catraca está bloqueada administrativamente.
 ### Construtor da Classe `Turnstile`.
 
 ```typescript
     constructor() {
-        this.accessable = false; 
+        this.accessible = false;
         this.student = null;
+        this.isBlocked = false;
     }
 ```
 - **Explicação**:
-    
-    O método ``constructor`` é chamado automaticamente quando uma nova instância da classe ``Turnstile`` é criada. Ele inicializa as propriedades da classe:
-
-    - `this.accessable = false;` é definido como `false`, indicando que a catraca esta bloqueada.
-
-    - `this.student = null;` é definido como `null`, pois inicialmente não há aluno asociado á catraca.
+    O construtor inicializa as propriedades da classe:
+    - `this.accessible = false`: indica que a catraca está bloqueada inicialmente
+    - `this.student = null`: indica que não há aluno associado inicialmente
+    - `this.isBlocked = false`: indica que a catraca não está bloqueada administrativamente
 
 ## Métodos da Classe `Turnstile`.
-- Método `calculateRegisterTime()`
-    
+
+### Métodos de Acesso (Getters e Setters)
+```typescript
+    getAccessible(): boolean
+    setAccessible(value: boolean): void
+    getStudent(): Student | null
+    setStudent(student: Student | null): void
+```
+- **Explicação**:
+    Métodos que permitem acessar e modificar as propriedades privadas e protegidas da classe de forma controlada.
+
+### Método `calculateRegisterTime()`
 ```typescript
     calculateRegisterTime(): number {
-        return Math.random() * 5; 
+        const registeringTime = this.student?.simulateTypingTime() || 0;
+        return Math.random() * registeringTime;
     }
 ```
 - **Explicação**:
-
     Este método simula o tempo que um aluno leva para digitar sua matrícula na catraca.
-    - `Math.random()` gera um número aleatório entre 0 e 1.
-    - Multiplicando por 5, o tempo ira variar entre 0 e 5 segundos.
-    - E o valor é retornado como um número (`number`).
+    - Utiliza o método `simulateTypingTime()` do aluno atual
+    - Retorna um tempo aleatório baseado no tempo de digitação do aluno
     ---
 
-- Método `typeRegister(student: Student):`
+### Método `registerStudent()`
 ```typescript
-    typeRegister(student: Student): void {
-        this.student = student;  
-        this.accessable = true; 
+    registerStudent(student: Student): boolean {
+        if (this.isBlocked) {
+            console.log("Catraca está bloqueada. Não é possível registrar o aluno.");
+            return false;
+        }
+        // ... resto do código
     }
 ```
 - **Explicação**:
+    Este método registra um aluno na catraca:
+    - Verifica se a catraca está bloqueada
+    - Verifica se já existe um aluno registrado
+    - Registra o novo aluno se as verificações passarem
+    - Retorna `true` se o registro for bem-sucedido, `false` caso contrário
 
-    Este método registra a matrícula de um aluno na catraca e libera a passagem.
-
-    - Esse metodo recebe um parâmetro `student` do tipo `Student`.
-
-    - Associa o aluno à propriedade `student` da classe `catraca`.
-    - Define `accessable` como `true`, liberando a passagem.
-
-- Método `removeStudent()`
+### Método `removeStudent()`
 ```typescript
-    removeStudent(): void { 
-        this.student = null; 
-        this.accessable = false; 
+    removeStudent(): Student {
+        const student = this.getStudent();
+        if (!student) {
+            throw new Error("Não é possível remover um aluno. Nenhum aluno está registrado.");
+        }
+        // ... resto do código
     }
 ```
 - **Explicação**:
+    Este método remove o aluno atual da catraca:
+    - Verifica se existe um aluno registrado
+    - Remove o aluno e bloqueia a catraca
+    - Retorna o aluno removido
+    - Lança um erro se não houver aluno para remover
 
-    Este método remove o aluno da catraca após a passagem e bloqueia a catraca novamente.
-
-    - Define `student` como `null`, indicando que não há mais aluno associado à catraca.
-    
-    - Define `accessable` como `false`, bloqueando a passagem.
+### Métodos de Controle de Bloqueio
+```typescript
+    blockTurnstile(): void
+    unblockTurnstile(): void
+    isTurnstileBlocked(): boolean
+    isTurnstileAccessible(): boolean
+```
+- **Explicação**:
+    Métodos que controlam o estado de bloqueio da catraca:
+    - `blockTurnstile()`: Bloqueia a catraca administrativamente
+    - `unblockTurnstile()`: Desbloqueia a catraca
+    - `isTurnstileBlocked()`: Verifica se a catraca está bloqueada
+    - `isTurnstileAccessible()`: Verifica se a catraca está acessível para uso
