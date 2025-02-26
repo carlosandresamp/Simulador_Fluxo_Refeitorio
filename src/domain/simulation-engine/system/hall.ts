@@ -22,7 +22,7 @@ export class Hall {
             this.currentOccupancy++;
             this.observer.noticeTableOccupancy(this.currentOccupancy, timestamp);
             student.setStatus("EATING");
-            console.log(`Aluno ${student.getRegistration()} ocupou uma mesa.`);
+            console.log(`Estudante ${student.getRegistration()} ocupou uma mesa.`);
             return true;
         }
         console.log("Não há mesas disponíveis no momento.");
@@ -35,7 +35,7 @@ export class Hall {
             this.students.splice(index, 1);
             this.currentOccupancy--;
             this.observer.noticeTableOccupancy(this.currentOccupancy, timestamp);
-            console.log(`Aluno ${student.getRegistration()} deixou a mesa.`);
+            console.log(`Estudante ${student.getRegistration()} deixou a mesa.`);
         }
     }
 

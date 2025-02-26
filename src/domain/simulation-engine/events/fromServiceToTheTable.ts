@@ -15,15 +15,17 @@ export class FromServiceToTheTable implements Event {
     }
 
     processEvent(): void {
-        console.log(`Evento - Do Atendimento Para Mesa - ${this.timestamp}`);
+        console.log(`[${this.timestamp.toFixed(2)}s] Evento: Do Atendimento Para Mesa`);
         
         const service = this.cafeteria.getService();
         const hall = this.cafeteria.getHall();
         const currentStudent = service.getCurrentStudent();
 
         if (currentStudent && hall.hasAvailableTables()) {
-            if (hall.adicionarAluno(currentStudent, this.timestamp)) {
-                const mealTime = 20; // Tempo fixo para refeição
+            if (hall.addStudent(currentStudent, this.timestamp)) {
+                service.clearCurrentStudent();
+                
+                const mealTime = 20;
                 const instantFinishMeal = this.timestamp + mealTime;
                 
                 const nextEvent = new FromTableToHome(
@@ -32,10 +34,10 @@ export class FromServiceToTheTable implements Event {
                     this.machine
                 );
                 this.machine.addEvent(nextEvent);
-                console.log(`${currentStudent.getMatricula()} ocupou uma mesa.`);
+                console.log(`[INFO] Estudante ${currentStudent.getRegistration()} ocupou uma mesa`);
             }
         } else {
-            console.log("Não há estudante para ser servido ou mesas disponíveis.");
+            console.log("[INFO] Não há estudante para ser servido ou mesas disponíveis");
         }
     }
 

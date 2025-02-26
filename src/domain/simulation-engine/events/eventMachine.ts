@@ -24,32 +24,29 @@ export class EventMachine {
         this.totalEvents++;
     }
 
-    public async processEvents(): Promise<void> {
-        if (!this.hasEvents()) {
-            console.log("\n[Simulação] Não há mais eventos para processar");
-            return;
-        }
+    public processEvents(): void {
+        const MAX_SIMULATION_TIME = 3600; // 1 hora em segundos
+        
+        while (this.events.length > 0) {
+            const currentEvent = this.events.shift();
+            if (!currentEvent) break;
+            
+            if (currentEvent.getTimestamp() > MAX_SIMULATION_TIME) {
+                console.log(`[INFO] Simulação atingiu o tempo máximo de ${MAX_SIMULATION_TIME}s`);
+                break;
+            }
 
-        const currentEvent = this.events.shift();
-        if (currentEvent) {
+            console.log(`\n[${currentEvent.getTimestamp().toFixed(2)}s] Processando evento...`);
+            
             try {
-                const timestamp = currentEvent.getTimestamp();
-                if (timestamp < this.simulationTime) {
-                    console.warn(`[${this.formatTime(timestamp)}] Evento ignorado: timestamp anterior ao atual`);
-                    return;
-                }
-
-                this.simulationTime = timestamp;
-                console.log(`\n[${this.formatTime(timestamp)}] Processando evento...`);
                 currentEvent.processEvent();
                 this.processedEvents++;
-
-                await new Promise(resolve => setTimeout(resolve, 100));
-
             } catch (error) {
-                console.error(`[${this.formatTime(this.simulationTime)}] Erro ao processar evento:`, error);
+                console.log(`[ERRO] Erro ao processar evento: ${error.message}`);
             }
         }
+        
+        console.log(`\n[INFO] Simulação finalizada. Eventos processados: ${this.processedEvents}`);
     }
 
     private formatTime(timestamp: number): string {

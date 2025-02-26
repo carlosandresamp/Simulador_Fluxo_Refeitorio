@@ -22,31 +22,6 @@ export class Cafeteria {
         this.hall = new Hall(20, observer);
         this.observer = observer;
     }
-
-    chegadaDeAluno(): void {
-        // Implementar lógica de chegada
-    }
-
-    entradaAlunoCatraca(): void {
-        // Implementar lógica da catraca
-    }
-
-    entradaAlunoFilaInterna(): void {
-        // Implementar lógica da fila interna
-    }
-
-    atendimentoAluno(): void {
-        // Implementar lógica de atendimento
-    }
-
-    ocupacaoMesa(estudante: Student): void {
-        // Implementar lógica de ocupação
-    }
-
-    saidaRefeitorio(): void {
-        // Implementar lógica de saída
-    }
-
     // Getters
     getExternalQueue(): ExternalQueue {
         return this.externalQueue;
@@ -103,7 +78,7 @@ export class Cafeteria {
     }
 
     public finishMeal(student: Student, timestamp: number): void {
-        this.hall.removerAluno(student, timestamp);
+        this.hall.removeStudent(student, timestamp);
         student.setStatus("LEAVING");
     }
 }

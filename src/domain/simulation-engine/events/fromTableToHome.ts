@@ -1,6 +1,7 @@
 import { Cafeteria } from "../system/cafeteria";
 import { Event } from "./event";
 import { EventMachine } from "./eventMachine";
+import { FromInternalQueueToTheService } from "./fromInternalQueueToTheService";
 
 export class FromTableToHome implements Event {
     private timestamp: number;
@@ -22,7 +23,18 @@ export class FromTableToHome implements Event {
         if (students.length > 0) {
             const student = students[0];
             this.cafeteria.finishMeal(student, this.timestamp);
-            console.log(`${student.getMatricula()} terminou a refeição e está saindo.`);
+            console.log(`${student.getRegistration()} terminou a refeição e está saindo.`);
+
+            // Verificar se há alunos esperando na fila interna
+            const internalQueue = this.cafeteria.getInternalQueue();
+            if (!internalQueue.emptyInternalQueue()) {
+                const nextEvent = new FromInternalQueueToTheService(
+                    this.timestamp + 0.1,
+                    this.cafeteria,
+                    this.machine
+                );
+                this.machine.addEvent(nextEvent);
+            }
         }
     }
 

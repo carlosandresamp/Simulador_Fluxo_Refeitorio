@@ -23,28 +23,11 @@ export class Service {
             return;
         }
 
-        const variationFactor = this.randomGenerator.next();
-        const minFactor = 0.8;
-        const maxFactor = 1.2;
-        const scaledFactor = minFactor + variationFactor * (maxFactor - minFactor);
-        const serviceTime = this.averageServiceTime * scaledFactor;
-
         this.currentStudent = student;
-        student.setStatus("BEING_SERVED");
-        console.log(`Funcionário ${this.employeeName} servirá a comida para ${student.getRegistration()} em aproximadamente ${serviceTime.toFixed(2)} segundos.`);
-
-        setTimeout(() => {
-            console.log(`Funcionário ${this.employeeName} terminou de servir a comida para ${student.getRegistration()}.`);
-            student.setStatus("EATING");
-            this.currentStudent = null;
-
-            if (!this.isServiceQueueEmpty()) {
-                const nextStudent = this.getNextStudent();
-                if (nextStudent) {
-                    this.serveFood(nextStudent);
-                }
-            }
-        }, serviceTime * 1000);
+        const serviceTime = this.calculateServiceTime();
+        console.log(`Funcionário ${this.employeeName} serviu a comida para ${student.getRegistration()} em aproximadamente ${serviceTime.toFixed(2)} segundos.`);
+        
+        student.setStatus("EATING");
     }
 
     addStudentToQueue(student: Student): void {
@@ -53,7 +36,6 @@ export class Service {
             return;
         }
         this.serviceQueue.push(student);
-        console.log(`Estudante ${student.getRegistration()} foi adicionado à fila de atendimento.`);
     }
 
     getCurrentStudent(): Student | null {
@@ -80,11 +62,19 @@ export class Service {
         return this.isServiceBlocked;
     }
 
-    set middleTimeService(time: number) {
-        this.averageServiceTime = time;
+    private calculateServiceTime(): number {
+        const variationFactor = this.randomGenerator.next();
+        const minFactor = 0.8;
+        const maxFactor = 1.2;
+        const scaledFactor = minFactor + variationFactor * (maxFactor - minFactor);
+        return this.averageServiceTime * scaledFactor;
     }
 
-    get middleTimeService(): number {
-        return this.averageServiceTime;
+    clearCurrentStudent(): void {
+        this.currentStudent = null;
+    }
+
+    getServiceTime(): number {
+        return this.calculateServiceTime();
     }
 }
