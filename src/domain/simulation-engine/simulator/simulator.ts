@@ -25,8 +25,7 @@ export class Simulator {
         this.observer = new Observer();
         this.cafeteria = new Cafeteria(
             simulation.parameters.internalQueueLimit,
-            this.observer,
-            simulation.parameters.registrationTime
+            this.observer
         );
         this.machine = new EventMachine(this.observer);
         this.randomGenerator = new GaussianRandom();

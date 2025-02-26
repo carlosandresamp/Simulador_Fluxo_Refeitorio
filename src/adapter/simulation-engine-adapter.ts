@@ -11,6 +11,7 @@ import { SimulationManagementAdapterI } from "@/view/interfaces/simulation-manag
 export class SimulationEngineAdapter implements SimulationEngineAdapterI {
   private simulator: SimulatorI;
   private management: SimulationManagementAdapterI;
+  private isSimulationComplete: boolean = false;
 
   /**
    * Construtor da classe SimulationEngineAdapter.
@@ -37,6 +38,7 @@ export class SimulationEngineAdapter implements SimulationEngineAdapterI {
     try {
       simulation.status = "running";
       simulation.results = null;
+      this.isSimulationComplete = false;
       
       return this.simulator.startSimulation(
         simulation,
@@ -46,7 +48,9 @@ export class SimulationEngineAdapter implements SimulationEngineAdapterI {
           if (progress >= 100) {
             try {
               simulation.status = "completed";
+              this.isSimulationComplete = true;
               await this.management.updateSimulation(simulation);
+              console.log("\n[Simulação] Finalizada! Você já pode visualizar os resultados.");
             } catch (error) {
               console.error("Erro ao finalizar simulação:", error);
               onError(error as Error);
@@ -77,7 +81,9 @@ export class SimulationEngineAdapter implements SimulationEngineAdapterI {
       const simulation = this.management.getSimulationSync(simulationId);
       if (!simulation) return false;
       
-      return simulation.status === "completed" && simulation.results !== null;
+      return simulation.status === "completed" && 
+             simulation.results !== null && 
+             this.isSimulationComplete;
     } catch (error) {
       console.error("Erro ao verificar resultados:", error);
       return false;
