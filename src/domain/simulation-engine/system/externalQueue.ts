@@ -12,10 +12,9 @@ export class ExternalQueue {
     this.students = students ?? [];
   }
 
-  addStudent(student: Student): boolean {
+  addStudent(student: Student): void {
     this.students.push(student);
     console.log(`Estudante ${student.getRegistration()} entrou na fila externa`);
-    return true;
   }
 
   removeStudent(): Student | null {

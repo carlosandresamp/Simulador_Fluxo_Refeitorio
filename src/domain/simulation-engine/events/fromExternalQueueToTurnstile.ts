@@ -23,26 +23,24 @@ export class FromExternalQueueToTurnstile implements Event {
     }
 
     processEvent(): void {
-        console.log(`[${this.timestamp}] Processando movimento da fila externa para catraca`);
+        console.log(`[${this.timestamp.toFixed(2)}s] Evento: Movimento da Fila Externa para Catraca`);
+        
+        const student = this.cafeteria.getExternalQueue().removeStudent();
+        if (student) {
+            console.log(`[INFO] Estudante ${student.getRegistration()} está registrando matrícula na catraca`);
+            
+            const registrationTime = student.getRegistrationTime();
+            console.log(`[INFO] O estudante levará aproximadamente ${registrationTime.toFixed(2)} segundos para digitar a matrícula`);
+            
+            this.cafeteria.getTurnstile().registerStudent(student);
+            console.log(`[INFO] Matrícula ${student.getRegistration()} registrada`);
 
-        if (this.cafeteria.moveStudentToTurnstile()) {
-            const student = this.cafeteria.getTurnstile().getStudent();
-            if (student) {
-                student.setStatus("REGISTERING");
-                const typingTime = student.simulateTypingTime();
-                const nextEventTime = this.timestamp + typingTime;
-
-                const nextEvent = new FromTurnstileToInternalQueue(
-                    nextEventTime,
-                    this.cafeteria,
-                    this.machine
-                );
-                
-                this.machine.addEvent(nextEvent);
-                console.log(`${student.getRegistration()} está registrando matrícula na catraca.`);
-            }
-        } else {
-            console.log("Não foi possível mover estudante para a catraca.");
+            const nextEvent = new FromTurnstileToInternalQueue(
+                this.timestamp + registrationTime,
+                this.cafeteria,
+                this.machine
+            );
+            this.machine.addEvent(nextEvent);
         }
     }
 

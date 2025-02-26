@@ -16,28 +16,21 @@ export class FromInternalQueueToTheService implements Event {
     }
 
     processEvent(): void {
-        console.log(`Evento - Fila Interna Para Atendimento - ${this.timestamp}`);
+        console.log(`[${this.timestamp.toFixed(2)}s] Evento: Fila Interna Para Atendimento`);
 
         const internalQueue = this.cafeteria.getInternalQueue();
         const service = this.cafeteria.getService();
         const hall = this.cafeteria.getHall();
 
-        if (internalQueue.emptyInternalQueue()) {
-            console.log("Nenhum estudante na fila interna para atendimento.");
-            return;
-        }
-
-        if (service.isServiceQueueEmpty() && hall.hasAvailableTables()) {
+        if (!internalQueue.isEmpty() && service.isServiceQueueEmpty() && hall.hasAvailableTables()) {
             const student = internalQueue.removeStudent();
             if (student) {
                 service.addStudentToQueue(student);
+                console.log(`[INFO] Estudante ${student.getRegistration()} está sendo atendido`);
                 service.serveFood(student);
                 
-                const serviceTime = service.middleTimeService;
-                const nextEventTime = this.timestamp + serviceTime;
-                
                 const nextEvent = new FromServiceToTheTable(
-                    nextEventTime,
+                    this.timestamp + service.getServiceTime(),
                     this.cafeteria,
                     this.machine
                 );
