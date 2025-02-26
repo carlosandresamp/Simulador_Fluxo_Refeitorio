@@ -1,5 +1,101 @@
-# Classe `InternalQueue`.
-- A classe InternalQueue representa uma fila interna de estudantes, que herda propriedades e métodos de uma fila externa (ExternalQueue). Ela adiciona uma capacidade máxima à fila e implementa métodos para adicionar e remover estudantes. Abaixo, detalha-se cada parte do código.
+# Classe `InternalQueue`
+- A classe InternalQueue representa uma fila interna de estudantes, que herda propriedades e métodos de uma fila externa (ExternalQueue). Ela implementa um sistema de fila com capacidade máxima, tempo de espera e diversos métodos de gerenciamento.
+
+```typescript
+import { ExternalQueue } from "./externalQueue";
+import { Student } from "./student";
+import { GaussianRandom } from "../util/random-generators";
+
+export class InternalQueue extends ExternalQueue {
+    private maxCapacity: number;
+    private sizeQueue: number;
+    private middleWaitingTime: number;
+    private randomGenerator: GaussianRandom;
+    // ... resto do código
+}
+```
+
+### Importações da Classe `InternalQueue`
+```typescript
+import { ExternalQueue } from "./externalQueue";
+import { Student } from "./student";
+import { GaussianRandom } from "../util/random-generators";
+```
+- **Descrição**:
+    - `ExternalQueue`: Classe base que fornece funcionalidades básicas de fila
+    - `Student`: Classe que representa um estudante
+    - `GaussianRandom`: Classe para gerar números aleatórios com distribuição gaussiana
+
+### Propriedades da Classe `InternalQueue`
+```typescript
+    private maxCapacity: number;
+    private sizeQueue: number;
+    private middleWaitingTime: number;
+    private randomGenerator: GaussianRandom;
+```
+- **Descrição**:
+    - `maxCapacity`: Define o número máximo de estudantes permitidos na fila
+    - `sizeQueue`: Armazena o tamanho atual da fila
+    - `middleWaitingTime`: Tempo médio de espera na fila
+    - `randomGenerator`: Gerador de números aleatórios para cálculos de tempo
+
+### Construtor da Classe `InternalQueue`
+```typescript
+    constructor(maxCapacity: number, students?: Student[]) {
+        super(students);
+        this.maxCapacity = maxCapacity;
+        this.sizeQueue = maxCapacity;
+    }
+```
+- **Descrição**:
+    - Inicializa uma nova fila interna com capacidade máxima definida
+    - Permite inicialização opcional com uma lista de estudantes
+    - Chama o construtor da classe pai (ExternalQueue)
+
+### Métodos de Gerenciamento de Capacidade
+```typescript
+    getMaxCapacity(): number
+    setMaxCapacity(maxCapacity: number): void
+    setMiddleWaitingTime(middleWaitingTime: number): void
+```
+- **Descrição**:
+    - `getMaxCapacity`: Retorna a capacidade máxima da fila
+    - `setMaxCapacity`: Define nova capacidade máxima (deve ser maior que zero)
+    - `setMiddleWaitingTime`: Define o tempo médio de espera (deve ser maior que zero)
+
+### Métodos de Gerenciamento de Estudantes
+```typescript
+    addStudent(student: Student): boolean
+    removeStudent(): Student | null
+    getLastStudent(): Student | null
+```
+- **Descrição**:
+    - `addStudent`: Adiciona um estudante à fila se houver espaço
+        - Retorna `true` se adicionado com sucesso, `false` caso contrário
+    - `removeStudent`: Remove e retorna o próximo estudante da fila
+        - Retorna `null` se a fila estiver vazia
+    - `getLastStudent`: Retorna o último estudante da fila sem removê-lo
+
+### Métodos de Verificação de Estado
+```typescript
+    emptyInternalQueue(): boolean
+    isFull(): boolean
+    isEmpty(): boolean
+```
+- **Descrição**:
+    - `emptyInternalQueue`: Verifica se a fila está vazia
+    - `isFull`: Verifica se a fila atingiu sua capacidade máxima
+    - `isEmpty`: Verifica se não há estudantes na fila
+
+### Método de Cálculo de Tempo
+```typescript
+    calculateWaitingTime(): number
+```
+- **Descrição**:
+    - Calcula o tempo de espera usando distribuição gaussiana
+    - Aplica variação entre 80% e 120% do tempo médio
+    - Utiliza o gerador de números aleatórios gaussianos
+    - Retorna o tempo de espera calculado
 
 ```typescript
 import { ExternalQueue } from "./externalQueue";

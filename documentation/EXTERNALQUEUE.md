@@ -1,202 +1,156 @@
-### Classe `ExternalQueue`.
-- A principio, a classe `ExternalQueue` representa uma fila externa que gerencia estudantes seguindo o princípio **FIFO (First-In, First-Out)** que significa "primeiro a entrar, primeiro a sair".
+# Classe `ExternalQueue`
+
+## Visão Geral
+A classe `ExternalQueue` implementa uma fila externa que gerencia o fluxo de estudantes seguindo o princípio **FIFO (First-In, First-Out)**. Esta estrutura é fundamental para organizar a entrada de estudantes no refeitório, garantindo ordem e equidade no atendimento.
 
 ```typescript
-import { error } from "console";
-import { SimulationRepositoryMock } from "@/domain/data-management/simulation-repository";
-import { throwDeprecation } from "process";
-import { add } fro m "date-fns";
 import { Student } from "./student";
 
-
 export class ExternalQueue {
-  protected studentQuantity: Student[];
-
-  constructor(studentQuantity?: Student[]) {
-    this.studentQuantity = studentQuantity ?? []; 
-
-  protected addStudent(student: Student):void {
-    this.studentQuantity.push(student);
-    console.log("Novo aluno chegou a fila!");
-  }
-
-  protected removeStudent(): Student {
-    if (this.studentQuantity.length === 0) {
-      throw new Error("Não há alunos na fila");
-    }
-    
-    const studentIndex = this.studentQuantity.shift();
-    console.log("Aluno saiu da fila externa.");
-    return studentIndex;
-  }
+    protected students: Student[];
+    // ... resto do código
 }
 ```
-### Imports da Classe `externalQueue`.
 
-```typescript
-import { error } from "console";
-```
-- **Descrição**:
-
-    Importa a função error do módulo console. Essa função pode ser usada para exibir mensagens de erro no console.
----
-```typescript
-import { SimulationRepositoryMock } from "@/domain/data-management/simulation-repository";
-```
-- **Descrição**:
-
-    Importa a classe `SimulationRepositoryMock` de um caminho específico. Essa classe é usada para simular operações de repositório relacionadas a simulações.
----
-
-```typescript
-import { throwDeprecation } from "process";
-
-```
-- **Descrição**:
-
-
-    Importa a função `throwDeprecation` do módulo `process`. Essa função pode ser usada para lançar avisos de depreciação.
----
-
-```typescript
-import { add } from "date-fns";
-```
-- **Descrição**:
-Importa a função `add` do módulo `date-fns`. Essa função é usada para manipulação de datas, como adicionar dias, meses, anos, etc.
----
-
+## Importações e Dependências
 ```typescript
 import { Student } from "./student";
 ```
-- **Descrição**:
+- **Descrição Detalhada**:
+    - Importa a classe `Student` que contém todas as informações e comportamentos relacionados aos estudantes
+    - A dependência é essencial para manipular os dados dos estudantes na fila, como matrícula e status
 
-
-    Importa a classe `Student` de um módulo chamado `student`. A classe `Student` representa um estudante que pode ser adicionado à fila externa.
----
-
-## Detalhes da Classe
-- Definição da Classe `ExternalQueue`.
-```typescript
-export class ExternalQueue {
-```
-- **Descrição**:
-
-    Define a classe ExternalQueue e a torna disponível para outros módulos através da palavra-chave export.
----
+## Estrutura da Classe
 
 ### Propriedades
 ```typescript
-protected studentQuantity: Student[];
+protected students: Student[];
 ```
-- Declara um atributo protegido chamado `studentQuantity`, que é um array de objetos do tipo `Student`. Este array armazena os estudantes que estão atualmente na fila externa.
+- **Descrição Detalhada**:
+    - `students`: Array protegido que mantém a ordem dos estudantes na fila
+    - O modificador `protected` permite que classes derivadas acessem e modifiquem a fila
+    - A estrutura de array garante a ordem FIFO natural dos elementos
+    - Cada elemento é uma instância da classe `Student`
 
-## Construtor da Classe `externalQueue`
-
+### Construtor
 ```typescript
-constructor(studentQuantity?: Student[]) {
-    this.studentQuantity = studentQuantity ?? [];
+constructor(students?: Student[]) {
+    this.students = students ?? [];
 }
 ```
----
+- **Descrição Detalhada**:
+    - Inicializa uma nova instância da fila externa
+    - O parâmetro opcional `students` permite criar uma fila já com estudantes
+    - O operador `??` garante a inicialização segura mesmo sem parâmetros
+    - Uso: 
+        ```typescript
+        // Criar fila vazia
+        const emptyQueue = new ExternalQueue();
+        
+        // Criar fila com estudantes existentes
+        const prefilledQueue = new ExternalQueue([student1, student2]);
+        ```
+
+## Métodos de Gerenciamento
+
+### Adição de Estudantes
 ```typescript
-  constructor(studentQuantity?: Student[]) {
+addStudent(student: Student): void {
+    this.students.push(student);
+    console.log(`Estudante ${student.getRegistration()} entrou na fila externa`);
+}
 ```
-- **Descrição**:
----
+- **Descrição Detalhada**:
+    - Adiciona um novo estudante ao final da fila
+    - Mantém o princípio FIFO da estrutura
+    - Registra a operação com o número de matrícula para rastreamento
+    - Uso:
+        ```typescript
+        queue.addStudent(new Student("2024001"));
+        // Output: "Estudante 2024001 entrou na fila externa"
+        ```
 
+### Remoção de Estudantes
 ```typescript
-  constructor(studentQuantity?: Student[]) {
-```
-- **Descrição**:
-Define o construtor da classe `ExternalQueue`, que recebe um parâmetro opcional `studentQuantity`, que é um array de objetos do tipo `Student`.
----
-
-```typescript
-    this.studentQuantity = studentQuantity ?? [];
-
-```
-- **Descrição**:
-Inicializa o atributo `studentQuantity` com o valor passado como argumento ao construtor. Se nenhum valor for passado, o array é inicializado como vazio (`[]`). O operador `??` (nullish coalescing) assegura que o valor padrão seja usado caso `studentQuantity` seja `null` ou `undefined`.
----
-
-## Métodos da Classe `externalQueue`.
-
-- ` protected addStudent(student: Student): void {`
-
-```typescript
- protected addStudent(student: Student):void {
-    this.studentQuantity.push(student);
-    console.log("Novo aluno chegou a fila!");
-  }
-```
----
-```typescript
-  protected addStudent(student: Student): void {
-
-```
-- **Descrição**:
-
-    Define um método protegido chamado `addStudent`, que recebe um parâmetro do tipo `Student` e não retorna nenhum valor (`void`). Este método adiciona um estudante à fila externa.
----
-
-```typescript
-    this.studentQuantity.push(student);
-```
-- **Descrição**:
-
-    Adiciona o estudante ao array `studentQuantity` usando o método `push`.
----
-- `protected removeStudent()`
-```typescript
-protected removeStudent(): Student {
-    if (this.studentQuantity.length === 0) {
-      throw new Error("Não há alunos na fila");
+removeStudent(): Student | null {
+    if (this.isEmpty()) {
+        console.log("Fila Externa Vazia: Não é possível remover estudantes.");
+        return null;
     }
 
-     const studentIndex = this.studentQuantity.shift();
-    console.log("Aluno saiu da fila externa.");
-    return studentIndex;
-  }
+    const student = this.students.shift()!;
+    console.log(`Estudante ${student.getRegistration()} saiu da fila externa`);
+    return student;
 }
 ```
----
+- **Descrição Detalhada**:
+    - Remove e retorna o primeiro estudante da fila (princípio FIFO)
+    - Implementa verificação de fila vazia para evitar erros
+    - Retorna `null` em caso de fila vazia, permitindo tratamento seguro
+    - Registra a operação para fins de auditoria
+    - Uso:
+        ```typescript
+        const student = queue.removeStudent();
+        if (student) {
+            // Processa o estudante removido
+        } else {
+            // Trata o caso de fila vazia
+        }
+        ```
 
+## Métodos de Consulta e Utilidade
+
+### Verificação de Estado
 ```typescript
-  protected removeStudent(): Student {
+isEmpty(): boolean {
+    return this.students.length === 0;
+}
 ```
-- **Descrição**:
+- **Descrição Detalhada**:
+    - Verifica se a fila está vazia
+    - Método útil para validações e controle de fluxo
+    - Retorna `true` se não houver estudantes na fila
+    - Uso:
+        ```typescript
+        if (queue.isEmpty()) {
+            console.log("Nenhum estudante aguardando");
+        }
+        ```
 
-    Define um método protegido chamado `removeStudent`, que não recebe parâmetros e retorna um objeto do tipo `Student`. Este método remove um estudante da fila externa.
----
-
+### Consulta de Tamanho
 ```typescript
-    if (this.studentQuantity.length === 0) {
+getLength(): number {
+    return this.students.length;
+}
 ```
-- **Descrição**:
-    
-    Verifica se o array `studentQuantity` está vazio.
----
+- **Descrição Detalhada**:
+    - Retorna o número atual de estudantes na fila
+    - Útil para monitoramento e controle de capacidade
+    - Uso:
+        ```typescript
+        const studentsWaiting = queue.getLength();
+        console.log(`${studentsWaiting} estudantes na fila`);
+        ```
 
+### Acesso aos Estudantes
 ```typescript
-    throw new Error("Não há alunos na fila");
+getStudents(): Student[] {
+    return [...this.students];
+}
 ```
-- **Descrição**:
+- **Descrição Detalhada**:
+    - Retorna uma cópia segura do array de estudantes
+    - Implementa o padrão de cópia defensiva para proteger os dados internos
+    - Evita modificações acidentais da fila original
+    - Uso:
+        ```typescript
+        const currentStudents = queue.getStudents();
+        // Pode manipular currentStudents sem afetar a fila original
+        ```
 
-    Lança um erro com a mensagem "Não há alunos na fila" se o array estiver vazio.
----
-
-```typescript
-    const studentIndex = this.studentQuantity.shift();
-```
-- **Descrição**:
-
-    Remove o primeiro estudante do array `studentQuantity` usando o método `shift`, que segue o conceito de **FIFO** (First In, First Out).
----
-
-```typescript
-    return studentIndex;
-```
-- **Descrição**:
-
-    Retorna o estudante removido da fila.
----
+## Boas Práticas e Considerações
+1. **Encapsulamento**: A classe mantém seus dados protegidos, expondo apenas métodos necessários
+2. **Imutabilidade**: Implementa cópia defensiva para prevenir modificações indevidas
+3. **Logging**: Mantém registro de operações importantes para debugging e auditoria
+4. **Tratamento de Erros**: Implementa verificações de estado e retorna valores apropriados
+5. **Extensibilidade**: Permite herança através do modificador `protected`
