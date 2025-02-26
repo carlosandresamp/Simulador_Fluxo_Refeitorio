@@ -15,7 +15,8 @@ export class FromTableToHome implements Event {
     }
 
     processEvent(): void {
-        console.log(`Evento - Da Mesa Para Casa - ${this.timestamp}`);
+        // Exibir o timestamp em segundos com duas casas decimais
+        console.log(`Evento - Da Mesa Para Casa - ${this.timestamp.toFixed(2)} segundos`);
         
         const hall = this.cafeteria.getHall();
         const students = hall.getStudents();
@@ -28,8 +29,9 @@ export class FromTableToHome implements Event {
             // Verificar se há alunos esperando na fila interna
             const internalQueue = this.cafeteria.getInternalQueue();
             if (!internalQueue.emptyInternalQueue()) {
+                const averageProcessingTime = 5; // em segundos
                 const nextEvent = new FromInternalQueueToTheService(
-                    this.timestamp + 0.1,
+                    this.timestamp + averageProcessingTime, // Manter como ponto flutuante
                     this.cafeteria,
                     this.machine
                 );
