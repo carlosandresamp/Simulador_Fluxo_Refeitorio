@@ -39,7 +39,6 @@ export class StudentArrivingToTheExternalQueue implements Event {
             nextEventTime,
             this.cafeteria,
             this.machine,
-            this.randomGenerator
         );
         
         this.machine.addEvent(nextEvent);

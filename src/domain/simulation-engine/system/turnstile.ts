@@ -28,7 +28,7 @@ export class Turnstile {
     }
 
     calculateRegisterTime(): number {
-        const registeringTime = this.student?.simulateTypingTime() || 0;
+        const registeringTime = this.student?.simulateTypingTime();
         return Math.random() * registeringTime;
     }
 

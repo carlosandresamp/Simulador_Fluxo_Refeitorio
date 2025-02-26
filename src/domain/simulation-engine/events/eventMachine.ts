@@ -32,9 +32,6 @@ export class EventMachine {
                 console.log(`[ERRO] Erro ao processar evento: ${error.message}`);
             }
         }
-    
-     
-    
         
         console.log(`\n[INFO] Simulação finalizada. Eventos processados: ${this.processedEvents}`);
     }
