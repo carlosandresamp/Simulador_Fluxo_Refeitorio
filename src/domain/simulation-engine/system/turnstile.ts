@@ -1,22 +1,22 @@
 import { Student } from "./student";
 
 export class Turnstile {
-    protected accessable: boolean;
+    protected accessible: boolean;
     private student: Student | null;
-    private isBlocked: boolean; // Propriedade para verificar se a catraca está bloqueada
+    private isBlocked: boolean;
 
     constructor() {
-        this.accessable = false;
+        this.accessible = false;
         this.student = null;
-        this.isBlocked = false; // Inicialmente, a catraca não está bloqueada
+        this.isBlocked = false;
     }
 
-    getAccessable(): boolean {
-        return this.accessable;
+    getAccessible(): boolean {
+        return this.accessible;
     }
 
-    setAccessable(value: boolean): void {
-        this.accessable = value;
+    setAccessible(value: boolean): void {
+        this.accessible = value;
     }
 
     getStudent(): Student | null {
@@ -28,11 +28,11 @@ export class Turnstile {
     }
 
     calculateRegisterTime(): number {
-        const drawerRegisteringTimeStudent = this.student?.simulateTypingTime() || 0;
-        return Math.random() * drawerRegisteringTimeStudent;
+        const registeringTime = this.student?.simulateTypingTime() || 0;
+        return Math.random() * registeringTime;
     }
 
-    typeRegister(student: Student): boolean {
+    registerStudent(student: Student): boolean {
         if (this.isBlocked) {
             console.log("Catraca está bloqueada. Não é possível registrar o aluno.");
             return false;
@@ -44,8 +44,8 @@ export class Turnstile {
         }
 
         this.student = student;
-        this.accessable = true;
-        console.log(`Matrícula ${student.getMatricula()} registrada.`);
+        this.accessible = true;
+        console.log(`Matrícula ${student.getRegistration()} registrada.`);
         return true;
     }
 
@@ -55,14 +55,14 @@ export class Turnstile {
             throw new Error("Não é possível remover um aluno. Nenhum aluno está registrado.");
         }
 
-        console.log(`Aluno ${student.getMatricula()} removido da catraca.`);
+        console.log(`Aluno ${student.getRegistration()} removido da catraca.`);
         this.setStudent(null);
-        this.setAccessable(false);
+        this.setAccessible(false);
         return student;
     }
 
-    isTurnstileAccessable(): boolean {
-        const isAccessible = this.getAccessable() && !this.isBlocked;
+    isTurnstileAccessible(): boolean {
+        const isAccessible = this.getAccessible() && !this.isBlocked;
         if (isAccessible) {
             console.log("Catraca Disponível para uso.");
         } else {
@@ -71,50 +71,17 @@ export class Turnstile {
         return isAccessible;
     }
 
-    // Método para bloquear a catraca
     blockTurnstile(): void {
         this.isBlocked = true;
         console.log("Catraca bloqueada.");
     }
 
-    // Método para desbloquear a catraca
     unblockTurnstile(): void {
         this.isBlocked = false;
         console.log("Catraca desbloqueada.");
     }
 
-    // Método para verificar se a catraca está bloqueada
     isTurnstileBlocked(): boolean {
         return this.isBlocked;
-    }
-}
-
-export class Catraca {
-    private liberado: boolean;
-    private estudante: Student | null;
-
-    constructor() {
-        this.liberado = false;
-        this.estudante = null;
-    }
-
-    digitarMatricula(estudante: Student): boolean {
-        if (this.estudante !== null) {
-            return false;
-        }
-        this.estudante = estudante;
-        this.liberado = true;
-        return true;
-    }
-
-    removerAluno(): Student | null {
-        const estudante = this.estudante;
-        this.estudante = null;
-        this.liberado = false;
-        return estudante;
-    }
-
-    estaLiberada(): boolean {
-        return this.liberado;
     }
 }

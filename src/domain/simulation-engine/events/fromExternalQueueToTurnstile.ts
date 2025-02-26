@@ -23,7 +23,7 @@ export class FromExternalQueueToTurnstile implements Event {
     }
 
     processEvent(): void {
-        console.log(`Evento - Da Fila Externa Para Catraca - ${this.timestamp}`);
+        console.log(`[${this.timestamp}] Processando movimento da fila externa para catraca`);
 
         if (this.cafeteria.moveStudentToTurnstile()) {
             const student = this.cafeteria.getTurnstile().getStudent();
@@ -39,7 +39,7 @@ export class FromExternalQueueToTurnstile implements Event {
                 );
                 
                 this.machine.addEvent(nextEvent);
-                console.log(`${student.getMatricula()} está registrando matrícula na catraca.`);
+                console.log(`${student.getRegistration()} está registrando matrícula na catraca.`);
             }
         } else {
             console.log("Não foi possível mover estudante para a catraca.");

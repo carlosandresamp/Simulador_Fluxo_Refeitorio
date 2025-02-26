@@ -1,39 +1,41 @@
 import { Student } from "./student";
-import { GaussianRandom } from "../util/random-generators";
 import { Observer } from "../simulator/observer";
 
 export class Hall {
-    private capacidadeAluno: Student[];
-    private capacidadeOcupacao: number;
-    private tempoOcupacao: number;
-    private capacidadeMaxSalao: number;
+    private students: Student[];
+    private currentOccupancy: number;
+    private occupancyTime: number;
+    private maxCapacity: number;
     private observer: Observer;
 
-    constructor(capacidadeMaxima: number, observer: Observer) {
-        this.capacidadeAluno = [];
-        this.capacidadeOcupacao = 0;
-        this.capacidadeMaxSalao = capacidadeMaxima;
-        this.tempoOcupacao = 20; // tempo padrão em minutos
+    constructor(maxCapacity: number, observer: Observer) {
+        this.students = [];
+        this.currentOccupancy = 0;
+        this.maxCapacity = maxCapacity;
+        this.occupancyTime = 20; // tempo padrão em minutos
         this.observer = observer;
     }
 
-    adicionarAluno(aluno: Student, timestamp: number): boolean {
-        if (this.capacidadeOcupacao < this.capacidadeMaxSalao) {
-            this.capacidadeAluno.push(aluno);
-            this.capacidadeOcupacao++;
-            this.observer.noticeTableOccupancy(this.capacidadeOcupacao, timestamp);
-            aluno.setStatus("EATING");
+    addStudent(student: Student, timestamp: number): boolean {
+        if (this.currentOccupancy < this.maxCapacity) {
+            this.students.push(student);
+            this.currentOccupancy++;
+            this.observer.noticeTableOccupancy(this.currentOccupancy, timestamp);
+            student.setStatus("EATING");
+            console.log(`Aluno ${student.getRegistration()} ocupou uma mesa.`);
             return true;
         }
+        console.log("Não há mesas disponíveis no momento.");
         return false;
     }
 
-    removerAluno(aluno: Student, timestamp: number): void {
-        const index = this.capacidadeAluno.indexOf(aluno);
+    removeStudent(student: Student, timestamp: number): void {
+        const index = this.students.indexOf(student);
         if (index !== -1) {
-            this.capacidadeAluno.splice(index, 1);
-            this.capacidadeOcupacao--;
-            this.observer.noticeTableOccupancy(this.capacidadeOcupacao, timestamp);
+            this.students.splice(index, 1);
+            this.currentOccupancy--;
+            this.observer.noticeTableOccupancy(this.currentOccupancy, timestamp);
+            console.log(`Aluno ${student.getRegistration()} deixou a mesa.`);
         }
     }
 
@@ -41,18 +43,18 @@ export class Hall {
         if (maxCapacity <= 0) {
             throw new Error("Invalid value for maxTableOccupancy: must be a non-negative number");
         }
-        this.capacidadeMaxSalao = maxCapacity;
+        this.maxCapacity = maxCapacity;
     }
 
-    getOccupiedCapacity(): number {
-        return this.capacidadeOcupacao;
+    getCurrentOccupancy(): number {
+        return this.currentOccupancy;
     }
 
     hasAvailableTables(): boolean {
-        return this.capacidadeOcupacao < this.capacidadeMaxSalao;
+        return this.currentOccupancy < this.maxCapacity;
     }
 
     getStudents(): Student[] {
-        return [...this.capacidadeAluno]; // Retorna uma cópia do array
+        return [...this.students];
     }
 }

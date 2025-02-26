@@ -6,32 +6,38 @@ import { Student } from "./student";
 
 //Classe de fila externa que recebe uma lista de alunos;
 export class ExternalQueue {
-  protected studentQuantity: Student[];
+  protected students: Student[];
 
-  constructor(studentQuantity?: Student[]) {
-    this.studentQuantity = studentQuantity ?? []; //Assegura que o array sempre será um valor válido;
+  constructor(students?: Student[]) {
+    this.students = students ?? [];
   }
 
-  addStudent(student: Student): void {
-    this.studentQuantity.push(student);
-    student.setStatus("WAITING");
-    console.log(`Estudante ${student.getMatricula()} entrou na fila externa`);
+  addStudent(student: Student): boolean {
+    this.students.push(student);
+    console.log(`Estudante ${student.getRegistration()} entrou na fila externa`);
+    return true;
   }
 
-  removeStudent(): Student {
-    if (this.studentQuantity.length === 0) {
-      throw new Error("Não há alunos na fila");
+  removeStudent(): Student | null {
+    if (this.isEmpty()) {
+      console.log("Fila Externa Vazia: Não é possível remover estudantes.");
+      return null;
     }
-    const student = this.studentQuantity.shift()!;
-    console.log(`Estudante ${student.getMatricula()} saiu da fila externa`);
+
+    const student = this.students.shift()!;
+    console.log(`Estudante ${student.getRegistration()} saiu da fila externa`);
     return student;
   }
 
-  emptyExternalQueue(): boolean {
-    return this.studentQuantity.length === 0;
+  isEmpty(): boolean {
+    return this.students.length === 0;
   }
 
   getLength(): number {
-    return this.studentQuantity.length;
+    return this.students.length;
+  }
+
+  getStudents(): Student[] {
+    return [...this.students];
   }
 }

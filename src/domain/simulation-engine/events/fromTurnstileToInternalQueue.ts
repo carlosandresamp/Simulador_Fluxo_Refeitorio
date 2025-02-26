@@ -16,23 +16,11 @@ export class FromTurnstileToInternalQueue implements Event {
 
     processEvent(): void {
         console.log(`Evento - Da Catraca Para Fila Interna - ${this.timestamp}`);
-
-        if (this.cafeteria.moveStudentToInternalQueue()) {
-            const student = this.cafeteria.getInternalQueue().getLastStudent();
-            if (student) {
-                student.setStatus("IN_QUEUE");
-                console.log(`${student.getMatricula()} entrou na fila interna.`);
-
-                // Criar evento para mover para o atendimento
-                const nextEventTime = this.timestamp + 1; // Tempo mínimo de espera
-                const nextEvent = new FromInternalQueueToTheService(
-                    nextEventTime,
-                    this.cafeteria,
-                    this.machine
-                );
-                
-                this.machine.addEvent(nextEvent);
-            }
+        const student = this.cafeteria.getTurnstile().getStudent();
+        
+        if (student) {
+            console.log(`Estudante ${student.getRegistration()} terminou de registrar matrícula.`);
+            this.cafeteria.moveStudentToInternalQueue();
         }
     }
 

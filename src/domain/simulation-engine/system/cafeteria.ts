@@ -7,18 +7,20 @@ import { Hall } from "./hall";
 import { Observer } from "../simulator/observer";
 
 export class Cafeteria {
-    private filaExterna: ExternalQueue;
-    private filaInterna: InternalQueue;
-    private atendimento: Service;
-    private catraca: Turnstile;
-    private salao: Hall;
+    private externalQueue: ExternalQueue;
+    private internalQueue: InternalQueue;
+    private service: Service;
+    private turnstile: Turnstile;
+    private hall: Hall;
+    private observer: Observer;
 
-    constructor(capacidadeFilaInterna: number, observer: Observer) {
-        this.filaExterna = new ExternalQueue();
-        this.filaInterna = new InternalQueue(capacidadeFilaInterna);
-        this.atendimento = new Service();
-        this.catraca = new Turnstile();
-        this.salao = new Hall(20, observer);
+    constructor(internalQueueLimit: number, observer: Observer) {
+        this.externalQueue = new ExternalQueue();
+        this.internalQueue = new InternalQueue(internalQueueLimit);
+        this.service = new Service();
+        this.turnstile = new Turnstile();
+        this.hall = new Hall(20, observer);
+        this.observer = observer;
     }
 
     chegadaDeAluno(): void {
@@ -47,55 +49,61 @@ export class Cafeteria {
 
     // Getters
     getExternalQueue(): ExternalQueue {
-        return this.filaExterna;
+        return this.externalQueue;
     }
 
     getInternalQueue(): InternalQueue {
-        return this.filaInterna;
+        return this.internalQueue;
     }
 
     getService(): Service {
-        return this.atendimento;
+        return this.service;
     }
 
     getTurnstile(): Turnstile {
-        return this.catraca;
+        return this.turnstile;
     }
 
     getHall(): Hall {
-        return this.salao;
+        return this.hall;
     }
 
     // Métodos de negócio
     public addStudentToExternalQueue(student: Student): void {
-        this.filaExterna.addStudent(student);
+        this.externalQueue.addStudent(student);
     }
 
     public moveStudentToTurnstile(): boolean {
-        if (this.filaExterna.emptyExternalQueue()) {
+        if (this.turnstile.getStudent() !== null) {
             return false;
         }
 
-        const student = this.filaExterna.removeStudent();
-        return this.catraca.typeRegister(student);
+        if (!this.externalQueue.isEmpty()) {
+            const student = this.externalQueue.removeStudent();
+            if (student) {
+                return this.turnstile.registerStudent(student);
+            }
+        }
+        return false;
     }
 
     public moveStudentToInternalQueue(): boolean {
-        if (!this.catraca.getStudent()) {
-            return false;
-        }
+        const student = this.turnstile.getStudent();
+        if (!student) return false;
 
-        const student = this.catraca.removeStudent();
-        this.filaInterna.addStudent(student);
-        return true;
+        if (this.internalQueue.addStudent(student)) {
+            this.turnstile.removeStudent();
+            return true;
+        }
+        return false;
     }
 
     public serveStudent(student: Student): void {
-        this.atendimento.serveFood(student);
+        this.service.serveFood(student);
     }
 
     public finishMeal(student: Student, timestamp: number): void {
-        this.salao.removerAluno(student, timestamp);
+        this.hall.removerAluno(student, timestamp);
         student.setStatus("LEAVING");
     }
 }

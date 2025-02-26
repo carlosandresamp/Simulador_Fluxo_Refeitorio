@@ -2,18 +2,18 @@ import { Student } from './student';
 import { GaussianRandom } from '../util/random-generators';
 
 export class Service {
-    private idFuncionario: string;
-    private nomeFuncionario: string;
-    private tempoMedioServir: number;
+    private employeeId: string;
+    private employeeName: string;
+    private averageServiceTime: number;
     private randomGenerator: GaussianRandom;
     private currentStudent: Student | null = null;
     private serviceQueue: Student[] = []; 
-    private isServiceBlocked: boolean = false; 
+    private isServiceBlocked: boolean = false;
 
     constructor() {
-        this.idFuncionario = "FUNC001";
-        this.nomeFuncionario = "Funcionário Padrão";
-        this.tempoMedioServir = 5;
+        this.employeeId = "EMP001";
+        this.employeeName = "Default Employee";
+        this.averageServiceTime = 5;
         this.randomGenerator = new GaussianRandom();
     }
 
@@ -27,14 +27,14 @@ export class Service {
         const minFactor = 0.8;
         const maxFactor = 1.2;
         const scaledFactor = minFactor + variationFactor * (maxFactor - minFactor);
-        const serviceTime = this.tempoMedioServir * scaledFactor;
+        const serviceTime = this.averageServiceTime * scaledFactor;
 
         this.currentStudent = student;
         student.setStatus("BEING_SERVED");
-        console.log(`Funcionário ${this.nomeFuncionario} servirá a comida para ${student.getMatricula()} em aproximadamente ${serviceTime.toFixed(2)} segundos.`);
+        console.log(`Funcionário ${this.employeeName} servirá a comida para ${student.getRegistration()} em aproximadamente ${serviceTime.toFixed(2)} segundos.`);
 
         setTimeout(() => {
-            console.log(`Funcionário ${this.nomeFuncionario} terminou de servir a comida para ${student.getMatricula()}.`);
+            console.log(`Funcionário ${this.employeeName} terminou de servir a comida para ${student.getRegistration()}.`);
             student.setStatus("EATING");
             this.currentStudent = null;
 
@@ -53,7 +53,7 @@ export class Service {
             return;
         }
         this.serviceQueue.push(student);
-        console.log(`Estudante ${student.getMatricula()} foi adicionado à fila de atendimento.`);
+        console.log(`Estudante ${student.getRegistration()} foi adicionado à fila de atendimento.`);
     }
 
     getCurrentStudent(): Student | null {
@@ -81,10 +81,10 @@ export class Service {
     }
 
     set middleTimeService(time: number) {
-        this.tempoMedioServir = time;
+        this.averageServiceTime = time;
     }
 
     get middleTimeService(): number {
-        return this.tempoMedioServir;
+        return this.averageServiceTime;
     }
 }

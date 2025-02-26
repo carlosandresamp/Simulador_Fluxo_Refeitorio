@@ -9,50 +9,50 @@ export type StudentStatus =
     | "LEAVING";
 
 export class Student {
-    private matricula: string;
-    private tempoChegada: Date;
-    private tempoServico: Date;
+    private registration: string;
+    private arrivalTime: Date;
+    private serviceTime: Date;
     private status: StudentStatus;
     private registrationTime: number;
     private randomGenerator: GaussianRandom;
     private middleTypingTime: number;
 
-    constructor(matricula: string, registrationTime: number, middleTypingTime: number) {
-        this.matricula = matricula;
-        this.tempoChegada = new Date();
-        this.tempoServico = new Date();
+    constructor(registration: string, registrationTime: number, middleTypingTime: number) {
+        this.registration = registration;
+        this.arrivalTime = new Date();
+        this.serviceTime = new Date();
         this.status = "WAITING";
         this.registrationTime = registrationTime;
         this.middleTypingTime = middleTypingTime;
         this.randomGenerator = new GaussianRandom();
     }
 
-    getMatricula(): string {
-        return this.matricula;
+    getRegistration(): string {
+        return this.registration;
     }
 
-    setMatricula(novaMatricula: string): void {
-        this.matricula = novaMatricula;
+    setRegistration(newRegistration: string): void {
+        this.registration = newRegistration;
     }
 
     getStatus(): StudentStatus {
         return this.status;
     }
 
-    setStatus(novoStatus: StudentStatus): void {
-        this.status = novoStatus;
+    setStatus(newStatus: StudentStatus): void {
+        this.status = newStatus;
     }
 
     getRegistrationTime(): number {
         return this.registrationTime;
     }
 
-    getTempoChegada(): Date {
-        return this.tempoChegada;
+    getArrivalTime(): Date {
+        return this.arrivalTime;
     }
 
-    getTempoServico(): Date {
-        return this.tempoServico;
+    getServiceTime(): Date {
+        return this.serviceTime;
     }
 
     simulateTypingTime(): number {

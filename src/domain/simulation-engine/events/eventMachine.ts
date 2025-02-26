@@ -3,7 +3,7 @@ import { Observer } from "../simulator/observer";
 
 export class EventMachine {
     private events: Event[] = [];
-    private simulationInstant: number = 0;
+    private simulationTime: number = 0;
     private observer: Observer;
     private processedEvents: number = 0;
     private totalEvents: number = 0;
@@ -13,9 +13,9 @@ export class EventMachine {
     }
 
     public addEvent(event: Event): void {
-        // Inserir evento mantendo a ordem cronológica
         const timestamp = event.getTimestamp();
         const index = this.events.findIndex(e => e.getTimestamp() > timestamp);
+        
         if (index === -1) {
             this.events.push(event);
         } else {
@@ -34,12 +34,12 @@ export class EventMachine {
         if (currentEvent) {
             try {
                 const timestamp = currentEvent.getTimestamp();
-                if (timestamp < this.simulationInstant) {
+                if (timestamp < this.simulationTime) {
                     console.warn(`[${this.formatTime(timestamp)}] Evento ignorado: timestamp anterior ao atual`);
                     return;
                 }
 
-                this.simulationInstant = timestamp;
+                this.simulationTime = timestamp;
                 console.log(`\n[${this.formatTime(timestamp)}] Processando evento...`);
                 currentEvent.processEvent();
                 this.processedEvents++;
@@ -47,7 +47,7 @@ export class EventMachine {
                 await new Promise(resolve => setTimeout(resolve, 100));
 
             } catch (error) {
-                console.error(`[${this.formatTime(this.simulationInstant)}] Erro ao processar evento:`, error);
+                console.error(`[${this.formatTime(this.simulationTime)}] Erro ao processar evento:`, error);
             }
         }
     }

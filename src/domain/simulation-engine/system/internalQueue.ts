@@ -9,10 +9,10 @@ export class InternalQueue extends ExternalQueue {
   private middleWaitingTime:number;
   private randomGenerator = new GaussianRandom(); 
 
-  constructor(sizeQueue: number, studentQuantity?: Student[]) {
-    super(studentQuantity);
-    this.maxCapacity = sizeQueue;
-    this.sizeQueue = sizeQueue;
+  constructor(maxCapacity: number, students?: Student[]) {
+    super(students);
+    this.maxCapacity = maxCapacity;
+    this.sizeQueue = maxCapacity;
   }
 
   getMaxCapacity(){
@@ -30,43 +30,39 @@ export class InternalQueue extends ExternalQueue {
   }
 
   addStudent(student: Student): boolean {
-    if (this.studentQuantity.length >= this.maxCapacity) {
+    if (this.students.length >= this.maxCapacity) {
       console.log("Fila interna cheia: espere esvaziar");
       return false;
     }
 
-    this.studentQuantity.push(student);
-    console.log(`Aluno ${student.getMatricula()} entrou na Fila Interna`);
+    this.students.push(student);
+    console.log(`Estudante ${student.getRegistration()} entrou na Fila Interna`);
     return true;
   }
 
   removeStudent(): Student | null {
-    if (this.studentQuantity.length === 0) {
-      console.log("Fila Vazia: Não é possível remover estudantes.");
+    if (this.isEmpty()) {
+      console.log("Fila Interna Vazia: Não é possível remover estudantes.");
       return null;
     }
 
     const student = super.removeStudent();
     if (student) {
-      console.log(`Aluno ${student.getMatricula()} saiu da Fila Interna para o atendimento.`);
+      console.log(`Estudante ${student.getRegistration()} saiu da Fila Interna para o atendimento.`);
     }
     return student;
   }
 
   emptyInternalQueue():boolean{
-    if(this.studentQuantity.length == 0){
+    if(this.students.length == 0){
       console.log("Fila interna Vazia.");
       return true;
     }
     return false;
   }
 
-  isInternalQueueFull(): boolean {
-    if(this.studentQuantity.length >= this.maxCapacity){
-      console.log("A fila interna excedeu sua capacidade máxima.");
-      return true;
-    }
-    return false;
+  isFull(): boolean {
+    return this.students.length >= this.maxCapacity;
   }
 
   calculateWaitingTime():number{
@@ -78,10 +74,14 @@ export class InternalQueue extends ExternalQueue {
   }
 
   getLastStudent(): Student | null {
-    if (this.studentQuantity.length === 0) {
+    if (this.students.length === 0) {
       return null;
     }
-    return this.studentQuantity[this.studentQuantity.length - 1];
+    return this.students[this.students.length - 1];
+  }
+
+  isEmpty(): boolean {
+    return this.students.length === 0;
   }
 }
 
