@@ -1,5 +1,5 @@
 # Classe `Hall`.
-- A classe `Hall` representa o espaço do refeitório onde os estudantes se sentam para fazer suas refeições. Ela gerencia a ocupação das mesas, monitora a capacidade e notifica um observador sobre mudanças na ocupação.
+- A classe `Hall` representa o espaço do refeitório com mesas onde os estudantes realizam suas refeições. Ela gerencia a ocupação das mesas, monitora a capacidade e notifica um observador sobre mudanças na ocupação.
 
 ```typescript
 import { Student } from "./student";
@@ -70,6 +70,10 @@ export class Hall {
     hasAvailableTables(): boolean {
         return this.currentOccupancy < this.maxCapacity;
     }
+
+    currentStudentEating(): Student | null {
+        return this.students.length > 0 ? this.students[this.students.length - 1] : null;
+    }
 }
 ```
 
@@ -117,6 +121,7 @@ import { Observer } from "../simulator/observer";
 ```typescript
     addStudent(student: Student, timestamp: number): boolean
     removeStudent(student: Student, timestamp: number): void
+    currentStudentEating(): Student | null
 ```
 - **Descrição**:
     - `addStudent`: 
@@ -129,6 +134,10 @@ import { Observer } from "../simulator/observer";
         - Remove um estudante do refeitório
         - Atualiza a ocupação atual
         - Notifica o observador sobre a mudança
+
+    - `currentStudentEating`:
+        - Retorna o estudante que está em refeição
+        - Retorna `null` se não há estudantes no refeitório
 
 ### Métodos de Configuração e Consulta
 ```typescript

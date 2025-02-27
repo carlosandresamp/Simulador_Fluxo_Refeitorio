@@ -1,5 +1,5 @@
 # Classe `InternalQueue`
-- A classe InternalQueue representa uma fila interna de estudantes, que herda propriedades e métodos de uma fila externa (ExternalQueue). Ela implementa um sistema de fila com capacidade máxima, tempo de espera e diversos métodos de gerenciamento.
+- A classe InternalQueue representa a fila interna do refeitório, com capacidade limitada e controle de acesso.
 
 ```typescript
 import { ExternalQueue } from "./externalQueue";
@@ -34,10 +34,10 @@ import { GaussianRandom } from "../util/random-generators";
     private randomGenerator: GaussianRandom;
 ```
 - **Descrição**:
-    - `maxCapacity`: Define o número máximo de estudantes permitidos na fila
-    - `sizeQueue`: Armazena o tamanho atual da fila
-    - `middleWaitingTime`: Tempo médio de espera na fila
-    - `randomGenerator`: Gerador de números aleatórios para cálculos de tempo
+    - `maxCapacity`: Limite máximo da fila
+    - `sizeQueue`: Tamanho atual da fila
+    - `middleWaitingTime`: Tempo médio de espera
+    - `randomGenerator`: Gerador de tempos aleatórios
 
 ### Construtor da Classe `InternalQueue`
 ```typescript

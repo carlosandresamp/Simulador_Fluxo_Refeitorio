@@ -13,29 +13,16 @@ export class EventMachine {
     }
 
     public addEvent(event: Event): void {
-        const timestamp = event.getTimestamp();
-        const index = this.events.findIndex(e => e.getTimestamp() > timestamp);
-        
-        if (index === -1) {
-            this.events.push(event);
-        } else {
-            this.events.splice(index, 0, event);
-        }
+        this.events.push(event);
+        this.events.sort((e1, e2) => e1.getTimestamp() - e2.getTimestamp());
         this.totalEvents++;
     }
 
     public processEvents(): void {
-        const MAX_SIMULATION_TIME = 3600; // 1 hora em segundos
-        
         while (this.events.length > 0) {
             const currentEvent = this.events.shift();
             if (!currentEvent) break;
-            
-            if (currentEvent.getTimestamp() > MAX_SIMULATION_TIME) {
-                console.log(`[INFO] Simulação atingiu o tempo máximo de ${MAX_SIMULATION_TIME}s`);
-                break;
-            }
-
+    
             console.log(`\n[${currentEvent.getTimestamp().toFixed(2)}s] Processando evento...`);
             
             try {
