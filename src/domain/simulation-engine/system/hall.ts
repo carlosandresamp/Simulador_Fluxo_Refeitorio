@@ -16,11 +16,10 @@ export class Hall {
         this.observer = observer;
     }
 
-    addStudent(student: Student, timestamp: number): boolean {
+    addStudent(student: Student): boolean {
         if (this.currentOccupancy < this.maxCapacity) {
             this.students.push(student);
             this.currentOccupancy++;
-            this.observer.noticeTableOccupancy(this.currentOccupancy, timestamp);
             student.setStatus("EATING");
             console.log(`Estudante ${student.getRegistration()} ocupou uma mesa.`);
             return true;
@@ -29,12 +28,11 @@ export class Hall {
         return false;
     }
 
-    removeStudent(student: Student, timestamp: number): void {
+    removeStudent(student: Student): void {
         const index = this.students.indexOf(student);
         if (index !== -1) {
             this.students.splice(index, 1);
             this.currentOccupancy--;
-            this.observer.noticeTableOccupancy(this.currentOccupancy, timestamp);
             console.log(`Estudante ${student.getRegistration()} deixou a mesa.`);
         }
     }
@@ -44,6 +42,10 @@ export class Hall {
             throw new Error("Invalid value for maxTableOccupancy: must be a non-negative number");
         }
         this.maxCapacity = maxCapacity;
+    }
+
+    currentStudentEating():Student | null {
+        return this.students.find(student => student.getStatus() === "EATING") || null;
     }
 
     getCurrentOccupancy(): number {

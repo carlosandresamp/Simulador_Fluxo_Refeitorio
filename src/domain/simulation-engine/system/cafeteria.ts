@@ -77,8 +77,8 @@ export class Cafeteria {
         this.service.serveFood(student);
     }
 
-    public finishMeal(student: Student, timestamp: number): void {
-        this.hall.removeStudent(student, timestamp);
+    public finishMeal(student: Student): void {
+        this.hall.removeStudent(student);
         student.setStatus("LEAVING");
     }
 }

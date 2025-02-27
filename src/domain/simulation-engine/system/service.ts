@@ -4,17 +4,18 @@ import { GaussianRandom } from '../util/random-generators';
 export class Service {
     private employeeId: string;
     private employeeName: string;
-    private averageServiceTime: number;
+    private middleTimeService: number;
     private randomGenerator: GaussianRandom;
     private currentStudent: Student | null = null;
     private serviceQueue: Student[] = []; 
-    private isServiceBlocked: boolean = false;
+    private isServiceBlocked: boolean;
 
     constructor() {
         this.employeeId = "EMP001";
         this.employeeName = "Default Employee";
-        this.averageServiceTime = 5;
+        this.middleTimeService = 5;
         this.randomGenerator = new GaussianRandom();
+        this.isServiceBlocked = true;
     }
 
     serveFood(student: Student): void {
@@ -58,8 +59,8 @@ export class Service {
         console.log("Serviço desbloqueado.");
     }
 
-    isServiceCurrentlyBlocked(): boolean {
-        return this.isServiceBlocked;
+    setServiceCurrentlyBlocked(isBlocked: boolean): boolean {
+        return this.isServiceBlocked = isBlocked;
     }
 
     private calculateServiceTime(): number {
@@ -67,7 +68,7 @@ export class Service {
         const minFactor = 0.8;
         const maxFactor = 1.2;
         const scaledFactor = minFactor + variationFactor * (maxFactor - minFactor);
-        return this.averageServiceTime * scaledFactor;
+        return this.middleTimeService * scaledFactor;
     }
 
     clearCurrentStudent(): void {
@@ -76,5 +77,9 @@ export class Service {
 
     getServiceTime(): number {
         return this.calculateServiceTime();
+    }
+
+    setMiddleTimeService(time: number): void {
+        this.middleTimeService = time;
     }
 }

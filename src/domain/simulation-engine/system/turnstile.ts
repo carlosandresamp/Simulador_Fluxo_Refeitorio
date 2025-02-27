@@ -6,7 +6,7 @@ export class Turnstile {
     private isBlocked: boolean;
 
     constructor() {
-        this.accessible = false;
+        this.accessible = true;
         this.student = null;
         this.isBlocked = false;
     }
@@ -57,19 +57,25 @@ export class Turnstile {
 
         console.log(`Aluno ${student.getRegistration()} removido da catraca.`);
         this.setStudent(null);
-        this.setAccessible(false);
+        this.setAccessible(true);
         return student;
     }
 
     isTurnstileAccessible(): boolean {
-        const isAccessible = this.getAccessible() && !this.isBlocked;
-        if (isAccessible) {
-            console.log("Catraca Disponível para uso.");
-        } else {
-            console.log("Catraca Indisponível.");
+        if (this.isBlocked) {
+            console.log("Catraca Indisponível (Bloqueada).");
+            return false;
         }
-        return isAccessible;
+    
+        if (!this.getAccessible()) {
+            console.log("Catraca Indisponível (Não acessível).");
+            return false;
+        }
+    
+        console.log("Catraca Disponível para uso.");
+        return true;
     }
+    
 
     blockTurnstile(): void {
         this.isBlocked = true;

@@ -3,13 +3,14 @@ import { Event } from "./event";
 import { EventMachine } from "./eventMachine";
 import { FromInternalQueueToTheService } from "./fromInternalQueueToTheService";
 
-export class FromTableToHome implements Event {
+export class FromTableToHome extends Event {
     private timestamp: number;
     private cafeteria: Cafeteria;
     private machine: EventMachine;
 
     constructor(timestamp: number, cafeteria: Cafeteria, machine: EventMachine) {
-        this.timestamp = timestamp;
+        super();
+        this.timestamp = timestamp; 
         this.cafeteria = cafeteria;
         this.machine = machine;
     }
@@ -20,25 +21,17 @@ export class FromTableToHome implements Event {
         const hall = this.cafeteria.getHall();
         const students = hall.getStudents();
 
-        if (students.length > 0) {
-            const student = students[0];
-            this.cafeteria.finishMeal(student, this.timestamp);
-            console.log(`${student.getRegistration()} terminou a refeição e está saindo.`);
-
-            // Verificar se há alunos esperando na fila interna
-            const internalQueue = this.cafeteria.getInternalQueue();
-            if (!internalQueue.emptyInternalQueue()) {
-                const nextEvent = new FromInternalQueueToTheService(
-                    this.timestamp + 0.1,
-                    this.cafeteria,
-                    this.machine
-                );
-                this.machine.addEvent(nextEvent);
-            }
+        const currentStudentEating = this.cafeteria.getHall().currentStudentEating();
+        if(currentStudentEating){{
+            this.cafeteria.finishMeal(currentStudentEating);
+            this.cafeteria.getHall().removeStudent(currentStudentEating);
+            this.cafeteria.getService().setServiceCurrentlyBlocked(false);
+            console.log(`${currentStudentEating.getRegistration()} terminou a refeição e está saindo.`);
         }
     }
 
-    getTimestamp(): number {
-        return this.timestamp;
-    }
+    // getTimestamp():number {
+    //     return this.timestamp;
+    // }
+}
 }
