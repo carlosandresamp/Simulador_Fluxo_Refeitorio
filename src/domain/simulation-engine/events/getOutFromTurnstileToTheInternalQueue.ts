@@ -39,9 +39,6 @@ export class GetOutFromTurnstileToTheInternalQueue extends Event {
 
         console.log(`[INFO] Estudante ${student.getRegistration()} entrou na fila interna`);
 
-        // se a fila interna encheu, bloqueia a catraca
-        // senao, chama o evento de sair da fila externa para a catraca
-
         if(this.cafeteria.getInternalQueue().getStudents().length == this.cafeteria.getInternalQueue().getMaxCapacity()) {
             this.cafeteria.getTurnstile().blockTurnstile();
         }else{

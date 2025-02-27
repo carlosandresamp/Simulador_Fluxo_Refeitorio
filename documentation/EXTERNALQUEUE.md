@@ -1,16 +1,53 @@
 # Classe `ExternalQueue`
-
-## Visão Geral
-A classe `ExternalQueue` implementa uma fila externa que gerencia o fluxo de estudantes seguindo o princípio **FIFO (First-In, First-Out)**. Esta estrutura é fundamental para organizar a entrada de estudantes no refeitório, garantindo ordem e equidade no atendimento.
+- A classe ExternalQueue representa a fila externa do refeitório, onde os estudantes aguardam para acessar a catraca.
 
 ```typescript
 import { Student } from "./student";
 
 export class ExternalQueue {
     protected students: Student[];
-    // ... resto do código
 }
 ```
+
+## Propriedades
+```typescript
+    protected students: Student[];
+```
+- **Descrição**:
+    - `students`: Array de estudantes na fila externa
+    - Protegido para permitir herança pela fila interna
+
+## Construtor
+```typescript
+constructor(students?: Student[]) {
+    this.students = students ?? [];
+}
+```
+- **Descrição**:
+    - Inicializa fila vazia ou com estudantes fornecidos
+    - Usa operador de coalescência nula para inicialização segura
+
+## Métodos
+
+### Métodos de Gerenciamento
+```typescript
+addStudent(student: Student): void
+removeStudent(): Student | null
+```
+- **Descrição**:
+    - `addStudent`: Adiciona estudante ao final da fila
+    - `removeStudent`: Remove e retorna primeiro estudante da fila
+
+### Métodos de Consulta
+```typescript
+isEmpty(): boolean
+getLength(): number
+getStudents(): Student[]
+```
+- **Descrição**:
+    - `isEmpty`: Verifica se fila está vazia
+    - `getLength`: Retorna quantidade de estudantes
+    - `getStudents`: Retorna cópia do array de estudantes
 
 ## Importações e Dependências
 ```typescript

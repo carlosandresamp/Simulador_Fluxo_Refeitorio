@@ -45,23 +45,6 @@ export class StudentArrivingToTheExternalQueue extends Event {
             this.machine.addEvent(nextEvent);
         }else{
             this.cafeteria.addStudentToExternalQueue(this.student);
-            // if(this.cafeteria.getExternalQueue().getStudents().length == 0 && !this.cafeteria.getTurnstile().isTurnstileAccessible()){
-            //     
-            // }
-            // if(this.cafeteria.getExternalQueue().getStudents().length > 0 && !this.cafeteria.getTurnstile().isTurnstileAccessible()){
-            //     const studentWaiting = this.cafeteria.getExternalQueue().getStudents()[];
-    
-            //     if(this.cafeteria.getTurnstile().isTurnstileAccessible()) {
-            //         const nextEventTime = this.timestamp + studentWaiting.exteernalQueueWaitingTime();
-            //         const nextEvent = new GetOutFromExternalQueueToTheTurnstile(
-            //             nextEventTime,
-            //             this.cafeteria,
-            //             this.machine,
-            //         );
-            //         this.machine.addEvent(nextEvent);
-            //     }
-            // }
-            
         }
 
     }

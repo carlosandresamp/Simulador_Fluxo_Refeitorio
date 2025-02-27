@@ -51,17 +51,6 @@ export class FromServiceToTheTable extends Event {
         this.machine.addEvent(nextEvent);
         console.log(`[INFO] Estudante ${currentStudent.getRegistration()} ocupou uma mesa`);
         
-        // if (currentStudent && hall.hasAvailableTables()) {
-            //     if (hall.addStudent(currentStudent, this.timestamp)) {
-                //         service.clearCurrentStudent();
-                
-        //         const mealTime = 20;
-        //         const instantFinishMeal = this.timestamp + mealTime;
-                
-        //     }
-        // } else {
-        //     console.log("[INFO] Não há estudante para ser servido ou mesas disponíveis");
-        // }
     }
 
     getTimestamp(): number {
