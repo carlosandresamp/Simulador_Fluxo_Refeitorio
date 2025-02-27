@@ -2,13 +2,15 @@ import { Event } from "./event";
 import { EventMachine } from "./eventMachine";
 import { Cafeteria } from "../system/cafeteria";
 import { FromInternalQueueToTheService } from "./fromInternalQueueToTheService";
+import { GetOutFromExternalQueueToTheTurnstile } from "./getOutFromExternalQueueToTheTurnstile";
 
-export class getOutFromTurnstileToTheInternalQueue implements Event {
+export class GetOutFromTurnstileToTheInternalQueue extends Event {
     private timestamp: number;
     private cafeteria: Cafeteria;
     private machine: EventMachine;
 
     constructor(timestamp: number, cafeteria: Cafeteria, machine: EventMachine) {
+        super();
         this.timestamp = timestamp;
         this.cafeteria = cafeteria;
         this.machine = machine;
@@ -23,6 +25,12 @@ export class getOutFromTurnstileToTheInternalQueue implements Event {
             return;
         }
 
+        const removingStudentFromTurnstile = this.cafeteria.getTurnstile().removeStudent();
+        if(!removingStudentFromTurnstile) {
+            console.log("[INFO] Não foi possível remover o aluno da catraca");
+            return;
+        }
+
         const _enterInternalQueue = this.cafeteria.getInternalQueue().addStudent(student);
         if(!_enterInternalQueue) {
             console.log("[INFO] Aluno não pode entrar na fila interna");
@@ -31,9 +39,22 @@ export class getOutFromTurnstileToTheInternalQueue implements Event {
 
         console.log(`[INFO] Estudante ${student.getRegistration()} entrou na fila interna`);
 
-        const nextEventTime = this.timestamp + this.cafeteria.getTurnstile().calculateRegisterTime();
-        let newEvent = new FromInternalQueueToTheService(nextEventTime, this.cafeteria, this.machine);
-        this.machine.addEvent(newEvent);
+        // se a fila interna encheu, bloqueia a catraca
+        // senao, chama o evento de sair da fila externa para a catraca
+
+        if(this.cafeteria.getInternalQueue().getStudents().length == this.cafeteria.getInternalQueue().getMaxCapacity()) {
+            this.cafeteria.getTurnstile().blockTurnstile();
+        }else{
+            const nextEventTime = this.timestamp + this.cafeteria.getTurnstile().calculateRegisterTime();
+            let newEvent = new GetOutFromExternalQueueToTheTurnstile(nextEventTime, this.cafeteria, this.machine);
+            this.machine.addEvent(newEvent);
+        }
+
+        if(this.cafeteria.getInternalQueue().getStudents().length == 1) {
+            const nextEventTime = this.timestamp + this.cafeteria.getTurnstile().calculateRegisterTime();
+            let newEvent = new FromInternalQueueToTheService(nextEventTime, this.cafeteria, this.machine);
+            this.machine.addEvent(newEvent);
+        }
     }
 
     getTimestamp(): number {

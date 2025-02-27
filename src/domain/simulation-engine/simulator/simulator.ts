@@ -34,7 +34,7 @@ export class Simulator {
         
         // Configurar cafeteria com os parâmetros da simulação
         this.cafeteria.getHall().setMaxHallCapacity(simulation.parameters.tableLimit);
-        this.cafeteria.getService().middleTimeService = simulation.parameters.servingTime;
+        this.cafeteria.getService().setMiddleTimeService(simulation.parameters.servingTime);
         
         this.configureStudentArriving();
     }

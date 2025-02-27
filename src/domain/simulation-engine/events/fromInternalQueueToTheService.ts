@@ -4,12 +4,13 @@ import { EventMachine } from "./eventMachine";
 import { Student } from "../system/student";
 import { FromServiceToTheTable } from "./fromServiceToTheTable";
 
-export class FromInternalQueueToTheService implements Event {
+export class FromInternalQueueToTheService extends Event {
     private timestamp: number;
     private cafeteria: Cafeteria;
     private machine: EventMachine;
 
     constructor(timestamp: number, cafeteria: Cafeteria, machine: EventMachine) {
+        super();
         this.timestamp = timestamp;
         this.cafeteria = cafeteria;
         this.machine = machine;

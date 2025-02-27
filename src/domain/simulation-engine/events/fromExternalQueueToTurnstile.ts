@@ -2,9 +2,9 @@ import { Cafeteria } from "../system/cafeteria";
 import { Event } from "./event";
 import { EventMachine } from "./eventMachine";
 import { RandomGeneratorI } from "../util/random-generators";
-import { getOutFromTurnstileToTheInternalQueue } from "./getOutFromTurnstileToTheInternalQueue";
+import { GetOutFromTurnstileToTheInternalQueue } from "./getOutFromTurnstileToTheInternalQueue";
 
-export class FromExternalQueueToTurnstile implements Event {
+export class FromExternalQueueToTurnstile extends Event {
     private timestamp: number;
     private cafeteria: Cafeteria;
     private machine: EventMachine;
@@ -16,6 +16,7 @@ export class FromExternalQueueToTurnstile implements Event {
         machine: EventMachine,
         randomGenerator: RandomGeneratorI
     ) {
+        super();
         this.timestamp = timestamp;
         this.cafeteria = cafeteria;
         this.machine = machine;
@@ -35,7 +36,7 @@ export class FromExternalQueueToTurnstile implements Event {
             this.cafeteria.getTurnstile().registerStudent(student);
             console.log(`[INFO] Matrícula ${student.getRegistration()} registrada`);
 
-            const nextEvent = new getOutFromTurnstileToTheInternalQueue(
+            const nextEvent = new GetOutFromTurnstileToTheInternalQueue(
                 this.timestamp + registrationTime,
                 this.cafeteria,
                 this.machine

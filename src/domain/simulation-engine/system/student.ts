@@ -66,6 +66,17 @@ export class Student {
         return typingTime;
     }
 
+    exteernalQueueWaitingTime(): number {
+        const variationFactor = this.randomGenerator.next();
+        const minFactor = 0.8;
+        const maxFactor = 1.2;
+        const scaledFactor = minFactor + variationFactor * (maxFactor - minFactor);
+        
+        const typingTime = this.middleTypingTime * scaledFactor;
+        console.log(`O estudante levará aproximadamente ${typingTime.toFixed(2)} segundos para digitar a matrícula.`);
+        return typingTime;
+    }
+
     public getMiddleTypingTime(): number {
         return this.middleTypingTime;
     }

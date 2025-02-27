@@ -1,14 +1,15 @@
 import { Cafeteria } from "../system/cafeteria";
 import { Event } from "./event";
 import { EventMachine } from "./eventMachine";
-import { getOutFromTurnstileToTheInternalQueue } from "./getOutFromTurnstileToTheInternalQueue";
+import { GetOutFromTurnstileToTheInternalQueue } from "./getOutFromTurnstileToTheInternalQueue";
 
-export class GetOutFromExternalQueueToTheTurnstile implements Event {
+export class GetOutFromExternalQueueToTheTurnstile extends Event {
     private timestamp: number;
     private cafeteria: Cafeteria;
     private machine: EventMachine;
 
     constructor(timestamp: number, cafeteria: Cafeteria, machine: EventMachine) {
+        super()
         this.timestamp = timestamp;
         this.cafeteria = cafeteria;
         this.machine = machine;
@@ -19,6 +20,8 @@ export class GetOutFromExternalQueueToTheTurnstile implements Event {
         
         const student = this.cafeteria.getExternalQueue().removeStudent();
         if (student) {
+
+            this.cafeteria.getTurnstile().setStudent(student);
             console.log(`[INFO] Estudante ${student.getRegistration()} está registrando matrícula na catraca`);
             
             const registrationTime = student.getRegistrationTime();
@@ -27,8 +30,8 @@ export class GetOutFromExternalQueueToTheTurnstile implements Event {
             this.cafeteria.getTurnstile().registerStudent(student);
             console.log(`[INFO] Matrícula ${student.getRegistration()} registrada`);
 
-            const nextEvent = new getOutFromTurnstileToTheInternalQueue(
-                this.timestamp + registrationTime,
+            const nextEvent = new GetOutFromTurnstileToTheInternalQueue(
+                this.timestamp,
                 this.cafeteria,
                 this.machine
             );
