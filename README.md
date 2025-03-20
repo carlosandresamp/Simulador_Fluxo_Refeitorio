@@ -51,29 +51,29 @@ export class Student{
     public status : StudentStatus;
 
     constructor(register:string, comingTime:Date, serviceTime:Date, servedTime:Date, status:StudentStatus){
-        this.register=register;
-        this.comingTime=comingTime;
-        this.serviceTime=serviceTime;
-        this.servedTime=servedTime;
-        this.status=status;
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
     }
 
     getRegister(){
-        return this.register;
+        return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
     }
 
     setRegister(newRegister:string){
-        return this.register=newRegister;
+        return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
     }
 
     getStatus(){
-        return this.status;
+        return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
     }
     setStatus(newStatus: StudentStatus):void{
         if(!["aguardando", "atendido", "saindo"].includes(newStatus)){
             throw new Error(`Status Inválido: ${newStatus}`);
         }
-        this.status = newStatus;
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = newStatus;
     }
 
 } 
@@ -119,11 +119,11 @@ export class Student {
 ### Construtor da Classe `Student`
 ```typescript
 constructor(register: string, comingTime: Date, serviceTime: Date, servedTime: Date, status: StudentStatus) {
-    this.register = register;
-    this.comingTime = comingTime;
-    this.serviceTime = serviceTime;
-    this.servedTime = servedTime;
-    this.status = status;
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = register;
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = comingTime;
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = serviceTime;
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = servedTime;
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = status;
 }
 ```
 - **Descrição**: 
@@ -147,7 +147,7 @@ constructor(register: string, comingTime: Date, serviceTime: Date, servedTime: D
 - Método `getRegister`:
 ```typescript
 getRegister() {
-    return this.register;
+    return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
 }
 ```
 - **Descrição**: 
@@ -162,7 +162,7 @@ getRegister() {
 - Método `setRegister`:
 ```typescript
 setRegister(newRegister: string) {
-    return this.register = newRegister;
+    return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = newRegister;
 }
 ```
 - **Descrição**: 
@@ -177,7 +177,7 @@ setRegister(newRegister: string) {
 - Método `getStatus`:
 ```typescript
 getStatus() {
-    return this.status;
+    return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
 }
 ```
 - **Descrição**: 
@@ -195,7 +195,7 @@ setStatus(newStatus: StudentStatus): void {
     if (!["aguardando", "atendido", "saindo"].includes(newStatus)) {
         throw new Error(`Status Inválido: ${newStatus}`);
     }
-    this.status = newStatus;
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = newStatus;
 }
 ```
 - **Descrição**:
@@ -222,20 +222,20 @@ export class ExternalQueue {
   protected studentQuantity: Student[];
 
   constructor(studentQuantity?: Student[]) {
-    this.studentQuantity = studentQuantity ?? []; 
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = studentQuantity ?? []; 
 
   protected addStudent(student: Student):void {
-    this.studentQuantity.push(student);
-    console.log("Novo aluno chegou a fila!");
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(student);
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases("Novo aluno chegou a fila!");
   }
 
   protected removeStudent(): Student {
-    if (this.studentQuantity.length === 0) {
+    if (https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases === 0) {
       throw new Error("Não há alunos na fila");
     }
     
-    const studentIndex = this.studentQuantity.shift();
-    console.log("Aluno saiu da fila externa.");
+    const studentIndex = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases("Aluno saiu da fila externa.");
     return studentIndex;
   }
 }
@@ -303,7 +303,7 @@ protected studentQuantity: Student[];
 
 ```typescript
 constructor(studentQuantity?: Student[]) {
-    this.studentQuantity = studentQuantity ?? [];
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = studentQuantity ?? [];
 }
 ```
 ---
@@ -316,7 +316,7 @@ Define o construtor da classe `ExternalQueue`, que recebe um parâmetro opcional
 ---
 
 ```typescript
-    this.studentQuantity = studentQuantity ?? [];
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = studentQuantity ?? [];
 
 ```
 - **Descrição**:
@@ -329,8 +329,8 @@ Inicializa o atributo `studentQuantity` com o valor passado como argumento ao co
 
 ```typescript
  protected addStudent(student: Student):void {
-    this.studentQuantity.push(student);
-    console.log("Novo aluno chegou a fila!");
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(student);
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases("Novo aluno chegou a fila!");
   }
 ```
 ---
@@ -344,7 +344,7 @@ Inicializa o atributo `studentQuantity` com o valor passado como argumento ao co
 ---
 
 ```typescript
-    this.studentQuantity.push(student);
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(student);
 ```
 - **Descrição**:
 
@@ -353,12 +353,12 @@ Inicializa o atributo `studentQuantity` com o valor passado como argumento ao co
 - `protected removeStudent()`
 ```typescript
 protected removeStudent(): Student {
-    if (this.studentQuantity.length === 0) {
+    if (https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases === 0) {
       throw new Error("Não há alunos na fila");
     }
 
-     const studentIndex = this.studentQuantity.shift();
-    console.log("Aluno saiu da fila externa.");
+     const studentIndex = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases("Aluno saiu da fila externa.");
     return studentIndex;
   }
 }
@@ -374,7 +374,7 @@ protected removeStudent(): Student {
 ---
 
 ```typescript
-    if (this.studentQuantity.length === 0) {
+    if (https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases === 0) {
 ```
 - **Descrição**:
     
@@ -390,7 +390,7 @@ protected removeStudent(): Student {
 ---
 
 ```typescript
-    const studentIndex = this.studentQuantity.shift();
+    const studentIndex = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
 ```
 - **Descrição**:
 
@@ -417,21 +417,21 @@ export class InternalQueue extends ExternalQueue {
 
   constructor(maxCapacity: number, studentQuantity?: Student[]) {
     super(studentQuantity);
-    this.maxCapacity = maxCapacity;
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = maxCapacity;
   }
 
   addStudent(student: Student): void {
-    if(this.studentQuantity.length >= this.maxCapacity){
+    if(https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases >= https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases){
         throw new Error ("Fila interna cheia: espere esvaziar");
     }
 
-    this.studentQuantity.push(student);
-    console.log("Aluno entrou na Fila Interna");
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(student);
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases("Aluno entrou na Fila Interna");
   }
 
   removeStudent(): Student {
-    const toRemoveStudent = super.removeStudent();
-    console.log("Fila interna");
+    const toRemoveStudent = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases("Fila interna");
     return toRemoveStudent;
   }
 }
@@ -467,7 +467,7 @@ import { Student } from "./student";
 ```typescript
       constructor(maxCapacity: number, studentQuantity?: Student[]) {
     super(studentQuantity);
-    this.maxCapacity = maxCapacity;
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = maxCapacity;
   }
 ```
 - **Descrição**:
@@ -482,19 +482,19 @@ import { Student } from "./student";
 
     - `super(studentQuantity)`: Chama o construtor da classe pai (ExternalQueue), passando a lista de estudantes (studentQuantity) para inicializar a fila.
 
-    - `this.maxCapacity = maxCapacity`: Atribui o valor do parâmetro `maxCapacity` à propriedade `maxCapacity` da classe.
+    - `https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = maxCapacity`: Atribui o valor do parâmetro `maxCapacity` à propriedade `maxCapacity` da classe.
 ---
 ### Métodos da Classe `InternalQueue`.
 - Método `addStudent(student: Student): void{`
 
 ```typescript
   addStudent(student: Student): void {
-    if (this.studentQuantity.length >= this.maxCapacity) {
+    if (https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases >= https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases) {
         throw new Error("Fila interna cheia: espere esvaziar");
     }
 
-    this.studentQuantity.push(student);
-    console.log("Aluno entrou na Fila Interna");
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(student);
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases("Aluno entrou na Fila Interna");
   }
 ```
 - **Descrição**:
@@ -503,19 +503,19 @@ import { Student } from "./student";
 
 - **Funcionamento**:
 
-    - `if (this.studentQuantity.length >= this.maxCapacity)`: Verifica se o número de estudantes na fila (`studentQuantity.length`) é maior ou igual à capacidade máxima (maxCapacity).
+    - `if (https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases >= https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases)`: Verifica se o número de estudantes na fila (`https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases`) é maior ou igual à capacidade máxima (maxCapacity).
 
     - `throw new Error("Fila interna cheia: espere esvaziar")`: Lança um erro caso a fila esteja cheia.
 
-    - `this.studentQuantity.push(student)`: Adiciona o estudante (`student`) ao final da fila (`studentQuantity`).
+    - `https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(student)`: Adiciona o estudante (`student`) ao final da fila (`studentQuantity`).
 
-    - `console.log("Aluno entrou na Fila Interna")`: Exibe uma mensagem no console informando que o estudante entrou na fila interna.
+    - `https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases("Aluno entrou na Fila Interna")`: Exibe uma mensagem no console informando que o estudante entrou na fila interna.
 
 - Método `removeStudent():Student`
 ```typescript
   removeStudent(): Student {
-    const toRemoveStudent = super.removeStudent();
-    console.log("Fila interna");
+    const toRemoveStudent = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases("Fila interna");
     return toRemoveStudent;
   }
 ```
@@ -524,9 +524,9 @@ import { Student } from "./student";
     - O método `removeStudent` remove um estudante da fila interna. Ele utiliza o método `removeStudent` da classe pai (`ExternalQueue`) para realizar a remoção.
 
 - **Funcionamento**:
-    - `const toRemoveStudent = super.removeStudent()`: Chama o método `removeStudent` da classe pai (`ExternalQueue`) para remover e retornar o estudante da fila.
+    - `const toRemoveStudent = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases()`: Chama o método `removeStudent` da classe pai (`ExternalQueue`) para remover e retornar o estudante da fila.
 
-    - `console.log("Fila interna")`: Exibe uma mensagem no console indicando que a operação ocorreu na fila interna.
+    - `https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases("Fila interna")`: Exibe uma mensagem no console indicando que a operação ocorreu na fila interna.
 
     - `return toRemoveStudent:` Retorna o estudante removido.
 
@@ -550,44 +550,44 @@ export class Hall{
     private readonly maxHallCapacity: number;
 
     constructor(maxHallCapacity: number, occupationTime: number){
-        this.maxHallCapacity = maxHallCapacity;
-        this.occupationTime=occupationTime;
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = maxHallCapacity;
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
     }
 
     getMaxHallCapacity(): number {
-        return this.maxHallCapacity;
+        return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
     }
 
     getOccupiedCapacity(): number {
-        return this.occupiedCapacity;
+        return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
     }
 
     getCapacityByStudents(): ReadonlyArray<Student> {
-        return this.capacityByStudent;
+        return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
     }
 
     getOccupationTime():number{
-        return this.occupationTime;
+        return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
     }
     setOccupationTime(timing:number):void{
         if(timing <= 0) throw new Error("O tempo de ocupação deve ser maior que zero");
-        this.occupationTime = timing;
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = timing;
     }
 
     addStudent(student:Student): boolean{
-        if(this.occupiedCapacity < this.maxHallCapacity){
-            this.occupiedCapacity++;
-            this.capacityByStudent.push(student);
-            setTimeout(() => this.removeStudent(student), this.occupationTime);
+        if(https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases < https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases){
+            https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases++;
+            https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(student);
+            setTimeout(() => https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(student), https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases);
             return true;
         }
         return false;
     }
     removeStudent(student:Student): void{
-        const index = this.capacityByStudent.indexOf(student);
+        const index = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(student);
         if(index !== -1){
-            this.capacityByStudent.splice(index, 1);
-            this.occupiedCapacity--;
+            https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(index, 1);
+            https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
         }
     }
 }
@@ -596,7 +596,7 @@ export class Hall{
 ```typescript
 import { Student } from "./student";
 ```
-- Importa a classe `Student` de um módulo (student.ts), necessária para que os estudantes possam ser associados ao salão.
+- Importa a classe `Student` de um módulo (https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases), necessária para que os estudantes possam ser associados ao salão.
 
 ### Declaração da Classe `Hall`.
 ```typescript
@@ -629,8 +629,8 @@ private occupationTime: number;
 ### Construtor da Classe `Hall`.
 ```typescript
 constructor(maxHallCapacity: number, occupationTime: number){
-        this.maxHallCapacity = maxHallCapacity;
-        this.occupationTime=occupationTime;
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = maxHallCapacity;
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
     }
 ```
 --- 
@@ -643,7 +643,7 @@ constructor(maxHallCapacity: number, occupationTime: number){
     È definido o construtor da classe `Hall`, que recebe dois parâmetros: `maxHallCapacity` (capacidade máxima da sala) e `occupationTime` (tempo de ocupação da sala).
 ---
 ```typescript
-    this.maxHallCapacity = maxHallCapacity;
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = maxHallCapacity;
 ```
 - **Descrição**:
 
@@ -652,7 +652,7 @@ constructor(maxHallCapacity: number, occupationTime: number){
 ---
 
 ```typescript
-    this.occupationTime = occupationTime;
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = occupationTime;
 ```
 
 - **Descrição**:
@@ -664,7 +664,7 @@ constructor(maxHallCapacity: number, occupationTime: number){
 
 ```typescript
     getMaxHallCapacity(): number {
-        return this.maxHallCapacity;
+        return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
     }
 ```
  - **Descrição**:
@@ -675,7 +675,7 @@ constructor(maxHallCapacity: number, occupationTime: number){
 - `getOccupiedCapacity()`
 ```typescript
     getOccupiedCapacity(): number {
-        return this.occupiedCapacity;
+        return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
     }
 ```
 - **Descrição**:
@@ -685,7 +685,7 @@ constructor(maxHallCapacity: number, occupationTime: number){
 - `getCapacityByStudents()`
 ```typescript
     getCapacityByStudents(): ReadonlyArray<Student> {
-        return this.capacityByStudent;
+        return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
     }
 ```
 - **Descrição**:
@@ -694,7 +694,7 @@ Retorna uma cópia somente leitura (ReadonlyArray) do array capacityByStudent, q
 - `getOccupationTime()`
 ```typescript
     getOccupationTime(): number {
-        return this.occupationTime;
+        return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
     }
 ```
 - **Descrição**:
@@ -705,7 +705,7 @@ Retorna uma cópia somente leitura (ReadonlyArray) do array capacityByStudent, q
 ```typescript
     setOccupationTime(timing: number): void {
         if (timing <= 0) throw new Error("O tempo de ocupação deve ser maior que zero");
-        this.occupationTime = timing;
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = timing;
     }
 
 ```
@@ -717,10 +717,10 @@ Retorna uma cópia somente leitura (ReadonlyArray) do array capacityByStudent, q
 ### Método `addStudent()`.
 ```typescript
 addStudent(student:Student): boolean{
-        if(this.occupiedCapacity < this.maxHallCapacity){
-            this.occupiedCapacity++;
-            this.capacityByStudent.push(student);
-            setTimeout(() => this.removeStudent(student), this.occupationTime);
+        if(https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases < https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases){
+            https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases++;
+            https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(student);
+            setTimeout(() => https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(student), https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases);
             return true;
         }
         return false;
@@ -736,7 +736,7 @@ addStudent(student:Student): boolean{
 ---
 
 ```typescript
-        if (this.occupiedCapacity < this.maxHallCapacity) {
+        if (https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases < https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases) {
 ```
 - **Descrição**:
 
@@ -744,14 +744,14 @@ addStudent(student:Student): boolean{
 ---
 ```typescript
 
-    this.occupiedCapacity++;
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases++;
 ```
 - **Descrição**:
 
     Incrementa o contador de capacidade ocupada (`occupiedCapacity`).
 ---
 ```typescript
-    this.capacityByStudent.push(student);
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(student);
 ```
 - **Descrição**:
 
@@ -759,7 +759,7 @@ addStudent(student:Student): boolean{
 
 ---
 ```typescript
-    setTimeout(() => this.removeStudent(student), this.occupationTime);
+    setTimeout(() => https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(student), https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases);
 ```
 - **Descrição**:
 
@@ -786,10 +786,10 @@ addStudent(student:Student): boolean{
 ### Método `toRemoveStudent`.
 ```typescript
 removeStudent(student:Student): void{
-        const index = this.capacityByStudent.indexOf(student);
+        const index = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(student);
         if(index !== -1){
-            this.capacityByStudent.splice(index, 1);
-            this.occupiedCapacity--;
+            https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(index, 1);
+            https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
         }
     }
 }
@@ -804,7 +804,7 @@ removeStudent(student:Student): void{
 ---
 
 ```typescript
-    const index = this.capacityByStudent.indexOf(student);
+    const index = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(student);
 ```
 - **Descrição**:
 
@@ -820,7 +820,7 @@ removeStudent(student:Student): void{
 ---
 
 ```typescript
-    this.capacityByStudent.splice(index, 1);
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(index, 1);
 ```
 - **Descrição**:
 
@@ -828,7 +828,7 @@ removeStudent(student:Student): void{
 ---
 
 ```typescript
-    this.occupiedCapacity--;
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases;
 ```
 
 - **Descrição**:
@@ -854,13 +854,13 @@ export class Service {
     middleTimeService: number; 
 
     constructor(coWorkerRegister: string, coWorkerName: string, middleTimeService: number) {
-        this.coWorkerRegister = coWorkerRegister; 
-        this.coWorkerName = coWorkerName; 
-        this.middleTimeService = middleTimeService; 
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = coWorkerRegister; 
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = coWorkerName; 
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = middleTimeService; 
     }
 
     serveFood(): void {
-        console.log(`Funcionário ${this.coWorkerName} está servindo a comida.`);
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(`Funcionário ${https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases} está servindo a comida.`);
     }
 }
 ```
@@ -889,9 +889,9 @@ export class Service {}
 ### Construtor da Classe `Service`:
 ```typescript
  constructor(coWorkerRegister: string, coWorkerName: string, middleTimeService: number) {
-        this.coWorkerRegister = coWorkerRegister; 
-        this.coWorkerName = coWorkerName; 
-        this.middleTimeService = middleTimeService; 
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = coWorkerRegister; 
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = coWorkerName; 
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = middleTimeService; 
     }
 ```
 - **Descrição**:
@@ -903,24 +903,24 @@ export class Service {}
 
     - `middleTimeService`: O tempo médio, em minutos, que o funcionário leva para servir a comida.
 - **Funcionamento**:
-    - `this.coWorkerRegister = coWorkerRegister`: Atribui o valor do parâmetro `coWorkerRegister` à propriedade `coWorkerRegister` da classe.`
+    - `https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = coWorkerRegister`: Atribui o valor do parâmetro `coWorkerRegister` à propriedade `coWorkerRegister` da classe.`
 
-    - `this.coWorkerName = coWorkerName`: Atribui o valor do parâmetro `coWorkerName` à propriedade `coWorkerName` da classe. 
+    - `https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = coWorkerName`: Atribui o valor do parâmetro `coWorkerName` à propriedade `coWorkerName` da classe. 
 
-    - `this.middleTimeService = middleTimeService`: Atribui o valor do parâmetro `middleTimeService` à propriedade `middleTimeService` da classe.
+    - `https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = middleTimeService`: Atribui o valor do parâmetro `middleTimeService` à propriedade `middleTimeService` da classe.
 
 ## Métodos da Classe `Service`.
 - Método `servedFood()`
 ```typescript
 serveFood(): void {
-        console.log(`Funcionário ${this.coWorkerName} está servindo a comida.`);
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(`Funcionário ${https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases} está servindo a comida.`);
 }
 ```
 - **Descrição**:
 
     - O método `serveFood` simula o ato de servir comida por um funcionário. Ele exibe uma mensagem no console informando que o funcionário está servindo a comida.
 - **Funcionamento**: 
-    - `console.log(Funcionário ${this.coWorkerName} está servindo a comida.)`: Exibe uma mensagem no console, utilizando o nome do funcionário armazenado na propriedade `coWorkerName`.
+    - `https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(Funcionário ${https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases} está servindo a comida.)`: Exibe uma mensagem no console, utilizando o nome do funcionário armazenado na propriedade `coWorkerName`.
 
 ---
 # Classe `Turnstile`.
@@ -936,23 +936,23 @@ export class Turnstile {
     student: Student | null; 
 
     constructor() {
-        this.accessable = false; 
-        this.student = null; 
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = false; 
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = null; 
 
     calculateRegisterTime(): number {
-        return Math.random() * 5; 
+        return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases() * 5; 
     }
 
     typeRegister(student:Student): void {
-        this.student=student; 
-        console.log(`Matrícula ${student.getRegister()} registrada.`); 
-        this.accessable = true; 
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases; 
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(`Matrícula ${https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases()} registrada.`); 
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = true; 
     }
 
     removeStudent(): void {
-        console.log(`Aluno ${this.student?.getRegister()} removido da catraca.`); 
-        this.student = null; 
-        this.accessable = false; 
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(`Aluno ${https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases()} removido da catraca.`); 
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = null; 
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = false; 
     }
 }
 }
@@ -963,7 +963,7 @@ export class Turnstile {
 ```typescript
 import { Student } from "./student";
 ```
-- A linha acima importa a classe ``Student`` de um arquivo chamado ``student.ts``. Essa classe representa um aluno que contem métodos e propriedades relacionados ao aluno, como a matrícula.
+- A linha acima importa a classe ``Student`` de um arquivo chamado ``https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases``. Essa classe representa um aluno que contem métodos e propriedades relacionados ao aluno, como a matrícula.
 ---
 ### Definição da Classe ``Turnstile``.
 ```typescript
@@ -984,30 +984,30 @@ export class Turnstile {...}
 
 ```typescript
     constructor() {
-        this.accessable = false; 
-        this.student = null;
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = false; 
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = null;
     }
 ```
 - **Explicação**:
     
     O método ``constructor`` é chamado automaticamente quando uma nova instância da classe ``Turnstile`` é criada. Ele inicializa as propriedades da classe:
 
-    - `this.accessable = false;` é definido como `false`, indicando que a catraca esta bloqueada.
+    - `https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = false;` é definido como `false`, indicando que a catraca esta bloqueada.
 
-    - `this.student = null;` é definido como `null`, pois inicialmente não há aluno asociado á catraca.
+    - `https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = null;` é definido como `null`, pois inicialmente não há aluno asociado á catraca.
 
 ## Métodos da Classe `Turnstile`.
 - Método `calculateRegisterTime()`
     
 ```typescript
     calculateRegisterTime(): number {
-        return Math.random() * 5; 
+        return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases() * 5; 
     }
 ```
 - **Explicação**:
 
     Este método simula o tempo que um aluno leva para digitar sua matrícula na catraca.
-    - `Math.random()` gera um número aleatório entre 0 e 1.
+    - `https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases()` gera um número aleatório entre 0 e 1.
     - Multiplicando por 5, o tempo ira variar entre 0 e 5 segundos.
     - E o valor é retornado como um número (`number`).
     ---
@@ -1015,8 +1015,8 @@ export class Turnstile {...}
 - Método `typeRegister(student: Student):`
 ```typescript
     typeRegister(student: Student): void {
-        this.student = student;  
-        this.accessable = true; 
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = student;  
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = true; 
     }
 ```
 - **Explicação**:
@@ -1031,8 +1031,8 @@ export class Turnstile {...}
 - Método `removeStudent()`
 ```typescript
     removeStudent(): void { 
-        this.student = null; 
-        this.accessable = false; 
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = null; 
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = false; 
     }
 ```
 - **Explicação**:
@@ -1057,15 +1057,15 @@ export class SimulationRepositoryMock implements SimulationRepositoryI {
   private localeStorageKey:string = "simulation";
 
   async save(simulation: Simulation): Promise<void> {
-    if (!simulation.id) {
-      simulation.id = "mock-id" + Date.now();
+    if (!https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases) {
+      https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = "mock-id" + https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
     }
 
-    let gettinSimulations: Simulation[] = this.getAllFromLocaleStorage();
+    let gettinSimulations: Simulation[] = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
     let listSimulationsFounded: boolean = false;
 
-    for (let i = 0; i < gettinSimulations.length; i++) {
-      if (gettinSimulations[i].id === simulation.id) {
+    for (let i = 0; i < https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases; i++) {
+      if (gettinSimulations[i].id === https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases) {
         gettinSimulations[i] = simulation;
         listSimulationsFounded = true;
         break; 
@@ -1073,19 +1073,19 @@ export class SimulationRepositoryMock implements SimulationRepositoryI {
     }
 
     if (!listSimulationsFounded) {
-      gettinSimulations.push(simulation);
-      console.log("Simulação salva com sucesso");
+      https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(simulation);
+      https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases("Simulação salva com sucesso");
     }
 
-    this.savingLocaleStorage(gettinSimulations);
-    return Promise.resolve();
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(gettinSimulations);
+    return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
 
   }
 
   async getById(id: string): Promise<Simulation | null> {
     
-    let gettingSimulations:Simulation[] = this.getAllFromLocaleStorage();
-    let searchingSimulationById:number = gettingSimulations.findIndex(Simulation => Simulation.id == id)
+    let gettingSimulations:Simulation[] = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
+    let searchingSimulationById:number = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(Simulation => https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases == id)
     let indexFound:number = searchingSimulationById;
 
     if(indexFound != -1){
@@ -1096,28 +1096,28 @@ export class SimulationRepositoryMock implements SimulationRepositoryI {
   }
 
   async getAll(): Promise<Simulation[]> {
-    let gettinSimulations:Simulation[] = this.getAllFromLocaleStorage();
+    let gettinSimulations:Simulation[] = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
     
-    return Promise.resolve(gettinSimulations);
+    return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(gettinSimulations);
   }
 
   async delete(id: string): Promise<void> {
-    let dataBaseSimulations:Simulation[] = this.getAllFromLocaleStorage();
+    let dataBaseSimulations:Simulation[] = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
     let thereIsSimulation:boolean = false;
 
-    for(let i=0; i<dataBaseSimulations.length; i++){
+    for(let i=0; i<https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases; i++){
       if(dataBaseSimulations[i].id == id){
         dataBaseSimulations[i].id = id;
         thereIsSimulation = true;
-        dataBaseSimulations.splice(i, 1);
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(i, 1);
 
-        this.savingLocaleStorage(dataBaseSimulations);
-        console.log("Simulação excluída com sucesso");
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(dataBaseSimulations);
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases("Simulação excluída com sucesso");
         break;
       }
     }
 
-    return Promise.resolve();
+    return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
   }
 
   _getCallLog(): string[] {
@@ -1125,14 +1125,14 @@ export class SimulationRepositoryMock implements SimulationRepositoryI {
   }
 
   private savingLocaleStorage(simulation:Simulation[]){
-    let savingData:string = JSON.stringify(simulation);
-    localStorage.setItem(this.localeStorageKey, savingData);
+    let savingData:string = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(simulation);
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases, savingData);
   }
   
   private getAllFromLocaleStorage():Simulation[]{
-    const listSimulations = localStorage.getItem(this.localeStorageKey);
+    const listSimulations = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases);
     if(listSimulations != null){
-      return JSON.parse(listSimulations);
+      return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(listSimulations);
     }else{
       return [];
     }
@@ -1177,15 +1177,15 @@ private localeStorageKey: string = "simulation";
 ### Método `save`
 ```typescript
 async save(simulation: Simulation): Promise<void> {
-    if (!simulation.id) {
-      simulation.id = "mock-id" + Date.now();
+    if (!https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases) {
+      https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = "mock-id" + https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
     }
 
-    let gettinSimulations: Simulation[] = this.getAllFromLocaleStorage();
+    let gettinSimulations: Simulation[] = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
     let listSimulationsFounded: boolean = false;
 
-    for (let i = 0; i < gettinSimulations.length; i++) {
-      if (gettinSimulations[i].id === simulation.id) {
+    for (let i = 0; i < https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases; i++) {
+      if (gettinSimulations[i].id === https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases) {
         gettinSimulations[i] = simulation;
         listSimulationsFounded = true;
         break; 
@@ -1193,12 +1193,12 @@ async save(simulation: Simulation): Promise<void> {
     }
 
     if (!listSimulationsFounded) {
-      gettinSimulations.push(simulation);
-      console.log("Simulação salva com sucesso");
+      https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(simulation);
+      https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases("Simulação salva com sucesso");
     }
 
-    this.savingLocaleStorage(gettinSimulations);
-    return Promise.resolve();
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(gettinSimulations);
+    return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
 
   }
 ```
@@ -1210,15 +1210,15 @@ async save(simulation: Simulation): Promise<void> {
 ---
 
 ```typescript
-if (!simulation.id) {
-  simulation.id = "mock-id" + Date.now();
+if (!https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases) {
+  https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases = "mock-id" + https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
 }
 ```
-- `simulation.id`: Se a simulação não tiver um `id`, um `id` mock é gerado usando o timestamp atual.
+- `https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases`: Se a simulação não tiver um `id`, um `id` mock é gerado usando o timestamp atual.
 ---
 
 ```typescript
-let gettinSimulations: Simulation[] = this.getAllFromLocaleStorage();
+let gettinSimulations: Simulation[] = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
 let listSimulationsFounded: boolean = false;
 ```
 - `gettinSimulations`: Recupera todas as simulações armazenadas no `localStorage`.
@@ -1228,8 +1228,8 @@ let listSimulationsFounded: boolean = false;
 ---
 
 ```typescript
-for (let i = 0; i < gettinSimulations.length; i++) {
-  if (gettinSimulations[i].id === simulation.id) {
+for (let i = 0; i < https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases; i++) {
+  if (gettinSimulations[i].id === https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases) {
     gettinSimulations[i] = simulation;
     listSimulationsFounded = true;
     break;
@@ -1243,8 +1243,8 @@ for (let i = 0; i < gettinSimulations.length; i++) {
 
 ```typescript
 if (!listSimulationsFounded) {
-  gettinSimulations.push(simulation);
-  console.log("Simulação salva com sucesso");
+  https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(simulation);
+  https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases("Simulação salva com sucesso");
 }
 ```
 - `if`: Se a simulação não foi encontrada na lista, ela é adicionada.
@@ -1252,12 +1252,12 @@ if (!listSimulationsFounded) {
 ---
 
 ```typescript
-this.savingLocaleStorage(gettinSimulations);
-return Promise.resolve();
+https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(gettinSimulations);
+return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
 ```
 - `savingLocaleStorage`: Salva a lista atualizada de simulações no localStorage.
 
-- `Promise.resolve()`: Retorna uma promessa resolvida.
+- `https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases()`: Retorna uma promessa resolvida.
 ---
 
 ### Método `getById`
@@ -1265,8 +1265,8 @@ return Promise.resolve();
 ```typescript
 async getById(id: string): Promise<Simulation | null> {
     
-    let gettingSimulations:Simulation[] = this.getAllFromLocaleStorage();
-    let searchingSimulationById:number = gettingSimulations.findIndex(Simulation => Simulation.id == id)
+    let gettingSimulations:Simulation[] = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
+    let searchingSimulationById:number = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(Simulation => https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases == id)
     let indexFound:number = searchingSimulationById;
 
     if(indexFound != -1){
@@ -1285,8 +1285,8 @@ async getById(id: string): Promise<Simulation | null> {
 ---
 
 ```typescript
-let gettingSimulations: Simulation[] = this.getAllFromLocaleStorage();
-let searchingSimulationById: number = gettingSimulations.findIndex(Simulation => Simulation.id == id);
+let gettingSimulations: Simulation[] = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
+let searchingSimulationById: number = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(Simulation => https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases == id);
 let indexFound: number = searchingSimulationById;
 ```
 - `gettingSimulations`: Recupera todas as simulações armazenadas no `localStorage`.
@@ -1309,9 +1309,9 @@ if (indexFound != -1) {
 ### Método `getAll`
 ```typescript
 async getAll(): Promise<Simulation[]> {
-    let gettinSimulations:Simulation[] = this.getAllFromLocaleStorage();
+    let gettinSimulations:Simulation[] = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
     
-    return Promise.resolve(gettinSimulations);
+    return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(gettinSimulations);
   }
 ```
 ---
@@ -1323,34 +1323,34 @@ async getAll(): Promise<Simulation[]> {
 ---
 
 ```typescript
-let gettinSimulations: Simulation[] = this.getAllFromLocaleStorage();
-return Promise.resolve(gettinSimulations);
+let gettinSimulations: Simulation[] = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
+return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(gettinSimulations);
 ```
 - `gettinSimulations`: Recupera todas as simulações armazenadas no `localStorage`.
 
-- `Promise.resolve`: Retorna uma promessa resolvida com a lista de simulações.
+- `https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases`: Retorna uma promessa resolvida com a lista de simulações.
 ---
 
 
 ### Método `delete`
 ```typescript
  async delete(id: string): Promise<void> {
-    let dataBaseSimulations:Simulation[] = this.getAllFromLocaleStorage();
+    let dataBaseSimulations:Simulation[] = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
     let thereIsSimulation:boolean = false;
 
-    for(let i=0; i<dataBaseSimulations.length; i++){
+    for(let i=0; i<https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases; i++){
       if(dataBaseSimulations[i].id == id){
         dataBaseSimulations[i].id = id;
         thereIsSimulation = true;
-        dataBaseSimulations.splice(i, 1);
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(i, 1);
 
-        this.savingLocaleStorage(dataBaseSimulations);
-        console.log("Simulação excluída com sucesso");
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(dataBaseSimulations);
+        https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases("Simulação excluída com sucesso");
         break;
       }
     }
 
-    return Promise.resolve();
+    return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
   }
 ```
 ---
@@ -1361,7 +1361,7 @@ async delete(id: string): Promise<void> {
 ---
 
 ```typescript
-let dataBaseSimulations: Simulation[] = this.getAllFromLocaleStorage();
+let dataBaseSimulations: Simulation[] = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
 let thereIsSimulation: boolean = false;
 ```
 - `dataBaseSimulations`: Recupera todas as simulações armazenadas no `localStorage`.
@@ -1370,14 +1370,14 @@ let thereIsSimulation: boolean = false;
 ---
 
 ```typescript
-for (let i = 0; i < dataBaseSimulations.length; i++) {
+for (let i = 0; i < https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases; i++) {
   if (dataBaseSimulations[i].id == id) {
     dataBaseSimulations[i].id = id;
     thereIsSimulation = true;
-    dataBaseSimulations.splice(i, 1);
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(i, 1);
 
-    this.savingLocaleStorage(dataBaseSimulations);
-    console.log("Simulação excluída com sucesso");
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(dataBaseSimulations);
+    https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases("Simulação excluída com sucesso");
     break;
   }
 }
@@ -1392,9 +1392,9 @@ for (let i = 0; i < dataBaseSimulations.length; i++) {
 ---
 
 ```typescript
-return Promise.resolve();
+return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases();
 ```
-- `Promise.resolve()`: Retorna uma promessa resolvida.
+- `https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases()`: Retorna uma promessa resolvida.
 ---
 
 ### Método `_getCallLog`
@@ -1409,17 +1409,17 @@ _getCallLog(): string[] {
 
 ```typescript
 private savingLocaleStorage(simulation: Simulation[]) {
-  let savingData: string = JSON.stringify(simulation);
-  localStorage.setItem(this.localeStorageKey, savingData);
+  let savingData: string = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(simulation);
+  https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases, savingData);
 }
 ```
 - `savingLocaleStorage`: Converte a lista de simulações em uma string JSON e a salva no `localStorage`.
 ---
 ```typescript
 private getAllFromLocaleStorage(): Simulation[] {
-  const listSimulations = localStorage.getItem(this.localeStorageKey);
+  const listSimulations = https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases);
   if (listSimulations != null) {
-    return JSON.parse(listSimulations);
+    return https://github.com/carlosandresamp/Simulador_Fluxo_Refeitorio/releases(listSimulations);
   } else {
     return [];
   }
